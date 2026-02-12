@@ -1871,11 +1871,13 @@ const isLockedLocation = (name: unknown) =>
 
       {/* Employees dialog */}
       <DialogComponent
+        id="employeeDialog"
         visible={showEmployeesDialog}
         width="min(92vw, 620px)"
         height="min(88vh, 720px)"
         isModal={true}
-        showCloseIcon={false}
+        header="Manage Employees"
+        showCloseIcon={true}
         target={dialogTarget}
         animationSettings={{effect:"None"}}
         beforeClose={() => setShowEmployeesDialog(false)}
@@ -1944,13 +1946,15 @@ const isLockedLocation = (name: unknown) =>
 
       {/* Employee form */}
       <DialogComponent
+
         visible={showEmployeeForm}
         width="min(92vw, 620px)"
-        height="min(88vh, 720px)"
+        height="min(88vh, 580px)"
         id="empform"
         animationSettings={{effect:"None"}}
         isModal={true}
-        showCloseIcon={false}
+        showCloseIcon={true}
+        header={editingEmployee?.Id ? "Edit Employee" : "Add Employee"}
         target={dialogTarget}
         beforeClose={() => {setShowEmployeeForm(false);setEditingEmployee(null);}}
       >
@@ -2014,7 +2018,8 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         header={editingShift ? "Edit Shift" : "Create Shift"}
         visible={showShiftDialog}
-        width="min(92vw, 920px)" height="min(88vh, 720px)"
+        width="min(92vw, 920px)" 
+        height="min(88vh, 800px)"
        // height="110vh"
         isModal={true}
         showCloseIcon={true}
@@ -2155,12 +2160,12 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
 
   return (
     <div className="empModal">
-      <div className="empModalHeader">
+      {/* <div className="empModalHeader">
         <div className="empModalTitle">Manage Employees</div>
         <ButtonComponent className="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" iconCss="e-icons e-close" type="button" onClick={onClose} >
           
         </ButtonComponent>
-      </div>
+      </div> */}
 
       <div className="empModalDivider" />
 
@@ -2356,12 +2361,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
   return (
     <div>
-    <div className="empAddHeader">
-        <div className="empAddTitle">{isEdit ? "Edit Employee" : "Add Employee"}</div>
-        <ButtonComponent cssClass="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" type="button" onClick={onCancel}>
-          <span className="e-icons e-close" />
-        </ButtonComponent>
-      </div>
+  
     <form ref={formRef} className="empAddForm" onSubmit={(e) => e.preventDefault()} noValidate>
       
 
@@ -2718,7 +2718,7 @@ function ShiftDialog({
             </div>
           </div>
 
-          <div className="shiftGrid1">
+          <div className="shiftGrid3">
             <div className="sfField">
               <label>Date *</label>
               <DatePickerComponent
@@ -2730,10 +2730,7 @@ function ShiftDialog({
                 }}
               />
             </div>
-          </div>
-
-          <div className="shiftGrid2">
-            <div className="sfField">
+             <div className="sfField">
               <label>Start Time *</label>
               <div className="timeRow">
                 <TimePickerComponent
@@ -2748,7 +2745,7 @@ function ShiftDialog({
                   }}
                 />
               </div>
-              <div className="timeChips">
+              {/* <div className="timeChips">
                 {timeChips.map((t) => (
                   <ButtonComponent
                     key={t.label}
@@ -2762,7 +2759,7 @@ function ShiftDialog({
                     {t.label}
                   </ButtonComponent>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             <div className="sfField">
@@ -2779,7 +2776,7 @@ function ShiftDialog({
                   }}
                 />
               </div>
-              <div className="timeChips">
+              {/* <div className="timeChips">
                 {timeChips.map((t) => (
                   <ButtonComponent
                     key={t.label}
@@ -2793,9 +2790,10 @@ function ShiftDialog({
                     {t.label}
                   </ButtonComponent>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
+
 
           <div className="shiftGrid2">
             <div className="sfField">

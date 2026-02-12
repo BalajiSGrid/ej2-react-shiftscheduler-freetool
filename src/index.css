@@ -4,7 +4,7 @@
   height:65px !important;
  }
 
-.formError{
+/* .formError{
   margin-top: 10px;
   padding: 10px 12px;
   border-radius: 12px;
@@ -13,7 +13,7 @@
   color: #b91c1c;
   font-size: 13px;
   font-weight: 700;
-}
+} */
 .hintText{
   margin-top: 6px;
   font-size: 12px;
@@ -21,29 +21,23 @@
   font-weight: 600;
 }
 
-.empFormGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px 22px; /* row gap, col gap */
-  align-items: start;
-}
-
+/* 
 .empField label {
   display: block;
   font-size: 13px;
   font-weight: 700;
   color: #374151;
   margin-bottom: 6px;
-}
+} */
 
-.empNativeInput {
+/* .empNativeInput {
   width: 175px;
   height: 36px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
   padding: 0 10px;
   outline: none;
-}
+} */
 
 .empActions {
   display: flex;
@@ -53,42 +47,11 @@
   align-items: center;
   }
 
-
-/* Wrapper spacing like screenshot */
 .shiftFormWrap{
-  padding: 14px 16px;
+  padding: 1px 16px;
   display:flex;
   flex-direction:column;
   gap: 16px;
-}
-
-/* 3-column row (Employee / Location / Role) */
-.shiftGrid3{
-  display:grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 18px;
-}
-
-/* 2-column rows */
-.shiftGrid2{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-/* full width rows */
-.shiftGrid1{
-  display:grid;
-  grid-template-columns: 1fr;
-}
-
-/* field spacing */
-.sfField label{
-  display:block;
-  font-size: 12px;
-  font-weight: 800;
-  color:#374151;
-  margin-bottom: 6px;
 }
 
 /* make Syncfusion controls take full width */
@@ -100,15 +63,16 @@
   width: 100% !important;
 }
 
-/* Summary card like screenshot */
+/* Summary card  */
 .summaryCard{
   background:#eef2ff;
   border-radius: 12px;
   padding: 14px;
   display:flex;
   align-items:center;
-  min-height: 60px;
+  min-height: 50px;
 }
+
 .summaryTop{
   display:flex;
   align-items:center;
@@ -127,57 +91,12 @@ div.summaryCost{
   font-weight: 500;
   color:#2563eb;
 }
-
-/* Constraints box */
-.constraintsBox{
-  background:#f9fafb;
-  border:1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px;
-}
-.constraintsTitle{
-  display:flex;
-  align-items:center;
-  gap: 8px;
-  font-weight: 900;
-  color:#374151;
-}
-.constraintsBody{
-  margin-top: 8px;
-  color:#4b5563;
-  font-size: 13px;
-  font-weight: 700;
-  display:flex;
-  flex-direction:column;
-  gap: 6px;
-}
-
-/* Sticky footer buttons inside dialog */
-.shiftFooter{
-  position: relative;
-  bottom: 100;
-  background: #ffffff;
-  padding: 12px 0 0;
-  border-top: 1px solid #e5e7eb;
-  display:flex;
-  justify-content:flex-end;
-
-}
-
 .e-today {
   display:none !important;
 }
 
-
-/* Responsive: stack 3 columns into 1 on small screens */
-@media (max-width: 900px){
-  .shiftGrid3{ grid-template-columns: 1fr; }
-  .shiftGrid2{ grid-template-columns: 1fr; }
-}
-/*  Sticky promo fixed at bottom */
 .stickyPromoBar{
-  
-  position: fixed;
+    position: fixed;
     left: 10px;
     right: 10px;
     bottom: 0;
@@ -379,7 +298,7 @@ div.summaryCost{
 
 }
 
-/* Empty state title style (matches: text-base sm:text-lg font-medium text-gray-900) */
+/* Empty state title style*/
 .emptyTitle {
   
   font-weight: 500; 
@@ -389,7 +308,7 @@ div.summaryCost{
 @media (min-width: 640px) {
 }
 
-/* Empty state description (matches: text-xs sm:text-sm text-gray-600) */
+/* Empty state description */
 .emptyDesc {
  
   color: #4b5563; 
@@ -397,9 +316,6 @@ div.summaryCost{
 @media (min-width: 640px) {
 
 }
-
-
-
 
 .options-btn.e-btn   {
   font-weight: 400;
@@ -445,30 +361,20 @@ div.summaryCost{
 
 
 .mrRoleRow {
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-   background-color: hwb(0 97% 3%) !important;         
-  
-  padding: 14px 16px;
-  margin-bottom: 12px;
-
+  background-color: hwb(0 97% 3%) !important;         
   transition: background 0.15s ease;
+  gap: 12px;
+  margin-bottom: 0;
 }
 
 .mrRoleRow:hover {
   background: #f3f4f6;         
 }
 
-/* Left group: dot stacked text */
-.mrRoleLeft {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  min-width: 0;
-}
+
 
 /* Dot size/position */
 .mrRoleDot {
@@ -479,7 +385,7 @@ div.summaryCost{
   flex: 0 0 auto;
 }
 
-/* Stack name and rate like screenshot */
+/* Stack name and rate  */
 .mrRoleText {
   display: flex;
   flex-direction: column;
@@ -506,7 +412,7 @@ div.summaryCost{
   flex: 0 0 auto;
 }
 
-/* Make Syncfusion icon buttons look like screenshot (icon-only) */
+/* Make Syncfusion icon buttons look  (icon-only) */
 .mrIconBtn.e-btn {
   width: 34px !important;
   height: 34px !important;
@@ -536,7 +442,7 @@ div.summaryCost{
 }
 
 /* Remove extra margin from the last card */
-.custom-roles-dropdown .e-list-item:last-child .mrRoleRow {
+.custom-roles-dropdown .e-list-item:last-child {
   margin-bottom: 0;
 }
 
@@ -570,7 +476,6 @@ div.summaryCost{
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-top:20px;
 }
 
 .empCount {
@@ -581,7 +486,7 @@ div.summaryCost{
   font-weight: 500;
 }
 .empCountIcon {
-  color: #0f03ea; /* green icon like screenshot */
+  color: #0f03ea; /* green icon  */
   font-size: 18px;
 }
 
@@ -670,8 +575,14 @@ div.summaryCost{
 
 /* */
 
+.sfShiftForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 
-.empAddForm {
+}
+.empAddForm{
   
 display: flex;
   flex-direction: column;
@@ -688,8 +599,8 @@ display: flex;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    margin-top: 20px;
+    /* padding: 10px;
+    margin-top: 20px; */
     top: 0 !important;
     position: sticky !important;
     z-index: 2;
@@ -794,13 +705,14 @@ flex: 1 1 auto;
 }
 #empform_dialog-content{
   padding:0px !important;
+
 }
 /* footer */
 .empAddFooter {
   bottom: 0;
   display: flex;
   gap: 10px;
-  padding: 25px 16px 16px;
+  padding: 16px 16px 16px;
   margin-right:65px !important;
   justify-content: flex-end;
  
@@ -894,13 +806,12 @@ position: static !important;
   padding-right: 4px;
 }
 
-/* Optional: list view spacing */
-.mrListView .e-list-item {
-  padding: 10 !important;
+.mrListView .e-list-item, .mlListView .e-list-item {
+  padding: 0 !important;
   border: none !important;
+  height:80px !important;
+   overflow: visible !important;
 }
-
-
 
 .mrField {
   margin-bottom: 14px;
@@ -949,22 +860,8 @@ position: static !important;
 
 
 
-/* Primary green already defined earlier */
-/* ListView item padding reset (optional, but recommended) */
-.mrListView .e-list-item {
-  padding: 0 !important;
-  border: none !important;
-}
 
-/* Role row card */
-.mrRoleRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-  background: #fff;
-}
+
 .e-listview:not(.e-list-template) .e-list-item ,.e-listview {
    border:0px !important;
 }
@@ -972,17 +869,9 @@ position: static !important;
 /* left side */
 .mrRoleLeft {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
   min-width: 0; 
-}
-
-.mrRoleDot {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  flex: 0 0 auto;
-  border: 1px solid rgba(0,0,0,0.05);
 }
 
 .mrRoleName {
@@ -1115,7 +1004,9 @@ position: static !important;
 /* Location dialog */
 
 /* header */
-#locationdialog_dialog-header, #roledialog_dialog-header {
+#locationdialog_dialog-header, #roledialog_dialog-header, 
+#employeeDialog_dialog-header, #empform_dialog-header, 
+#shiftdialog_dialog-header {
   padding:16px;
 }
 .mlAddWrap,.mrAddWrap {
@@ -1167,17 +1058,11 @@ position: static !important;
 }
 
 
-#shiftdialog_dialog-header, #importdialog_dialog-header, #Exportdialog_dialog-header,#clearData_dialog-header {
-  
-  margin-top:40px;
-  padding: 10px 50px;
-}
-
-div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog_title,#clearData_title {
+/* div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog_title,#clearData_title {
   font-size: 18px;
   font-weight: 500;
   color: #111827;
-}
+} */
 
 
 .mlDivider {
@@ -1222,34 +1107,8 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   min-height: 250px;
 }
 
-/* empty state */
-.mlEmpty {
-  min-height: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10px 0 30px;
-}
 
-.mlEmptyIcon {
-  margin-bottom: 10px;
-  opacity: 0.95;
-}
 
-.mlEmptyTitle {
-  font-size: 16px;
-  font-weight: 900;
-  color: #6b7280;
-  margin-top: 6px;
-}
-
-.mlEmptySub {
-  margin-top: 6px;
-  color: #9ca3af;
-  font-weight: 600;
-}
 
 /* list wrapper */
 .mlListWrap {
@@ -1259,12 +1118,7 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   
 }
 
-.mlListView .e-list-item ,.mrListView .e-list-item{
-  padding: 0 !important;
-  height:80px !important;
-  border: 1px !important;
-  
-}
+
 .mlListView .e-list-item .e-hover {
   background-color: #dbeafe;
 }
@@ -1322,6 +1176,7 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   text-align: center;
   padding: 10px 0 30px;
 }
+
 .mlEmptyIcon { margin-bottom: 10px; opacity: 0.95; }
 .mlEmptyTitle {
   font-size: 16px;
@@ -1336,7 +1191,8 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
 }
 /*  Stop the Dialog from scrolling internally */
 .mlDialog .e-dlg-content,
-.mrDialog .e-dlg-content {
+.mrDialog .e-dlg-content, #employeeDialog_dialog-content,
+#shiftdialog_dialog-content {
 
   overflow: hidden !important;
   padding: 0 !important; 
@@ -1368,17 +1224,6 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   overflow-x: hidden;
 }
 
-/*  If ListView itself adds scroll, neutralize it */
-.mlListView,
-.mrListView {
-  overflow: visible !important;
-}
-
-
-.sfShiftForm { padding: 14px 16px; }
-
-.shiftFormWrap { display: flex; flex-direction: column; gap: 14px; }
-
 .shiftGrid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 .shiftGrid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
 .shiftGrid1 { display: grid; grid-template-columns: 1fr; }
@@ -1404,19 +1249,8 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   padding: 8px 12px;
 }
 
-.summaryCard {
-  border-radius: 12px;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-}
 
-.summaryTop { display: flex; gap: 10px; align-items: center; }
-.summaryIcon { color: #2563eb; font-size: 18px; }
-.summaryHours { font-weight: 900; color: #111827; }
-.summaryCost { font-weight: 800; color: #2563eb; margin-top: 2px; }
+
 
 .constraintsBox {
   border-radius: 12px;
@@ -1427,13 +1261,6 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
 .constraintsTitle { display: flex; gap: 8px; align-items: center; font-weight: 600; color: #374151; }
 .constraintsBody { margin-top: 6px; color: #4b5563; font-weight: 400; display: grid; gap: 4px; }
 
-.shiftFooter {
-  margin-top: 10px;
-  display: grid;
-  grid-template-columns: 160px 1fr 120px;
-  gap: 10px;
-  align-items: center;
-}
 
 .shiftNoEmp { text-align: center; padding: 24px; }
 .shiftNoEmpTitle { font-weight: 900; font-size: 16px; color: #111827; }
@@ -1695,15 +1522,6 @@ div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog
   font-weight: 400 !important;
 }
 
-
-
-:root{
-  --dlg-max-w-lg: 1100px;
-  --dlg-max-w-md: 760px;
-  --dlg-max-w-sm: 520px;
-  --dlg-pad: clamp(12px, 2vw, 18px);
-}
-
 /* Make top bar controls wrap nicely */
 .topInner{ flex-wrap: wrap; }
 .rightBlock{ flex: 1 1 auto; display:flex; justify-content:flex-end; }
@@ -1728,12 +1546,12 @@ color:#fff !important;
 /* Universal responsive dialogs */
 .responsiveDlg.e-dialog{
   width: 92vw !important;
-  max-width: var(--dlg-max-w-md);
+  max-width: 760px;
 }
-.responsiveDlg.dlgShift.e-dialog{ max-width: var(--dlg-max-w-lg); }
+.responsiveDlg.dlgShift.e-dialog{ max-width: 1100px; }
 .responsiveDlg.dlgRoles.e-dialog,
 .responsiveDlg.dlgLocations.e-dialog,
-.responsiveDlg.dlgImport.e-dialog{ max-width: var(--dlg-max-w-sm); }
+.responsiveDlg.dlgImport.e-dialog{ max-width: 520; }
 .responsiveDlg.dlgSummary.e-dialog{ max-width: 1200px; }
 
 /* Ensure dialog content can scroll when needed */
@@ -1760,37 +1578,20 @@ color:#fff !important;
   }
 }
 
-/* Fix shift grids to shrink properly and avoid overflow */
-.shiftGrid3{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 18px); }
-.shiftGrid2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 2vw, 18px); }
-
-@media (max-width: 900px){
-  .shiftGrid3{ grid-template-columns: 1fr; }
-  .shiftGrid2{ grid-template-columns: 1fr; }
-}
 
 /* Shift footer: make it responsive and actually sticky inside dialog */
 .shiftFooter{
   position: sticky;
-  bottom: -12px;
   background: #ffffff;
-  padding-top: 12px;
+  /* padding-top: 12px; */
   border-top: 1px solid #e5e7eb;
   z-index: 2;
-  height: 100px;
+  display: grid;
+  grid-template-columns: 160px 1fr 120px;
+  gap: 10px;
+  align-items: center;
 }
 
-@media (max-width: 700px){
-  .shiftFooter{
-    grid-template-columns: 1fr !important;
-  }
-  .shiftFooter .e-btn{
-    width: 100%;
-  }
-}
-
-/* Employee native input should not be fixed width */
-.empNativeInput{ width: 100%; max-width: 175px; }
 
 /* Export dialog: responsive grid/cards */
 .exportFormatGrid{
@@ -1810,33 +1611,19 @@ color:#fff !important;
   z-index: 30; /* was 11 */
 }
 
-/* All dialog sticky footers should float above list areas */
-.empAddFooter,
-.mlFooterRight,
-.mrFooterRight,
-.exportDlgFooter,
-.shiftFooter {
-  z-index: 3; 
-}
 
 /* Scheduler container shouldn't overlap sticky elements */
 .board {
   position: relative;
   z-index: 1;
 }
-/* Shared tokens */
-:root{
-  --btn-r: 10px;
-  --btn-h: 36px;
-  --btn-fs: 13px;
-}
 
 /* Base pill */
 .btn {
   display:inline-flex; align-items:center; gap:.5rem;
-  height: var(--btn-h); padding: 0 .875rem;
-  border-radius: var(--btn-r);
-  font-size: var(--btn-fs); line-height:1; letter-spacing:-0.01em;
+  height: 36px; padding: 0 .875rem;
+  border-radius: 10px;
+  font-size: 13px; line-height:1; letter-spacing:-0.01em;
 }
 
 /* Variants */
