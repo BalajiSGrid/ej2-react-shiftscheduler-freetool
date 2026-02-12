@@ -1,0 +1,501 @@
+/* ================================
+   Syncfusion Online Excel Editor — Theming Overrides
+   Scope: Buttons, dialogs, cards, lists, inputs, selections
+   Load order: AFTER index.css
+   ================================ */
+
+/* ---------- Tokens (approximate to Excel Editor look) ----------
+   Primary: Blue (action, selection, active tab)
+   Neutrals: soft gray backgrounds, medium gray borders, dark text
+   Danger & Warning: unchanged (red/orange)
+   Sources: Online Excel Editor visuals & EJ2 patterns. 
+*/
+:root {
+  --sf-primary-600: #2563eb;  /* primary */
+  --sf-primary-700: #1d4ed8;  /* hover/active */
+  --sf-primary-800: #1e40af;  /* pressed/focus ring edge */
+  --sf-primary-50:  #eff6ff;  /* light surface (chips/badges) */
+
+  --sf-text:        #111827;  /* main text */
+  --sf-text-2:      #374151;  /* secondary text */
+  --sf-muted:       #6b7280;  /* muted text */
+  --sf-border:      #e5e7eb;  /* standard borders */
+  --sf-border-2:    #d1d5db;  /* stronger borders on hover */
+  --sf-surface:     #ffffff;  /* white cards/dialogs */
+  --sf-canvas:      #f9fafb;  /* app background panel */
+
+  --sf-danger-600:  #ef4444;
+  --sf-danger-50:   #fef2f2;
+  --sf-warning-600: #f59e0b;
+
+  --sf-shadow-md:   0 10px 18px rgba(0,0,0,0.10);
+  --sf-shadow-sm:   0 4px 10px rgba(0,0,0,0.08);
+  --sf-ring:        0 0 0 3px rgba(29,78,216,0.20); /* blue focus ring */
+}
+
+/* ---------- App canvas / board ---------- */
+.appRoot { background: var(--sf-canvas) !important; }
+.board   { background: var(--sf-surface) !important; border: 1px solid var(--sf-border) !important; border-radius: 14px !important; box-shadow: var(--sf-shadow-sm); }
+
+/* ---------- TEXT / NEUTRALS ---------- */
+.emptyTitle, .empEmptyTitle, .mlEmptyTitle, .mrEmptyTitle,
+.shiftNoEmpTitle { color: var(--sf-text) !important; }
+.emptyDesc, .empEmptyText, .mlEmptySub, .mrEmptySub,
+.shiftNoEmpSub, .hintText { color: var(--sf-muted) !important; }
+
+/* =========================================================
+   BUTTON SYSTEM — unify all primary/secondary/ghost/flat
+   (Maps your existing classes to a single cohesive system)
+   ========================================================= */
+
+/* Primary (blue) — used for all main actions */
+.mlPrimaryBtn.e-btn,
+.mlPrimaryBtnSoft.e-btn,
+.mrPrimaryBtn.e-btn,
+.empBtnPrimary.e-btn,
+.shiftPrimaryBtn.e-btn,
+.exportPrimaryBtn,
+.promoBtnPrimary,
+.e-inherit.e-btn /* import button made primary */ {
+  background: var(--sf-primary-600) !important;
+  border-color: var(--sf-primary-600) !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.mlPrimaryBtn.e-btn:hover,
+.mlPrimaryBtnSoft.e-btn:hover,
+.mrPrimaryBtn.e-btn:hover,
+.empBtnPrimary.e-btn:hover,
+.shiftPrimaryBtn.e-btn:hover,
+.exportPrimaryBtn:hover,
+.promoBtnPrimary:hover,
+.e-inherit.e-btn:hover {
+  background: var(--sf-primary-700) !important;
+  border-color: var(--sf-primary-700) !important;
+}
+.mlPrimaryBtn.e-btn:focus,
+.mrPrimaryBtn.e-btn:focus,
+.empBtnPrimary.e-btn:focus,
+.shiftPrimaryBtn.e-btn:focus,
+.exportPrimaryBtn:focus,
+.promoBtnPrimary:focus { box-shadow: var(--sf-ring) !important; }
+
+/* Secondary (neutral outline) */
+.mlBtnCancel.e-btn,
+.mrBtnCancel.e-btn,
+.empSecondaryBtn.e-btn,
+.shiftCancelBtn.e-btn,
+.e-btn.e-flat,  /* many of your tertiary buttons */
+.manage-locations-btn.e-outline,
+.options-btn.e-btn,
+.add-employee-btn,
+.add-roles-btn,
+.add-locations-btn,
+.test-data-btn {
+  background: #fff !important;
+  color: var(--sf-text-2) !important;
+  border: 1px solid var(--sf-border) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+.mlBtnCancel.e-btn:hover,
+.mrBtnCancel.e-btn:hover,
+.empSecondaryBtn.e-btn:hover,
+.shiftCancelBtn.e-btn:hover,
+.manage-locations-btn.e-outline:hover,
+.options-btn.e-btn:hover,
+.add-employee-btn:hover,
+.add-roles-btn:hover,
+.add-locations-btn:hover,
+.test-data-btn:hover {
+  border-color: var(--sf-border-2) !important;
+  background: #f9fafb !important;
+  color: var(--sf-text) !important;
+}
+
+/* Danger primary (kept explicit) */
+.shiftDeleteBtn.e-btn,
+.cdBtnWarn,
+.cdBtnDanger {
+  background: var(--sf-danger-600) !important;
+  border-color: var(--sf-danger-600) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+}
+
+/* Icon-only buttons (hover chips) */
+.e-icon-btn,
+.locSfIcon.e-btn,
+.empIconBtn.e-btn,
+.mrIconBtn.e-btn {
+  width: 34px !important; height: 34px !important;
+  border-radius: 10px !important; background: transparent !important;
+  color: var(--sf-text-2) !important;
+}
+.e-icon-btn:hover,
+.locSfIcon.e-btn:hover,
+.empIconBtn.e-btn:hover,
+.mrIconBtn.e-btn:hover { background: rgba(17,24,39,.06) !important; }
+
+/* Make “pill” chips light-blue (Excel Editor uses blue accents for selection/active) */
+.add-employee-btn,
+.add-roles-btn,
+.add-locations-btn,
+.test-data-btn {
+  background: var(--sf-primary-50) !important;
+  color: var(--sf-primary-700) !important;
+  border-color: #bfdbfe !important;
+}
+.add-employee-btn:hover,
+.add-roles-btn:hover,
+.add-locations-btn:hover,
+.test-data-btn:hover {
+  background: #dbeafe !important;
+  border-color: #93c5fd !important;
+}
+
+/* ---------- OPTIONS DROPDOWN ---------- */
+.optionsDropdown .e-dropdown-popup {
+  border-radius: 12px !important; box-shadow: var(--sf-shadow-md) !important; padding: 8px !important;
+}
+.optionsDropdown .e-item { padding: 10px 14px !important; }
+.optionsDropdown .danger-item, .optionsDropdown .danger-item .e-menu-icon { color: var(--sf-danger-600) !important; }
+
+/* =======================================================
+   DIALOGS — header/body/footer visual hierarchy
+   ======================================================= */
+.e-dialog .e-dlg-header-content {
+  background: var(--sf-surface);
+  border-bottom: 1px solid var(--sf-border);
+}
+.e-dialog .e-dlg-content {
+  background: var(--sf-surface);
+}
+.e-dialog .e-footer-content {
+  border-top: 1px solid var(--sf-border);
+  background: var(--sf-surface);
+}
+
+/* Size/overflow already handled in your responsive rules — keep + refine */
+.responsiveDlg .e-dlg-content { overflow: auto !important; max-height: calc(100vh - 120px); }
+
+/* Clear Data – neutral/critical cards */
+.cdCard { border: 1px solid var(--sf-border); background: #fff; }
+.cdCardActive { border: 2px solid var(--sf-primary-600); background: #eef2ff; }
+.cdCardDanger { background: var(--sf-danger-50); }
+.cdCardDangerActive { border: 2px solid var(--sf-danger-600); }
+
+/* =======================================================
+   INPUTS / FOCUS STATES — blue ring, neutral borders
+   ======================================================= */
+/* Replace previous green focus styling */
+.e-outline.e-input-group.e-input-focus,
+.e-outline.e-input-group.e-control-wrapper.e-input-focus,
+.e-input-group.e-input-focus,
+.e-control-wrapper.e-input-focus {
+  border-color: var(--sf-primary-600) !important;
+  box-shadow: var(--sf-ring) !important;
+}
+.e-input-group, .e-control-wrapper, .e-input, .e-dropdownlist, .e-date-wrapper, .e-time-wrapper {
+  border-color: var(--sf-border) !important;
+}
+
+/* DropDownList / Date/Time pickers height and radius */
+.custom-locations-dropdown .e-input-group,
+.custom-locations-dropdown.e-input-group,
+.e-date-wrapper, .e-time-wrapper, .e-input-group {
+  height: 36px !important; border-radius: 10px !important;
+}
+
+/* =======================================================
+   CARDS / LISTS / SELECTION
+   ======================================================= */
+/* Summary card: neutral with blue accent for key numbers */
+.summaryCard {
+  background: #f3f6ff !important;
+  border: 1px solid #dbeafe !important;
+}
+.summaryIcon, .summaryCost { color: var(--sf-primary-700) !important; }
+.summaryHours { color: var(--sf-text) !important; }
+
+/* Role/Location list rows: neutral card with hover */
+.mrRoleRow, .locRow, .empRow {
+  background: #fff !important; border: 1px solid var(--sf-border) !important; border-radius: 12px !important;
+}
+.mrRoleRow:hover, .locRow:hover, .empRow:hover { background: #f9fafb !important; }
+
+/* Selected/“new” highlight -> blue glow instead of green */
+.mrRoleRowNew { box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18) !important; border-color: rgba(37, 99, 235, 0.45) !important; }
+.locRowNew     { outline: 2px solid rgba(37, 99, 235, 0.35) !important; }
+
+/* Dot colors for role/location remain data-driven; borders softened */
+.mrRoleDot, .locDot { border: 1px solid rgba(0,0,0,0.06) !important; }
+
+/* Empty-state cards */
+.emptyCard { background:#fff !important; box-shadow: var(--sf-shadow-sm) !important; }
+
+/* =======================================================
+   SCHEDULER ACCENTS (event/selection)
+   ======================================================= */
+.shiftCard { padding: 12px 12px !important; border-radius: 10px !important; }
+.shiftTime { color: var(--sf-text) !important; }
+.shiftRole { color: var(--sf-text-2) !important; }
+
+/* Keep Schedule selection/active borders blue (component default aligns with this theme) */
+
+/* =======================================================
+   PROMO BAR / LINKS — blue primary
+   ======================================================= */
+.stickyPromoBar { background: #eef2f6 !important; border-top: 1px solid #e6edf3 !important; }
+.promoBtnPrimary { background: var(--sf-primary-600) !important; color: #fff !important; }
+.promoBtnPrimary:hover { background: var(--sf-primary-700) !important; }
+.promoStrong { color: var(--sf-primary-700) !important; }
+
+/* employee modal dialog */
+
+.empModal {
+  padding: 0;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Header */
+.empModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top:15px;
+  padding: 20px 20px;
+}
+
+
+
+.empModalDivider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* Top row */
+.empTopRow {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.empCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-weight: 700;
+}
+.empCountIcon {
+  
+  font-size: 18px;
+}
+
+/* Empty state */
+.empEmptyWrap {
+  min-height: 320px;
+  padding: 28px 18px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.empEmptyIcon {
+  margin-bottom: 10px;
+  opacity: 0.95;
+}
+
+.empEmptyTitle {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+  margin-top: 4px;
+}
+
+.empEmptyText {
+  margin-top: 8px;
+  max-width: 460px;
+  color: #6b7280;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.empEmptyCta {
+  margin-top: 18px;
+}
+
+/* List */
+.empList {
+  padding: 0 18px 18px;
+  max-height: 52vh;
+  overflow: auto;
+}
+
+.empRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.empLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.empAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #111827;
+  font-weight: 400;
+}
+
+.empName {
+  font-weight: 400;
+  color: #111827;
+}
+
+.empMeta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.empActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+.empAddForm {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* header */
+.empAddHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+
+.empAddDivider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.empFormError {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* body */
+.empAddBody {
+  padding: 14px 16px 10px;
+}
+
+.empFieldBlock {
+  margin-bottom: 14px;
+}
+
+.empLabel {
+  display: block;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.empLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.empHint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* make color palette look like dots row */
+.empColorRow .e-colorpicker-wrapper,
+.empColorRow .e-colorpicker-container {
+  width: 100%;
+}
+
+.empColorRow .e-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* palette tiles -> circles */
+.empColorRow .e-palette .e-tile {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 999px !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* roles box */
+.empRoleBox {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.empRoleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+}
+
+.empRoleDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #10b981;
+  margin-left: 10px;
+}
+
+/* footer */
+.empAddFooter {
+  display: flex;
+  gap: 10px;
+  padding: 14px 16px 16px;
+}
+
+

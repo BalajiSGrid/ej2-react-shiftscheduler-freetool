@@ -1,0 +1,1910 @@
+.e-schedule .e-appointment, .e-appointment-details {
+  display: flex;
+  align-items: center;
+  height:65px !important;
+ }
+
+.formError{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+  font-weight: 700;
+}
+.hintText{
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.empFormGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 22px; /* row gap, col gap */
+  align-items: start;
+}
+
+.empField label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.empNativeInput {
+  width: 175px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 0 10px;
+  outline: none;
+}
+
+.empActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+  }
+
+
+/* Wrapper spacing like screenshot */
+.shiftFormWrap{
+  padding: 14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap: 16px;
+}
+
+/* 3-column row (Employee / Location / Role) */
+.shiftGrid3{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+
+/* 2-column rows */
+.shiftGrid2{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* full width rows */
+.shiftGrid1{
+  display:grid;
+  grid-template-columns: 1fr;
+}
+
+/* field spacing */
+.sfField label{
+  display:block;
+  font-size: 12px;
+  font-weight: 800;
+  color:#374151;
+  margin-bottom: 6px;
+}
+
+/* make Syncfusion controls take full width */
+.sfField .e-control-wrapper,
+.sfField .e-input-group,
+.sfField .e-dropdownlist,
+.sfField .e-date-wrapper,
+.sfField .e-time-wrapper{
+  width: 100% !important;
+}
+
+/* Summary card like screenshot */
+.summaryCard{
+  background:#eef2ff;
+  border-radius: 12px;
+  padding: 14px;
+  display:flex;
+  align-items:center;
+  min-height: 60px;
+}
+.summaryTop{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+}
+.summaryIcon{
+  font-size: 18px;
+  color:#2563eb;
+}
+div.summaryHours{
+  font-weight: 500;
+  color:#111827;
+}
+div.summaryCost{
+  margin-top: 4px;
+  font-weight: 500;
+  color:#2563eb;
+}
+
+/* Constraints box */
+.constraintsBox{
+  background:#f9fafb;
+  border:1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+}
+.constraintsTitle{
+  display:flex;
+  align-items:center;
+  gap: 8px;
+  font-weight: 900;
+  color:#374151;
+}
+.constraintsBody{
+  margin-top: 8px;
+  color:#4b5563;
+  font-size: 13px;
+  font-weight: 700;
+  display:flex;
+  flex-direction:column;
+  gap: 6px;
+}
+
+/* Sticky footer buttons inside dialog */
+.shiftFooter{
+  position: relative;
+  bottom: 100;
+  background: #ffffff;
+  padding: 12px 0 0;
+  border-top: 1px solid #e5e7eb;
+  display:flex;
+  justify-content:flex-end;
+
+}
+
+.e-today {
+  display:none !important;
+}
+
+
+/* Responsive: stack 3 columns into 1 on small screens */
+@media (max-width: 900px){
+  .shiftGrid3{ grid-template-columns: 1fr; }
+  .shiftGrid2{ grid-template-columns: 1fr; }
+}
+/*  Sticky promo fixed at bottom */
+.stickyPromoBar{
+  
+  position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background:rgb(197, 203, 237);
+    align-items: center;
+    border: 1px solid #D8DEE9;
+    z-index: 100;
+    padding: 12px;
+    height: 40px;
+}
+
+/* keep it aligned with your app content width */
+.stickyPromoInner{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* icon */
+.promoIconWrap{
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #0b74d1;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.promoIcon{
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+/* text */
+.promoText{
+  flex: 1 1 420px;
+  min-width: 260px;
+}
+.promoLine1{
+  /* font-weight: 500; */
+  color: #111827;
+  font-size: 16px;
+}
+.promoLine2{
+  font-weight: 400;
+  color: #374151;
+  font-size: 14px;
+  margin-top: 2px;
+}
+.promoStrong{
+ 
+  font-weight: 600;
+  font-size:15px;
+}
+
+/* buttons */
+.promoActions{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+.promoBtn{
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 900;
+  font-size: 13px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+/* add-employee-btn styles to match the provided Tailwind button */
+.add-employee-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;           
+  padding: 0.375rem 0.75rem; 
+  font-size: 0.75rem;      
+  font-weight: 500;
+  color: #0369a1 !important;          
+  background-color: #eff6ff !important; 
+  border: 1px solid #bfdbfe !important; 
+  border-radius: 0.375rem; 
+  cursor: pointer;
+}
+
+/* larger screen adjustments (optional) */
+@media (min-width: 640px) {
+  .add-employee-btn {
+    gap: 0.5rem;           
+    padding: 0.5rem 1rem;  
+    font-size: 0.875rem;  
+  }
+}
+
+/* icon sizing inside Syncfusion button (adjust selector to match output if needed) */
+.add-employee-btn .e-btn-icon,
+.add-employee-btn .e-icon,
+.add-employee-btn svg {
+  width: 1rem;  
+  height: 1rem;
+  margin-right: 0.25rem;
+  display: inline-block;
+}
+
+/* hover */
+.add-employee-btn:hover {
+  background-color: #dbeafe !important; 
+    
+}
+
+
+/* role button */
+.add-roles-btn {
+  color: #059669 !important;           
+  background-color: hsl(138, 76%, 97%) !important; 
+  border: 1px solid #bbf7d0 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  
+}
+.add-roles-btn:hover {
+  background-color: #dcfce7 !important;
+ 
+}
+.add-roles-btn .emoji {
+  display: inline-block;
+  width: 18px;
+  text-align: center;
+  margin-right: 0.25rem;
+  line-height: 1;
+  font-size: 1rem;
+  background-color: #dcfce7 !important;
+}
+@media (min-width: 640px) {
+  .add-roles-btn { gap: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem; }
+  .add-roles-btn .emoji { font-size: 1.125rem; width: 20px; }
+}
+
+.add-locations-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6d28d9 !important;
+  background-color: #f5f3ff !important;
+  border: 1px solid #e9d5ff !important;
+  border-radius: 0.375rem;
+   transition: background-color .15s ease;
+  cursor: pointer;
+}
+@media (min-width:640px) {
+  .add-locations-btn { gap: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem; }
+}
+.add-locations-btn .emoji { width:18px; text-align:center; margin-right:0.25rem; display:inline-block; line-height:1; }
+.add-locations-btn:hover {
+  background-color: #efe9ff !important;
+ 
+}
+
+.test-data-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #ea580c !important;
+  background-color: #fff7ed !important;
+  border: 1px solid #ffedd5 !important;
+  border-radius: 0.375rem;
+ 
+  cursor: pointer;
+}
+@media (min-width:640px) {
+  .test-data-btn { gap: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem; }
+}
+.test-data-btn .icon { width:18px; text-align:center; margin-right:0.25rem; display:inline-block; line-height:1; }
+.test-data-btn:hover {
+  background-color:  #ffedd5 !important;
+
+}
+
+/* Empty state title style (matches: text-base sm:text-lg font-medium text-gray-900) */
+.emptyTitle {
+  
+  font-weight: 500; 
+  color: #111827; 
+  line-height: 1.25;
+}
+@media (min-width: 640px) {
+}
+
+/* Empty state description (matches: text-xs sm:text-sm text-gray-600) */
+.emptyDesc {
+ 
+  color: #4b5563; 
+}
+@media (min-width: 640px) {
+
+}
+
+
+
+
+.options-btn.e-btn   {
+  font-weight: 400;
+ color: #fff;
+  height:35px;
+ 
+}
+.manage-locations-btn :hover, .manage-locations-btn.e-btn:hover,
+.manage-locations-btn :focus, .manage-locations-btn.e-btn:focus {
+    box-shadow: none;
+    background:none !important;
+    border-color: none !important;
+    color:#374151 !important;
+}
+
+/* Manage locations button  */
+.manage-locations-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;              
+  padding: 0.375rem 0.625rem; 
+  font-size: 0.875rem;       
+  font-weight: 400;           
+  
+  border-radius: 0.375rem;    
+  color:#fff !important;
+  height:35px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.manage-locations-btn .e-btn-icon,
+.manage-locations-btn .e-icon,
+.manage-locations-btn svg {
+  width: 1rem;
+  display: inline-block;
+}
+.manage-locations-btn .e-btn-text,
+.manage-locations-btn .e-icon .e-btn-text {
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+
+.mrRoleRow {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+   background-color: hwb(0 97% 3%) !important;         
+  
+  padding: 14px 16px;
+  margin-bottom: 12px;
+
+  transition: background 0.15s ease;
+}
+
+.mrRoleRow:hover {
+  background: #f3f4f6;         
+}
+
+/* Left group: dot stacked text */
+.mrRoleLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* Dot size/position */
+.mrRoleDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  margin-top: 4px;              
+  flex: 0 0 auto;
+}
+
+/* Stack name and rate like screenshot */
+.mrRoleText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+
+
+.mrRoleRate {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right actions: pencil trash aligned center */
+.mrRoleActions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 0 0 auto;
+}
+
+/* Make Syncfusion icon buttons look like screenshot (icon-only) */
+.mrIconBtn.e-btn {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  box-shadow: none !important;
+  min-width: 34px !important;
+}
+
+/* Center the icon inside */
+.mrIconBtn.e-btn .e-btn-icon {
+  font-size: 16px;
+  line-height: 34px;
+  margin: 0 !important;
+}
+
+/* Hover effect on icons */
+.mrIconBtn.e-btn:hover {
+  background: rgba(17, 24, 39, 0.06) !important;
+}
+
+
+.mrIconDanger.e-btn:hover .e-btn-icon {
+  color: #ef4444 !important;
+}
+
+/* Remove extra margin from the last card */
+.custom-roles-dropdown .e-list-item:last-child .mrRoleRow {
+  margin-bottom: 0;
+}
+
+
+.empModal {
+  padding: 0;
+  background: #fff;
+  border-radius: 10px;
+}
+
+/* Header */
+.empModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px;
+  margin-top: 20px;
+}
+
+
+
+.empModalDivider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* Top row */
+.empTopRow {
+  padding: 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top:20px;
+}
+
+.empCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #6b7280;
+  font-weight: 500;
+}
+.empCountIcon {
+  color: #0f03ea; /* green icon like screenshot */
+  font-size: 18px;
+}
+
+/* Empty state */
+.empEmptyWrap {
+  min-height: 320px;
+  padding: 28px 18px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.empEmptyIcon {
+  margin-bottom: 10px;
+  opacity: 0.95;
+}
+
+.empEmptyTitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #111827;
+  margin-top: 4px;
+}
+
+.empEmptyText {
+  margin-top: 8px;
+  max-width: 460px;
+  color: #6b7280;
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.empEmptyCta {
+  margin-top: 18px;
+}
+
+/* List */
+.empList {
+  padding: 0 18px 18px;
+  max-height: 52vh;
+  overflow: auto;
+}
+
+.empRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.empLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.empAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #111827;
+  font-weight: 400;
+}
+
+.empName {
+  font-weight: 400;
+  color: #111827;
+}
+
+.empMeta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+
+
+/* */
+
+
+.empAddForm {
+  
+display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+
+  background: #fff;
+  height:455px;
+  overflow: hidden;
+}
+
+/* header */
+.empAddHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 20px;
+    top: 0 !important;
+    position: sticky !important;
+    z-index: 2;
+    background: #fff;
+
+}
+
+
+.empAddDivider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.empFormError {
+  margin: 12px 16px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #991b1b;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* body */
+.empAddBody {
+  padding: 14px 16px 10px;
+ overflow-y: auto;  
+  
+flex: 1 1 auto;
+  min-height: 0; 
+
+}
+
+.empFieldBlock {
+  margin-bottom: 14px;
+}
+
+.empLabel {
+  display: block;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.empLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.empHint {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* make color palette look like dots row */
+.empColorRow .e-colorpicker-wrapper,
+.empColorRow .e-colorpicker-container {
+  width: 100%;
+}
+
+.empColorRow .e-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* palette tiles -> circles */
+.empColorRow .e-palette .e-tile {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 999px !important;
+  border: 1px solid #e5e7eb !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* roles box */
+.empRoleBox {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.empRoleItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px;
+}
+
+.empRoleDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #10b981;
+  margin-left: 10px;
+}
+#empform_dialog-content{
+  padding:0px !important;
+}
+/* footer */
+.empAddFooter {
+  bottom: 0;
+  display: flex;
+  gap: 10px;
+  padding: 25px 16px 16px;
+  margin-right:65px !important;
+  justify-content: flex-end;
+ 
+position: static !important;
+  z-index: 2;          /* sit above the scrolling content */
+  background: #fff;
+
+}
+
+
+/* Container */
+.mrBody {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header */
+.mrHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px;
+  margin-top:20px;
+}
+
+
+
+.mrDivider {
+  height: 1px;
+  background: #e5e7eb;
+}
+
+/* Top row */
+.mrTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 40px;
+}
+
+.mrDesc {
+  max-width: 420px;
+  color: #4b5563;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+
+
+/* Content area */
+.mrContent {
+  padding: 0 18px 18px;
+  min-height: 250px;
+}
+
+/* Empty state */
+.mrEmpty {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0 30px;
+}
+
+.mrEmptyIcon {
+  margin-bottom: 10px;
+  opacity: 0.95;
+}
+
+.mrEmptyTitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.mrEmptySub {
+  margin-top: 6px;
+  color: #9ca3af;
+ 
+}
+
+/* List wrapper */
+.mrListWrap {
+  max-height: 50vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+/* Optional: list view spacing */
+.mrListView .e-list-item {
+  padding: 10 !important;
+  border: none !important;
+}
+
+
+
+.mrField {
+  margin-bottom: 14px;
+}
+
+.mrLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.mrReq {
+  color: #ef4444;
+}
+
+.mrHelp {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 400;
+}
+
+.mrError {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+  font-weight: 400;
+}
+
+/* Make palette look like round dots */
+.mrPaletteWrap .e-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.mrPaletteWrap .e-palette .e-tile {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 999px !important;
+  border: 1px solid #e5e7eb !important;
+  padding: 0 !important;
+}
+
+
+
+
+/* Primary green already defined earlier */
+/* ListView item padding reset (optional, but recommended) */
+.mrListView .e-list-item {
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Role row card */
+.mrRoleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+.e-listview:not(.e-list-template) .e-list-item ,.e-listview {
+   border:0px !important;
+}
+
+/* left side */
+.mrRoleLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0; 
+}
+
+.mrRoleDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.mrRoleName {
+  font-weight: 400;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* right actions */
+.mrRoleActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.locSfIcon.e-btn, .empIconBtn.e-btn {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 10px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.locSfIcon.e-btn:hover,.empIconBtn.e-btn:hover {
+  background: rgba(17, 24, 39, 0.06) !important;
+}
+
+.locSfDanger.e-btn:hover , .empSfDanger.e-btn:hover {
+  background: rgba(239, 68, 68, 0.10) !important;
+}
+
+.locSfDanger .e-btn-icon ,.mrIconDanger .e-btn-icon, .empSfDanger.e-btn{
+  color: #ef4444 !important;
+}
+
+/* left side */
+.locLeft {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.locDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  margin-top: 4px;               /* aligns dot with text */
+  flex: 0 0 auto;
+}
+
+.locText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.locName {
+  font-size: 16px;
+  font-weight: 400;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.locAddress {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Default pill */
+.locPill {
+  margin-left: 10px;
+  font-size: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  color: #374151;
+  align-self: flex-start;
+}
+
+
+.locActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  
+}
+
+/* icon-only buttons */
+.locIconBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #374151;
+  font-size: 16px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.locIconBtn:hover {
+  background: rgba(17, 24, 39, 0.06); /* subtle hover */
+}
+
+.locIconBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.locDanger:hover {
+  background: rgba(239, 68, 68, 0.10);
+  color: #ef4444;
+}
+
+
+
+/* Location dialog */
+
+/* header */
+#locationdialog_dialog-header, #roledialog_dialog-header {
+  padding:16px;
+}
+.mlAddWrap,.mrAddWrap {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+}
+.locRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafb;           /* light gray card */
+  padding: 14px 14px;
+}
+.locRow:hover {
+  background: #f3f4f6;           /* hover gray */
+}
+
+.mlSectionTitle, .mrSectionTitle{
+  padding-bottom: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #111827;
+}
+.mlField,.mrField { margin-bottom: 16px; }
+.mlLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+.mlReq { color: #ef4444; }
+
+.mlError {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+  font-weight: 400;
+}
+.mlFooterRight, .mrFooterRight {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-bottom: 16px;
+  margin-right:65px;
+}
+
+
+#shiftdialog_dialog-header, #importdialog_dialog-header, #Exportdialog_dialog-header,#clearData_dialog-header {
+  
+  margin-top:40px;
+  padding: 10px 50px;
+}
+
+div.mlTitle, div.mrTitle, #shiftdialog_title, #Exportdialog_title, #importdialog_title,#clearData_title {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+}
+
+
+.mlDivider {
+  height: 1px;
+  background: #e5e7eb;
+  
+}
+
+/* top row */
+.mlTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
+}
+
+.mlDesc {
+  max-width: 420px;
+  color: #4b5563;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+
+.locIconLocked {
+  opacity: 0.35;
+  filter: grayscale(100%);
+  cursor: not-allowed !important;
+}
+
+.locIconLocked .e-btn-icon,
+.locIconLocked .e-icons {
+  color: #9ca3af !important; 
+}
+
+
+
+/* content */
+.mlContent {
+  padding: 0 18px 18px;
+  min-height: 250px;
+}
+
+/* empty state */
+.mlEmpty {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0 30px;
+}
+
+.mlEmptyIcon {
+  margin-bottom: 10px;
+  opacity: 0.95;
+}
+
+.mlEmptyTitle {
+  font-size: 16px;
+  font-weight: 900;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+.mlEmptySub {
+  margin-top: 6px;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+/* list wrapper */
+.mlListWrap {
+  max-height: 45vh;
+  overflow: auto;
+  padding-right: 4px;
+  
+}
+
+.mlListView .e-list-item ,.mrListView .e-list-item{
+  padding: 0 !important;
+  height:80px !important;
+  border: 1px !important;
+  
+}
+.mlListView .e-list-item .e-hover {
+  background-color: #dbeafe;
+}
+
+
+ .mrSectionTitle, .empModalTitle, .empAddTitle, .exportSectionTitle {
+  font-size: 16px;
+  font-weight: 400;
+  color: #111827;
+ 
+}
+
+
+.mlSubText {
+  color: #6b7280;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+
+
+
+.mlReq { color: #ef4444; }
+
+.mlHelpText {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.mlError {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #b91c1c;
+  font-weight: 800;
+}
+
+.mlGrid2 {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 14px;
+}
+
+
+
+
+/* empty state */
+.mlEmpty {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0 30px;
+}
+.mlEmptyIcon { margin-bottom: 10px; opacity: 0.95; }
+.mlEmptyTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #6b7280;
+  margin-top: 6px;
+}
+.mlEmptySub {
+  margin-top: 6px;
+  color: #9ca3af;
+  font-weight: 600;
+}
+/*  Stop the Dialog from scrolling internally */
+.mlDialog .e-dlg-content,
+.mrDialog .e-dlg-content {
+
+  overflow: hidden !important;
+  padding: 0 !important; 
+}
+
+
+/*  Make body use full height and layout sections */
+.mlBody,
+.mrBody {
+ 
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+/*  Only the content area should be scrollable */
+.mlContent,
+.mrContent {
+  flex: 1;
+  min-height: 0;                
+  overflow: hidden;             
+}
+
+/*  Only the list container scrolls */
+.mlListWrap,
+.mrListWrap {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/*  If ListView itself adds scroll, neutralize it */
+.mlListView,
+.mrListView {
+  overflow: visible !important;
+}
+
+
+.sfShiftForm { padding: 14px 16px; }
+
+.shiftFormWrap { display: flex; flex-direction: column; gap: 14px; }
+
+.shiftGrid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.shiftGrid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.shiftGrid1 { display: grid; grid-template-columns: 1fr; }
+
+.sfField label {
+  display: block;
+  font-weight: 600;
+  font-size: 12.5px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.timeRow { display: flex; gap: 10px; align-items: center; }
+.meridianGroup { display: flex; gap: 10; border: 1px solid #e5e7eb; border-radius: 10px; overflow: hidden; }
+.merBtn.e-btn { border-radius: 0 !important; font-weight: 400; padding: 10px 10px; }
+.merBtnActive.e-btn { background: #2563eb !important;  color: #fff !important; }
+
+.timeChips { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.timeChipBtn.e-btn {
+ 
+  font-weight: 400;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.summaryCard {
+  border-radius: 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.summaryTop { display: flex; gap: 10px; align-items: center; }
+.summaryIcon { color: #2563eb; font-size: 18px; }
+.summaryHours { font-weight: 900; color: #111827; }
+.summaryCost { font-weight: 800; color: #2563eb; margin-top: 2px; }
+
+.constraintsBox {
+  border-radius: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  padding: 12px 14px;
+}
+.constraintsTitle { display: flex; gap: 8px; align-items: center; font-weight: 600; color: #374151; }
+.constraintsBody { margin-top: 6px; color: #4b5563; font-weight: 400; display: grid; gap: 4px; }
+
+.shiftFooter {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 160px 1fr 120px;
+  gap: 10px;
+  align-items: center;
+}
+
+.shiftNoEmp { text-align: center; padding: 24px; }
+.shiftNoEmpTitle { font-weight: 900; font-size: 16px; color: #111827; }
+.shiftNoEmpSub { margin-top: 6px; color: #6b7280; font-weight: 600; }
+
+
+/* Options dropdown card */
+.optionsDropdown .e-dropdown-popup {
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+  padding: 8px;
+}
+
+/* Normal items */
+.optionsDropdown .e-item {
+  padding: 10px 14px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Section separation */
+.optionsDropdown .e-separator {
+  margin: 6px 0;
+}
+
+/* Danger item (Clear Data) */
+.optionsDropdown .danger-item {
+  color: #dc2626;
+}
+
+.optionsDropdown .danger-item .e-menu-icon {
+  color: #dc2626;
+}
+
+.exportDlgBody { padding: 16px; }
+
+
+.exportFormatGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 15px;
+}
+
+.exportFormatCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 10px;
+  background: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  font-weight: 400;
+  
+  height:125px;
+  width:125px;
+}
+
+.exportFormatCard .exportCardIcon { font-size: 30px;  }
+/* .exportFormatCard.active {
+  border: 2px solid #1610b9;
+  
+}
+.exportFormatCard.active .exportCardIcon { color:#1610b9; } */
+
+.exportField { margin-top: 14px; }
+.exportLabelRow {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-weight: 400;
+  color:#374151;
+  margin-bottom: 8px;
+}
+
+.exportInfoBox {
+  margin-top: 40px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 12px;
+}
+.exportInfoLine { font-weight: 400; color:#374151; }
+.exportInfoSub { font-size: 12px; margin-top: 6px; color:#6b7280; font-weight: 400; }
+
+.exportDlgFooter {
+  display:flex;
+  justify-content: flex-end;
+  gap: 10px;
+  bottom:0;
+  margin-top: 60px;
+}
+
+
+/* ---- Import Employee Data dialog UI ---- */
+.impWrap { padding: 0; font-family: inherit; }
+.impHeader {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 18px 18px 14px;
+}
+.impTitle { font-weight: 900; font-size: 18px; color:#111827; }
+.impClose {
+  border: none; background: transparent; cursor: pointer;
+  font-size: 22px; line-height: 1; color:#6b7280;
+}
+.impDivider { height:1px; background:#eef2f7; }
+
+.impSteps {
+  display:flex; align-items:center; gap: 12px;
+  padding: 14px 18px;
+}
+
+
+.impStepLine {
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.impBody { padding: 18px; }
+
+.impUploadBox { padding-top: 8px; }
+.impDropZone {
+
+  border-radius: 12px;
+  padding: 48px 18px;
+  text-align:center;
+  background:#fff;
+}
+.impCloudIcon {
+  display:inline-grid;
+  place-items:center;
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  background:#f3f4f6;
+  margin-bottom: 10px;
+}
+.impCloudIcon .e-icons { font-size: 22px; color:#9ca3af; }
+
+.impMainText { font-weight: 400; color:#111827; margin-top: 6px; }
+.impSubText { font-size: 12px; color:#6b7280; margin-top: 4px; }
+
+
+
+.impInstructions .impBlockTitle,
+.impPreview .impBlockTitle { font-weight: 900; color:#111827; margin-bottom: 10px; }
+.impText { font-weight: 700; color:#374151; margin: 8px 0; }
+
+.impPreviewCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  background: #f9fafb;
+}
+.impActions { display:flex; justify-content:flex-end; gap:10px; margin-top: 14px; }
+
+
+/* Clear Data (screenshot style) */
+.cdChoices {
+  display: grid;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.cdCard {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  cursor: pointer;
+ }
+
+.cdCardActive {
+  border: 2px solid #60a5fa;
+}
+
+.cdCardDanger {
+  background: #fff7f7;
+}
+
+.cdCardDangerActive {
+  border: 2px solid #ef4444;
+  background: #fff1f2;
+}
+
+.cdIconWrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+
+.cdIconNeutral {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.cdIconDanger {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.cdCardBody { flex: 1; }
+
+.cdCardTitle {
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.cdCardDesc {
+  font-weight: 400;
+  color: #374151;
+  font-size: 13px;
+}
+
+.cdCardSub {
+  color: #6b7280;
+
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.cdDangerNotice {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #b91c1c;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* Buttons */
+.cdBtnWarn {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  font-weight: 400 !important;
+}
+
+.cdBtnDanger {
+  background: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  font-weight: 400 !important;
+}
+
+
+
+:root{
+  --dlg-max-w-lg: 1100px;
+  --dlg-max-w-md: 760px;
+  --dlg-max-w-sm: 520px;
+  --dlg-pad: clamp(12px, 2vw, 18px);
+}
+
+/* Make top bar controls wrap nicely */
+.topInner{ flex-wrap: wrap; }
+.rightBlock{ flex: 1 1 auto; display:flex; justify-content:flex-end; }
+.custom-locations-dropdown.e-input-group-icon,#location.e-input[readonly]~span.e-input-group-icon.e-ddl-icon{
+  background:none !important;
+color:#fff !important;
+}
+
+/* Location dropdown responsive sizing */
+.custom-locations-dropdown{ width: clamp(160px, 22vw, 260px);
+border:none !important ;
+background:none !important;
+color:#fff !important;
+}
+@media (max-width: 600px){
+  .custom-locations-dropdown{ width: 100%; min-width: 0; }
+  .topInner{ gap: 10px; }
+  .leftBlock{ width: 100%; }
+  .rightBlock{ width: 100%; justify-content:flex-start; }
+}
+
+/* Universal responsive dialogs */
+.responsiveDlg.e-dialog{
+  width: 92vw !important;
+  max-width: var(--dlg-max-w-md);
+}
+.responsiveDlg.dlgShift.e-dialog{ max-width: var(--dlg-max-w-lg); }
+.responsiveDlg.dlgRoles.e-dialog,
+.responsiveDlg.dlgLocations.e-dialog,
+.responsiveDlg.dlgImport.e-dialog{ max-width: var(--dlg-max-w-sm); }
+.responsiveDlg.dlgSummary.e-dialog{ max-width: 1200px; }
+
+/* Ensure dialog content can scroll when needed */
+.responsiveDlg .e-dlg-content{
+  padding: 0 !important;
+  overflow: auto !important;
+  max-height: calc(100vh - 120px);
+}
+
+/* Phone: dialogs go fullscreen */
+@media (max-width: 600px){
+  .responsiveDlg.e-dialog{
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    left: 0 !important;
+    top: 0 !important;
+  }
+  .responsiveDlg .e-dlg-content{
+    max-height: calc(100vh - 56px);
+  }
+}
+
+/* Fix shift grids to shrink properly and avoid overflow */
+.shiftGrid3{ grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 18px); }
+.shiftGrid2{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 2vw, 18px); }
+
+@media (max-width: 900px){
+  .shiftGrid3{ grid-template-columns: 1fr; }
+  .shiftGrid2{ grid-template-columns: 1fr; }
+}
+
+/* Shift footer: make it responsive and actually sticky inside dialog */
+.shiftFooter{
+  position: sticky;
+  bottom: -12px;
+  background: #ffffff;
+  padding-top: 12px;
+  border-top: 1px solid #e5e7eb;
+  z-index: 2;
+  height: 100px;
+}
+
+@media (max-width: 700px){
+  .shiftFooter{
+    grid-template-columns: 1fr !important;
+  }
+  .shiftFooter .e-btn{
+    width: 100%;
+  }
+}
+
+/* Employee native input should not be fixed width */
+.empNativeInput{ width: 100%; max-width: 175px; }
+
+/* Export dialog: responsive grid/cards */
+.exportFormatGrid{
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.exportFormatCard{
+  width: 100%;
+  height: auto;
+  min-height: 110px;
+}
+
+
+/* Keep top notice above scheduler */
+.noticeBar {
+  position: sticky;
+  top: 56px;
+  z-index: 30; /* was 11 */
+}
+
+/* All dialog sticky footers should float above list areas */
+.empAddFooter,
+.mlFooterRight,
+.mrFooterRight,
+.exportDlgFooter,
+.shiftFooter {
+  z-index: 3; 
+}
+
+/* Scheduler container shouldn't overlap sticky elements */
+.board {
+  position: relative;
+  z-index: 1;
+}
+/* Shared tokens */
+:root{
+  --btn-r: 10px;
+  --btn-h: 36px;
+  --btn-fs: 13px;
+}
+
+/* Base pill */
+.btn {
+  display:inline-flex; align-items:center; gap:.5rem;
+  height: var(--btn-h); padding: 0 .875rem;
+  border-radius: var(--btn-r);
+  font-size: var(--btn-fs); line-height:1; letter-spacing:-0.01em;
+}
+
+/* Variants */
+.btn-primary { background:#0b74d1; color:#fff; border:1px solid #0b74d1; }
+.btn-ghost   { background:#fff; color:#111827; border:1px solid #d1d5db; }
+.btn-soft    { background:#eff6ff; color:#0369a1; border:1px solid #bfdbfe; }
+
+/* Icon-only */
+.btn-icon {
+  width: 34px; height: 34px; min-width:34px; padding:0;
+  border-radius:10px; display:grid; place-items:center;
+  background:transparent; box-shadow:none;
+}
+.btn-icon:hover { background:rgba(17,24,39,.06); }
+.btn-icon.danger:hover { background: rgba(239,68,68, .10); }
+
+
+.poweredBy {
+ --pb-fg: #374151;     /* gray-700 */
+ --pb-sub: #6b7280;    /* gray-500 */
+ --pb-link: #4f46e5;   /* indigo-600 */
+ --pb-link-h: #4338ca; /* indigo-700 */
+ --pb-bg: transparent;
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ text-decoration: none;
+ background: var(--pb-bg);
+ padding: 6px 8px;
+ border-radius: 8px;
+ color: var(--pb-fg);
+ line-height: 1;
+ user-select: none;
+}
+.poweredBy:focus {
+ outline: 2px solid #93c5fd; /* blue-300 */
+ outline-offset: 2px;
+ border-radius: 8px;
+}
+.poweredBy__icon {
+ display: inline-grid;
+ place-items: center;
+ width: 18px;
+ height: 18px;
+ flex: 0 0 auto;
+}
+.poweredBy__text {
+ display: inline-flex;
+ align-items: baseline;
+ gap: 6px;
+ font-size: 13px;
+ letter-spacing: -0.01em;
+}
+.poweredBy__label {
+ color: #fff;
+ font-weight: 400;
+ font-size:1rem;
+}
+.poweredBy__link {
+ color: #fff;
+ font-weight: 400;
+ font-size:1rem;
+ text-decoration: none;
+}
+.poweredBy:hover .poweredBy__link {
+ color: var(--pb-link-h);
+ text-decoration: underline;
+}
+@media (max-width: 640px){
+ .poweredBy__text { gap: 4px; font-size: 12.5px; }
+}
