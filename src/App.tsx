@@ -12,6 +12,8 @@ import {
   ICalendarExport,
   ICalendarImport,
   ExcelExport,
+  ExportOptions,
+  ExportFieldInfo,
 } from "@syncfusion/ej2-react-schedule";
 import {
   GridComponent,
@@ -37,7 +39,7 @@ import { CheckBoxComponent } from "@syncfusion/ej2-react-buttons";
 import "./index.css";
 import { compile } from "@syncfusion/ej2-base";
 
-enableRipple(true);
+// enableRipple(true);
 
 // keep storage but do NOT auto-seed defaults
 const STORAGE_KEY = "Shift-empty-first";
@@ -161,7 +163,6 @@ const defaultRoles: RoleName[] = [
   "Tech Lead",
   "Engineering Manager",
 ];
-
 const defaultLocations: LocationName[] = ["All Locations", "Main Location", "Branch A"];
 
 const defaultEmployees: Employee[] = [
@@ -812,7 +813,20 @@ if (maxDay > 0) {
 
 
   function exportExcel() {
-    scheduleRef.current?.exportToExcel?.();
+
+       const exportFields: ExportFieldInfo[] = [
+            { name: 'EmployeeId', text: 'Employee Id' },
+           // { name: 'Name', text: 'Name' },
+            { name: 'StartTime', text: 'Start Date' },
+            { name: 'EndTime', text: 'End Date' },
+            { name: 'BreakDuration', text: 'Break Duration' },
+            { name: 'Location', text: 'Location' },
+            { name: 'Role', text: 'Role' }
+
+        ];
+        const exportValues: ExportOptions = { fieldsInfo: exportFields };
+        
+    scheduleRef.current?.exportToExcel?.(exportValues);
   }
 
   function printSchedule() {
@@ -1191,6 +1205,7 @@ const isLockedLocation = (name: unknown) =>
 
  
   const roleItemTemplate = (data: any) => {
+    
   const roleName = data?.text ?? "";
   const meta = roleMeta?.[roleName] ?? { rate: 15, color: "#10b981" };
   const dotColor = meta.color ?? "#10b981";
@@ -1199,6 +1214,8 @@ const isLockedLocation = (name: unknown) =>
   // Format like screenshot: $28.00/hr
   const rateText = `$${Number(meta.rate ?? 0).toFixed(2)}/hr`;
   const initialsText = initials(roleName);
+
+
 
   return (
     <div className={`empRow ${isNew ? "mrRoleRowNew" : ""}`}>
@@ -1359,15 +1376,18 @@ const isLockedLocation = (name: unknown) =>
   const meta = locationMeta?.[name] ?? { address: "", color: "#10b981" };
   const dotColor = meta.color ?? "#10b981";
   const isNew = lastAddedLocation && name === lastAddedLocation;
+  const location_name =initials(name);
 
   return (
-    <div className={`locRow ${isNew ? "locRowNew" : ""}`}>
-      <div className="locLeft">
-        <span className="locDot" style={{ backgroundColor: dotColor }} />
-        <div className="locText">
-          <div className="locName" title={name}>{name}</div>
+    <div className={`empRow ${isNew ? "locRowNew" : ""}`}>
+      <div className="empLeft">
+        <div className="empAvatar" style={{ backgroundColor: dotColor }} title={name} >
+               {location_name}
+          </div>
+        <div >
+          <div className="empName" title={name}>{name}</div>
           {meta.address ? (
-            <div className="locAddress" title={meta.address}>
+            <div className="empMeta" title={meta.address}>
               {meta.address}
             </div>
           ) : null}
@@ -1376,10 +1396,10 @@ const isLockedLocation = (name: unknown) =>
         {locked ? <span className="locPill">Default</span> : null}
       </div>
 
-    <div className="locActions" onClick={(e) => e.stopPropagation()}>
+    <div className="empActions" onClick={(e) => e.stopPropagation()}>
   <ButtonComponent
-    //cssClass="locSfIcon e-flat e-icon-btn"
-    cssClass={`locSfIcon e-flat e-icon-btn ${locked ? "locIconLocked" : ""}`}
+    
+    cssClass={`e-flat empIconBtn ${locked ? "locIconLocked" : ""}`}
     iconCss="e-icons e-edit"
     disabled={locked}
     title={locked ? "Default location cannot be edited" : "Edit"}
@@ -1389,8 +1409,8 @@ const isLockedLocation = (name: unknown) =>
     }}
   />
   <ButtonComponent
-    cssClass={`locSfIcon locSfDanger e-flat e-icon-btn ${locked ? "locIconLocked" : ""}`}
-    //cssClass="locSfIcon locSfDanger e-flat e-icon-btn"
+    cssClass={` e-flat empSfDanger e-btn ${locked ? "locIconLocked" : ""}`}
+   
     iconCss="e-icons e-trash"
     disabled={locked}
     title={locked ? "Default location cannot be deleted" : "Delete"}
@@ -1973,7 +1993,7 @@ const isLockedLocation = (name: unknown) =>
         // height="min(88vh, 450px)"
         showCloseIcon={true}
         animationSettings={{effect:"None"}}
-        isModal={true}
+       isModal={true}
         target={dialogTarget}
         cssClass="mrDialog"
         beforeClose={() => {
@@ -1992,8 +2012,8 @@ const isLockedLocation = (name: unknown) =>
         visible={showLocationsDialog}
         header="Manage Locations"
         width="min(92vw, 490px)"
-        height="min(88vh, 430px)"
-        isModal={true}
+       // height="min(88vh, 430px)"
+       isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
         animationSettings={{effect:"None"}}
@@ -2094,7 +2114,7 @@ const isLockedLocation = (name: unknown) =>
               onClick={() => setExportFormat("csv")}
             >
               <span className="e-icons e-export exportCardIcon" />
-              <div className="exportCardLabel">CSV (Excel)</div>
+              <div className="exportCardLabel">Excel</div>
             </ButtonComponent>
 
             <ButtonComponent
@@ -2124,7 +2144,7 @@ const isLockedLocation = (name: unknown) =>
             </ButtonComponent>
             <ButtonComponent cssClass="e-primary" type="button" onClick={handleExportFromDialog}>
               <span className="e-icons e-download" style={{ marginRight: 8 }} />
-              {exportFormat === "csv" ? "Export CSV" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
+              {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
             </ButtonComponent>
           </div>
         </div>
@@ -2154,13 +2174,6 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
 
   return (
     <div className="empModal">
-      {/* <div className="empModalHeader">
-        <div className="empModalTitle">Manage Employees</div>
-        <ButtonComponent className="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" iconCss="e-icons e-close" type="button" onClick={onClose} >
-          
-        </ButtonComponent>
-      </div> */}
-
       <div className="empModalDivider" />
 
       <div className="empTopRow">

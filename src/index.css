@@ -5,16 +5,7 @@
   margin-top: 7px;
  }
 
-/* .formError{
-  margin-top: 10px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #b91c1c;
-  font-size: 13px;
-  font-weight: 700;
-} */
+
 .hintText{
   margin-top: 6px;
   font-size: 12px;
@@ -25,23 +16,7 @@
   margin: 0px 100px;
 }
 
-/* 
-.empField label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #374151;
-  margin-bottom: 6px;
-} */
 
-/* .empNativeInput {
-  width: 175px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  padding: 0 10px;
-  outline: none;
-} */
 
 .empActions {
   display: flex;
@@ -918,7 +893,7 @@ position: static !important;
   background: rgba(239, 68, 68, 0.10) !important;
 }
 
-.locSfDanger .e-btn-icon ,.mrIconDanger .e-btn-icon, .empSfDanger.e-btn{
+.locSfDanger .e-btn-icon ,.mrIconDanger .e-btn-icon, .empSfDanger .e-btn-icon{
   color: #ef4444 !important;
 }
 
@@ -1600,7 +1575,7 @@ color:#fff !important;
   gap: 10px;
   align-items: center;
 }
-#roledialog .e-list-item {
+#roledialog .e-list-item, #locationdialog .e-list-item {
   margin-bottom: 20px;
 }
 .crt-btn{
