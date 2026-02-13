@@ -550,8 +550,23 @@ function netHoursWithinWindow(
   return Math.max(0, overlapH - breakInOverlap);
 }
 
+// For daily validation: total hours including break time
+function totalHoursWithinWindow(
+  evStart: Date,
+  evEnd: Date,
+  winStart: Date,
+  winEnd: Date
+): number {
+  const s = evStart < winStart ? winStart : evStart;
+  const e = evEnd > winEnd ? winEnd : evEnd;
+  if (e <= s) return 0;
+  const msH = 1000 * 60 * 60;
+  return (e.getTime() - s.getTime()) / msH;
+}
+
  
   function validateCandidate(rec: Appointment, existingAppointments: Appointment[]): string | null {
+    debugger
   const start = new Date(rec.StartTime);
   const end = new Date(rec.EndTime);
   const empId = rec.EmployeeId;
@@ -575,50 +590,89 @@ function netHoursWithinWindow(
 
  
   const maxWeek = safeNum(emp.MaxHoursWeek, 0);
-// daily (validate each calendar day spanned by the candidate shift)
-const maxDay = safeNum(emp.MaxHoursDay, 0);
-if (maxDay > 0) {
-  // iterate from start-day to end-day inclusive
-  let cursor = dayStartOf(start);
-  const lastDay = dayStartOf(end);
-
-  while (cursor <= lastDay) {
-    const dStart = new Date(cursor);
-    const dEnd = new Date(dStart);
-    dEnd.setDate(dStart.getDate() + 1);
-
-    // existing events that touch this day
-    const eventsThisDay = existingAppointments.filter(
-      (a) =>
-        a.EmployeeId === empId &&
-        new Date(a.StartTime) < dEnd &&
-        new Date(a.EndTime) > dStart &&
-        a.Id !== rec.Id
-    );
-
-    let totalDayH = 0;
-
-    for (const a of eventsThisDay) {
-      totalDayH += netHoursWithinWindow(
-        new Date(a.StartTime),
-        new Date(a.EndTime),
-        safeNum(a.BreakDuration, 0),
-        dStart,
-        dEnd
-      );
-    }
-
-    // add the candidate shift portion that lies in this day window
-    totalDayH += netHoursWithinWindow(start, end, breakMins, dStart, dEnd);
-
-    if (totalDayH > maxDay + 1e-6) {
-      return `Daily hours exceed ${maxDay} for ${emp.Name} on ${dStart.toDateString()}`;
-    }
-
-    cursor.setDate(cursor.getDate() + 1);
   
+  // daily (validate each calendar day spanned by the candidate shift)
+  // Max hours per day INCLUDES break time
+  const maxDay = 8;
+  
+  console.log('DEBUG: Daily Validation Start', {
+    empName: emp.Name,
+    maxDay,
+    startTime: start.toISOString(),
+    endTime: end.toISOString()
+  });
+  
+  if (maxDay > 0) {
+    // Get the date range the shift spans
+    const startDay = dayStartOf(start);
+    const endDay = dayStartOf(end);
+    
+    // Check if shift crosses midnight
+    const sameDay = startDay.getTime() === endDay.getTime();
+    
+    console.log('DEBUG: Day comparison', {
+      startDay: startDay.toISOString(),
+      endDay: endDay.toISOString(),
+      sameDay
+    });
+    
+    // If same day, check that day only
+    // If different days, check both days
+    const daysToCheck = sameDay ? [startDay] : [startDay, endDay];
+    
+    for (const dayToCheck of daysToCheck) {
+      const dStart = new Date(dayToCheck);
+      const dEnd = new Date(dStart);
+      dEnd.setDate(dStart.getDate() + 1);
+
+      // existing events that touch this day
+      const eventsThisDay = existingAppointments.filter(
+        (a) =>
+          a.EmployeeId === empId &&
+          new Date(a.StartTime) < dEnd &&
+          new Date(a.EndTime) > dStart &&
+          a.Id !== rec.Id
+      );
+
+      console.log('DEBUG: Events this day', {
+        dayWindow: `${dStart.toISOString()} to ${dEnd.toISOString()}`,
+        eventsCount: eventsThisDay.length,
+        events: eventsThisDay.map(a => ({
+          start: new Date(a.StartTime).toISOString(),
+          end: new Date(a.EndTime).toISOString()
+        }))
+      });
+
+      let totalDayH = 0;
+
+      // Calculate total hours INCLUDING breaks for existing shifts
+      for (const a of eventsThisDay) {
+        const hours = totalHoursWithinWindow(
+          new Date(a.StartTime),
+          new Date(a.EndTime),
+          dStart,
+          dEnd
+        );
+        console.log('DEBUG: Existing shift hours', { hours });
+        totalDayH += hours;
+      }
+
+      // add the candidate shift portion INCLUDING break time
+      const candidateHours = totalHoursWithinWindow(start, end, dStart, dEnd);
+      console.log('DEBUG: Candidate shift hours', { candidateHours });
+      totalDayH += candidateHours;
+
+      console.log('DEBUG: Total day hours check', {
+        totalDayH,
+        maxDay,
+        exceeds: totalDayH > maxDay
+      });
+
+      if (totalDayH > maxDay + 1e-6) {
+        return `Daily hours exceed ${maxDay}h for ${emp.Name} on ${dStart.toLocaleDateString()}`;
+      }
+    }
   }
-}
 
   
   const ws = startOfWeek(start);
@@ -1795,7 +1849,7 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
-       // height="min(88vh, 620px)"
+        //height="min(88vh, 620px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
@@ -1990,10 +2044,11 @@ const isLockedLocation = (name: unknown) =>
         visible={showRolesDialog}
         header="Manage Roles"
         width="min(92vw, 490px)"
-        // height="min(88vh, 450px)"
+        height="min(88vh, 450px)"
+        // height removed per user request
         showCloseIcon={true}
         animationSettings={{effect:"None"}}
-       isModal={true}
+        isModal={true}
         target={dialogTarget}
         cssClass="mrDialog"
         beforeClose={() => {
@@ -2012,8 +2067,8 @@ const isLockedLocation = (name: unknown) =>
         visible={showLocationsDialog}
         header="Manage Locations"
         width="min(92vw, 490px)"
-       // height="min(88vh, 430px)"
-       isModal={true}
+        height="min(88vh, 430px)"
+        isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
         animationSettings={{effect:"None"}}
@@ -2033,8 +2088,7 @@ const isLockedLocation = (name: unknown) =>
         header={editingShift ? "Edit Shift" : "Create Shift"}
         visible={showShiftDialog}
         width="min(92vw, 920px)" 
-        height="580px"
-       // height="110vh"
+        height="min(90vh, 600px)"
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
@@ -2253,6 +2307,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
   const [name, setName] = useState<string>(initial?.Name ?? "");
   const [hourly, setHourly] = useState<number>(initial?.HourlyRate ?? 15);
   const [maxWeek, setMaxWeek] = useState<number>(initial?.MaxHoursWeek ?? 40);
+  const [maxDay, setMaxDay] = useState<number>(initial?.MaxHoursDay ?? 8);
   const [minRest, setMinRest] = useState<number>(initial?.MinHoursBetweenShifts ?? 8);
 
   const [assignedRoles, setAssignedRoles] = useState<string[]>(
@@ -2275,6 +2330,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
   setName(initial?.Name ?? "");
   setHourly(initial?.HourlyRate ?? 15);
   setMaxWeek(initial?.MaxHoursWeek ?? 40);
+  setMaxDay(initial?.MaxHoursDay ?? 8);
   setMinRest(initial?.MinHoursBetweenShifts ?? 8);
   setColor(initial?.Color ?? DEFAULT_COLOR);
 
@@ -2662,15 +2718,15 @@ function ShiftDialog({
       </div>
     ) : (
       <>
-        {/*ERROR SHOWS INSIDE DIALOG */}
-        {formError ? (
-          <div className="formError" role="alert">
-            {formError}
-          </div>
-        ) : null}
-
-        {/*FORM STILL RENDERS ALWAYS */}
         <div className="shiftFormWrap">
+          {/*ERROR SHOWS AT TOP OF SCROLLABLE AREA */}
+          {formError ? (
+            <div className="formError" role="alert">
+              {formError}
+            </div>
+          ) : null}
+
+          {/*FORM CONTENT */}
           <div className="shiftGrid3">
             <div className="sfField">
               <label>Employee *</label>
@@ -2854,25 +2910,26 @@ function ShiftDialog({
               <div>Min hours between shifts: {minRest}h</div>
             </div>
           </div>
+        </div>
 
-          <div className="shiftFooter">
-            {initialEvent?.Id ? (
-              <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
-                <span className="e-icons e-trash" style={{ marginRight: 6 }} />
-                Delete
-              </ButtonComponent>
-            ) : (
-              <div />
-            )}
-
-            <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
-              {initialEvent ? "Update Shift" : "Create Shift"}
+        {/* Footer is outside scrollable area */}
+        <div className="shiftFooter">
+          {initialEvent?.Id ? (
+            <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
+              <span className="e-icons e-trash" style={{ marginRight: 6 }} />
+              Delete
             </ButtonComponent>
+          ) : (
+            <div />
+          )}
 
-            <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
-              Cancel
-            </ButtonComponent>
-          </div>
+          <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
+            {initialEvent ? "Update Shift" : "Create Shift"}
+          </ButtonComponent>
+
+          <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
+            Cancel
+          </ButtonComponent>
         </div>
       </>
     )}
