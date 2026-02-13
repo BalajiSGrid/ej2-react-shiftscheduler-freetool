@@ -1795,7 +1795,7 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
-        height="min(88vh, 620px)"
+       // height="min(88vh, 620px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
