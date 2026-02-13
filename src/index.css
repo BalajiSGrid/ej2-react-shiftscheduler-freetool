@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   height:65px !important;
+  margin-top: 7px;
  }
 
 /* .formError{
@@ -19,6 +20,9 @@
   font-size: 12px;
   color: #6b7280;
   font-weight: 600;
+}
+.summery-dialog{
+  margin: 0px 100px;
 }
 
 /* 
@@ -326,9 +330,9 @@ div.summaryCost{
 .manage-locations-btn :hover, .manage-locations-btn.e-btn:hover,
 .manage-locations-btn :focus, .manage-locations-btn.e-btn:focus {
     box-shadow: none;
-    background:none !important;
+    background:white !important;
     border-color: none !important;
-    color:#374151 !important;
+    color:rgb(79, 70, 229) !important;
 }
 
 /* Manage locations button  */
@@ -445,7 +449,14 @@ div.summaryCost{
 .custom-roles-dropdown .e-list-item:last-child {
   margin-bottom: 0;
 }
-
+.trail-button{
+  border: transparent !important; 
+    border-radius: 8px !important;
+    height: 35px;
+}
+.trail-button:hover{
+  filter: brightness(0.95);
+}
 
 .empModal {
   padding: 0;
@@ -528,7 +539,7 @@ div.summaryCost{
 /* List */
 .empList {
   padding: 0 18px 18px;
-  max-height: 52vh;
+  height: 400px;
   overflow: auto;
 }
 
@@ -752,7 +763,7 @@ position: static !important;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 40px;
+  padding: 20px 10px;
 }
 
 .mrDesc {
@@ -809,8 +820,8 @@ position: static !important;
 .mrListView .e-list-item, .mlListView .e-list-item {
   padding: 0 !important;
   border: none !important;
-  height:80px !important;
-   overflow: visible !important;
+  height:60px !important;
+  overflow: visible !important;
 }
 
 .mrField {
@@ -1193,11 +1204,9 @@ position: static !important;
 .mlDialog .e-dlg-content,
 .mrDialog .e-dlg-content, #employeeDialog_dialog-content,
 #shiftdialog_dialog-content {
-
   overflow: hidden !important;
   padding: 0 !important; 
 }
-
 
 /*  Make body use full height and layout sections */
 .mlBody,
@@ -1390,7 +1399,7 @@ position: static !important;
 .impDropZone {
 
   border-radius: 12px;
-  padding: 48px 18px;
+  padding: 4px 18px;
   text-align:center;
   background:#fff;
 }
@@ -1405,7 +1414,7 @@ position: static !important;
 }
 .impCloudIcon .e-icons { font-size: 22px; color:#9ca3af; }
 
-.impMainText { font-weight: 400; color:#111827; margin-top: 6px; }
+.impMainText { font-weight: 400; color:#111827; margin-top: 6px; margin-bottom: 6px; }
 .impSubText { font-size: 12px; color:#6b7280; margin-top: 4px; }
 
 
@@ -1584,14 +1593,25 @@ color:#fff !important;
   position: sticky;
   background: #ffffff;
   /* padding-top: 12px; */
-  border-top: 1px solid #e5e7eb;
   z-index: 2;
-  display: grid;
-  grid-template-columns: 160px 1fr 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
   align-items: center;
 }
-
+#roledialog .e-list-item {
+  margin-bottom: 20px;
+}
+.crt-btn{
+  width: 450px;
+}
+.can-btn{
+  width: 120px;
+}
+.del-btn{
+  width: 120px;
+}
 
 /* Export dialog: responsive grid/cards */
 .exportFormatGrid{
@@ -1694,4 +1714,40 @@ color:#fff !important;
 }
 @media (max-width: 640px){
  .poweredBy__text { gap: 4px; font-size: 12.5px; }
+}
+
+/* Help / Powered-by block */
+.help-pane-content {
+    display: flex;
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    align-items: center;
+    justify-content: center;
+    margin-left: 13px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.help-pane-content .help-text {
+    color: #ffffff;
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.syncfusion-logo {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: inline-block;
+    margin-right: 7px;
+    filter: brightness(0) invert(1);
+}
+
+.free-tools-sample-explore-btn {
+    text-decoration: none; 
+    color:#fff30f;
+    font-weight: 600;
+    font-size: 14px;
+}
+.free-tools-sample-explore-btn:hover {
+    text-decoration: none; 
+    color:#fff30f;
 }

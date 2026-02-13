@@ -1198,36 +1198,35 @@ const isLockedLocation = (name: unknown) =>
 
   // Format like screenshot: $28.00/hr
   const rateText = `$${Number(meta.rate ?? 0).toFixed(2)}/hr`;
+  const initialsText = initials(roleName);
 
   return (
-    <div className={`mrRoleRow ${isNew ? "mrRoleRowNew" : ""}`}>
-      <div className="mrRoleLeft">
-        <span className="mrRoleDot" style={{ backgroundColor: dotColor }} />
-
-        <div className="mrRoleText">
-          <div className="mrRoleName" title={roleName}>
-            {roleName}
-          </div>
-          <div className="mrRoleRate" title={rateText}>
-            {rateText}
-          </div>
+    <div className={`empRow ${isNew ? "mrRoleRowNew" : ""}`}>
+      <div className="empLeft">
+        <div className="empAvatar" style={{ background: dotColor }} title={roleName}>
+          {initialsText}
+        </div>
+        <div>
+          <div className="empName" title={roleName}>{roleName}</div>
+          <div className="empMeta">{rateText}</div>
         </div>
       </div>
 
       {/* Stop select when clicking icons */}
-      <div className="mrRoleActions" onClick={(e) => e.stopPropagation()}>
+      <div className="empActions" onClick={(e) => e.stopPropagation()}>
         <ButtonComponent
-          cssClass="e-flat e-icon-btn mrIconBtn"
-          iconCss="e-icons e-edit"
+          cssClass="e-flat empIconBtn"
           title="Edit"
           type="button"
           onClick={(ev: any) => {
             ev?.stopPropagation?.();
             startEditRole(roleName);
           }}
-        />
+        >
+          <span className="e-icons e-edit" />
+        </ButtonComponent>
         <ButtonComponent
-          cssClass="e-flat e-icon-btn mrIconBtn mrIconDanger"
+          cssClass="e-flat empIconBtn empSfDanger"
           iconCss="e-icons e-trash"
           title="Delete"
           type="button"
@@ -1542,7 +1541,7 @@ const isLockedLocation = (name: unknown) =>
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .stickyPromoBar{ background:rgb(238, 243, 246) ; border-bottom:1px solid #e6edf3;}
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
-        .shiftCard { padding:15px 15px; border-radius:10px; }
+        .shiftCard { padding: 3px 11px 11px 11px; border-radius:10px; }
         .shiftTime { font-weight:500; font-size:12px; color:#111827; }
         .shiftRole { font-size:12px; color:#374151; margin-top:4px; }
         .resourceHeader { padding:8px 10px; }
@@ -1631,24 +1630,22 @@ const isLockedLocation = (name: unknown) =>
           </div>
 
           <div className="rightBlock">
-           
-            
-        <a
-          className="poweredBy"
-          href="https://www.syncfusion.com/react-components/react-scheduler"
-          target="_blank"
-          rel="noreferrer"
-          title="Powered by Syncfusion Scheduler"
-        >
-          <span className="poweredBy__icon" aria-hidden="true">
-           
-          </span>
-          <span className="poweredBy__text">
-            <span className="poweredBy__label">Powered by</span>
-            <span className="poweredBy__link"> Syncfusion Scheduler </span>
-          </span>
-       </a>
-
+           <div className="help-pane-content">
+                <img
+                    className="syncfusion-logo"
+                    src="https://static.syncfusion.com/wp-content/free-tools/document-editor-online-app/online-docx-editor/icons/Syncfusion-Logo.svg"
+                    alt="Syncfusion"
+                />
+                <span className="help-text">Powered by&nbsp;</span>
+                <a
+                    className="free-tools-sample-explore-btn"
+                    href="https://www.syncfusion.com/react-components/react-scheduler"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Syncfusion Scheduler
+                </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1874,7 +1871,7 @@ const isLockedLocation = (name: unknown) =>
         id="employeeDialog"
         visible={showEmployeesDialog}
         width="min(92vw, 620px)"
-        height="min(88vh, 720px)"
+        height="550px"
         isModal={true}
         header="Manage Employees"
         showCloseIcon={true}
@@ -1906,7 +1903,6 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 620px)"
-        height="min(88vh, 550px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => {
@@ -1918,8 +1914,6 @@ const isLockedLocation = (name: unknown) =>
         }}
       >
         <div className="impWrap">
-          <div className="impHeader" />
-          <div className="impDivider" />
           <div className="impUploadBox">
             <div className="impDropZone">
               <div className="impCloudIcon">
@@ -1976,7 +1970,7 @@ const isLockedLocation = (name: unknown) =>
         visible={showRolesDialog}
         header="Manage Roles"
         width="min(92vw, 490px)"
-        height="min(88vh, 450px)"
+        // height="min(88vh, 450px)"
         showCloseIcon={true}
         animationSettings={{effect:"None"}}
         isModal={true}
@@ -2019,7 +2013,7 @@ const isLockedLocation = (name: unknown) =>
         header={editingShift ? "Edit Shift" : "Create Shift"}
         visible={showShiftDialog}
         width="min(92vw, 920px)" 
-        height="min(88vh, 800px)"
+        height="580px"
        // height="110vh"
         isModal={true}
         showCloseIcon={true}
@@ -2051,8 +2045,8 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         header={`Summary (${selectedLocation})`}
         visible={showSummaryDialog}
-        
-        height="min(88vh, 720px)"
+        className="summery-dialog"
+        // height="min(88vh, 720px)"
         animationSettings={{effect:"None"}}
         isModal={true}
         showCloseIcon={true}
@@ -2850,7 +2844,7 @@ function ShiftDialog({
 
           <div className="shiftFooter">
             {initialEvent?.Id ? (
-              <ButtonComponent cssClass="e-danger" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
+              <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
                 <span className="e-icons e-trash" style={{ marginRight: 6 }} />
                 Delete
               </ButtonComponent>
@@ -2858,11 +2852,11 @@ function ShiftDialog({
               <div />
             )}
 
-            <ButtonComponent cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
+            <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
               {initialEvent ? "Update Shift" : "Create Shift"}
             </ButtonComponent>
 
-            <ButtonComponent cssClass="e-cancel" type="button" onClick={onCancel}>
+            <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
               Cancel
             </ButtonComponent>
           </div>
@@ -2888,12 +2882,16 @@ function StickySchedulerFooterPromo(): JSX.Element {
         <div className="promoActions">
   <ButtonComponent
     cssClass="e-primary"
+    className="trail-button"
+    iconPosition="right"
+    iconCss="e-icons e-arrow-right"
     onClick={() => window.open("https://www.syncfusion.com/react-components/react-scheduler", "_blank", "noopener")}
   >
     Start Free Trial
   </ButtonComponent>
 
   <ButtonComponent
+  className="trail-button"
     cssClass="e-flat"
     onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
   >
