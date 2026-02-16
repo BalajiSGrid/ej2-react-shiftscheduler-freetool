@@ -2286,7 +2286,8 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
                   cssClass="e-flat empIconBtn empSfDanger"
                   iconCss="e-icons e-trash"
                   onClick={() => {
-                   // if (window.confirm("Delete employee and all their shifts?")) onDelete(e.Id);
+                   // if (window.confirm("Delete employee and all their shifts?")) 
+                   onDelete(e.Id);
                   }}
                   title="Delete"
                 >
@@ -2436,8 +2437,8 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
       <div className="empAddBody">
         <div className="empFieldBlock">
-          <label className="empLabel">Name *</label>
-          <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name" input={(e: any) => setName(e.value ?? "")} />
+          <label className="empLabel">Name</label>
+          <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name *" input={(e: any) => setName(e.value ?? "")} />
              {nameError ? <div className="mrError">{nameError}</div> : null}
         </div>
 

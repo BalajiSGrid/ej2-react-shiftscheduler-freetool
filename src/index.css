@@ -87,16 +87,20 @@
   align-items: center;
   }
 
-.shiftFormWrap{
+.shiftFormWrap {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex: 1 1 auto;
+  flex: 0 1 auto; /* Allow content to determine height */
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
+
+/* Hide scrollbar in Chrome/Edge/Safari */
+.shiftFormWrap::-webkit-scrollbar { display: none; }
 
 /* make Syncfusion controls take full width */
 .sfField .e-control-wrapper,
