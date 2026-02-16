@@ -1033,7 +1033,7 @@ function totalHoursWithinWindow(
   }
 
   function deleteShift(id: number) {
-    if (!window.confirm("Delete this shift?")) return;
+   // if (!window.confirm("Delete this shift?")) return;
     setAppointments((prev) => prev.filter((a) => a.Id !== id));
     setShowShiftDialog(false);
   }
@@ -2284,7 +2284,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
                   cssClass="e-flat empIconBtn empSfDanger"
                   iconCss="e-icons e-trash"
                   onClick={() => {
-                    if (window.confirm("Delete employee and all their shifts?")) onDelete(e.Id);
+                   // if (window.confirm("Delete employee and all their shifts?")) onDelete(e.Id);
                   }}
                   title="Delete"
                 >

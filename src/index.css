@@ -333,10 +333,16 @@ div.summaryCost{
   font-weight: 400;
  color: #fff;
   height:35px;
+   box-shadow: none;
+  
+    border-color: none !important;
+   
  
 }
 .manage-locations-btn :hover, .manage-locations-btn.e-btn:hover,
-.manage-locations-btn :focus, .manage-locations-btn.e-btn:focus {
+.manage-locations-btn :focus, .manage-locations-btn.e-btn:focus, 
+.options-btn.e-btn .e-active, .options-btn.e-btn:hover, 
+.custom-locations-dropdown:hover, .custom-locations-dropdown {
     box-shadow: none;
     background:white !important;
     border-color: none !important;
