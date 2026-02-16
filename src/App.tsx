@@ -1615,9 +1615,9 @@ const isLockedLocation = (name: unknown) =>
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .stickyPromoBar{ background:rgb(238, 243, 246) ; border-bottom:1px solid #e6edf3;}
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
-        .shiftCard { padding: 3px 11px 11px 11px; border-radius:10px; }
-        .shiftTime { font-weight:500; font-size:12px; color:#111827; }
-        .shiftRole { font-size:12px; color:#374151; margin-top:4px; }
+        .shiftCard { padding: 3px 11px 11px 11px; border-radius:10px;  text-overflow: ellipsis;}
+        .shiftTime { font-weight:500; font-size:12px; color:#111827; text-overflow: ellipsis; }
+        .shiftRole { font-size:12px; color:#374151; margin-top:4px; text-overflow: ellipsis; }
         .resourceHeader { padding:8px 10px; }
         .resourceName { font-weight:500; color:#111827; }
         .resourceRole { font-size:12px; color:#6b7280; margin-top:2px; }
@@ -1849,12 +1849,13 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
+        height="480px"
         //height="min(88vh, 620px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
       >
-        <div style={{ padding: 16 }}>
+        <div style={{ padding:16 }}>
           <div
             style={{
               border: "1px solid #f5d0a6",
@@ -1914,7 +1915,7 @@ const isLockedLocation = (name: unknown) =>
             </div>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 18, padding:30}}>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, }}>
             <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
               Cancel
             </ButtonComponent>
@@ -2017,7 +2018,7 @@ const isLockedLocation = (name: unknown) =>
 
         visible={showEmployeeForm}
         width="min(92vw, 620px)"
-        height="min(88vh, 580px)"
+       // height="min(88vh, 550px)"
         id="empform"
         animationSettings={{effect:"None"}}
         isModal={true}
@@ -2117,6 +2118,7 @@ const isLockedLocation = (name: unknown) =>
 
       {/* Summary dialog */}
       <DialogComponent
+        id="summaryDialog"
         header={`Summary (${selectedLocation})`}
         visible={showSummaryDialog}
         className="summery-dialog"
@@ -2154,7 +2156,7 @@ const isLockedLocation = (name: unknown) =>
         animationSettings={{effect:"None"}}
         showCloseIcon={true}
         width="min(92vw, 620px)"
-        height="min(88vh, 450px)"
+        height="min(88vh, 410px)"
         target={dialogTarget}
         beforeClose={() => setShowExportDialog(false)}
       >
@@ -2729,7 +2731,7 @@ function ShiftDialog({
           {/*FORM CONTENT */}
           <div className="shiftGrid3">
             <div className="sfField">
-              <label>Employee *</label>
+              <label>Employee</label>
               <DropDownListComponent
                 cssClass="e-outline"
                 dataSource={employeeData}
@@ -2783,7 +2785,7 @@ function ShiftDialog({
 
           <div className="shiftGrid3">
             <div className="sfField">
-              <label>Date *</label>
+              <label>Date</label>
               <DatePickerComponent
                 cssClass="e-outline"
                 value={date}
@@ -2794,7 +2796,7 @@ function ShiftDialog({
               />
             </div>
              <div className="sfField">
-              <label>Start Time *</label>
+              <label>Start Time</label>
               <div className="timeRow">
                 <TimePickerComponent
                   cssClass="e-outline"
@@ -2826,7 +2828,7 @@ function ShiftDialog({
             </div>
 
             <div className="sfField">
-              <label>End Time *</label>
+              <label>End Time </label>
               <div className="timeRow">
                 <TimePickerComponent
                   cssClass="e-outline"
@@ -2914,14 +2916,14 @@ function ShiftDialog({
 
         {/* Footer is outside scrollable area */}
         <div className="shiftFooter">
-          {initialEvent?.Id ? (
+          {/* {initialEvent?.Id ? (
             <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
               <span className="e-icons e-trash" style={{ marginRight: 6 }} />
               Delete
             </ButtonComponent>
           ) : (
             <div />
-          )}
+          )} */}
 
           <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
             {initialEvent ? "Update Shift" : "Create Shift"}
