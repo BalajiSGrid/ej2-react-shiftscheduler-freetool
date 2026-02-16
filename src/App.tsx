@@ -12,6 +12,8 @@ import {
   ICalendarExport,
   ICalendarImport,
   ExcelExport,
+  ExportOptions,
+  ExportFieldInfo,
 } from "@syncfusion/ej2-react-schedule";
 import {
   GridComponent,
@@ -37,7 +39,7 @@ import { CheckBoxComponent } from "@syncfusion/ej2-react-buttons";
 import "./index.css";
 import { compile } from "@syncfusion/ej2-base";
 
-enableRipple(true);
+// enableRipple(true);
 
 // keep storage but do NOT auto-seed defaults
 const STORAGE_KEY = "Shift-empty-first";
@@ -161,7 +163,6 @@ const defaultRoles: RoleName[] = [
   "Tech Lead",
   "Engineering Manager",
 ];
-
 const defaultLocations: LocationName[] = ["All Locations", "Main Location", "Branch A"];
 
 const defaultEmployees: Employee[] = [
@@ -549,8 +550,23 @@ function netHoursWithinWindow(
   return Math.max(0, overlapH - breakInOverlap);
 }
 
+// For daily validation: total hours including break time
+function totalHoursWithinWindow(
+  evStart: Date,
+  evEnd: Date,
+  winStart: Date,
+  winEnd: Date
+): number {
+  const s = evStart < winStart ? winStart : evStart;
+  const e = evEnd > winEnd ? winEnd : evEnd;
+  if (e <= s) return 0;
+  const msH = 1000 * 60 * 60;
+  return (e.getTime() - s.getTime()) / msH;
+}
+
  
   function validateCandidate(rec: Appointment, existingAppointments: Appointment[]): string | null {
+    debugger
   const start = new Date(rec.StartTime);
   const end = new Date(rec.EndTime);
   const empId = rec.EmployeeId;
@@ -574,50 +590,89 @@ function netHoursWithinWindow(
 
  
   const maxWeek = safeNum(emp.MaxHoursWeek, 0);
-// daily (validate each calendar day spanned by the candidate shift)
-const maxDay = safeNum(emp.MaxHoursDay, 0);
-if (maxDay > 0) {
-  // iterate from start-day to end-day inclusive
-  let cursor = dayStartOf(start);
-  const lastDay = dayStartOf(end);
-
-  while (cursor <= lastDay) {
-    const dStart = new Date(cursor);
-    const dEnd = new Date(dStart);
-    dEnd.setDate(dStart.getDate() + 1);
-
-    // existing events that touch this day
-    const eventsThisDay = existingAppointments.filter(
-      (a) =>
-        a.EmployeeId === empId &&
-        new Date(a.StartTime) < dEnd &&
-        new Date(a.EndTime) > dStart &&
-        a.Id !== rec.Id
-    );
-
-    let totalDayH = 0;
-
-    for (const a of eventsThisDay) {
-      totalDayH += netHoursWithinWindow(
-        new Date(a.StartTime),
-        new Date(a.EndTime),
-        safeNum(a.BreakDuration, 0),
-        dStart,
-        dEnd
-      );
-    }
-
-    // add the candidate shift portion that lies in this day window
-    totalDayH += netHoursWithinWindow(start, end, breakMins, dStart, dEnd);
-
-    if (totalDayH > maxDay + 1e-6) {
-      return `Daily hours exceed ${maxDay} for ${emp.Name} on ${dStart.toDateString()}`;
-    }
-
-    cursor.setDate(cursor.getDate() + 1);
   
+  // daily (validate each calendar day spanned by the candidate shift)
+  // Max hours per day INCLUDES break time
+  const maxDay = 8;
+  
+  console.log('DEBUG: Daily Validation Start', {
+    empName: emp.Name,
+    maxDay,
+    startTime: start.toISOString(),
+    endTime: end.toISOString()
+  });
+  
+  if (maxDay > 0) {
+    // Get the date range the shift spans
+    const startDay = dayStartOf(start);
+    const endDay = dayStartOf(end);
+    
+    // Check if shift crosses midnight
+    const sameDay = startDay.getTime() === endDay.getTime();
+    
+    console.log('DEBUG: Day comparison', {
+      startDay: startDay.toISOString(),
+      endDay: endDay.toISOString(),
+      sameDay
+    });
+    
+    // If same day, check that day only
+    // If different days, check both days
+    const daysToCheck = sameDay ? [startDay] : [startDay, endDay];
+    
+    for (const dayToCheck of daysToCheck) {
+      const dStart = new Date(dayToCheck);
+      const dEnd = new Date(dStart);
+      dEnd.setDate(dStart.getDate() + 1);
+
+      // existing events that touch this day
+      const eventsThisDay = existingAppointments.filter(
+        (a) =>
+          a.EmployeeId === empId &&
+          new Date(a.StartTime) < dEnd &&
+          new Date(a.EndTime) > dStart &&
+          a.Id !== rec.Id
+      );
+
+      console.log('DEBUG: Events this day', {
+        dayWindow: `${dStart.toISOString()} to ${dEnd.toISOString()}`,
+        eventsCount: eventsThisDay.length,
+        events: eventsThisDay.map(a => ({
+          start: new Date(a.StartTime).toISOString(),
+          end: new Date(a.EndTime).toISOString()
+        }))
+      });
+
+      let totalDayH = 0;
+
+      // Calculate total hours INCLUDING breaks for existing shifts
+      for (const a of eventsThisDay) {
+        const hours = totalHoursWithinWindow(
+          new Date(a.StartTime),
+          new Date(a.EndTime),
+          dStart,
+          dEnd
+        );
+        console.log('DEBUG: Existing shift hours', { hours });
+        totalDayH += hours;
+      }
+
+      // add the candidate shift portion INCLUDING break time
+      const candidateHours = totalHoursWithinWindow(start, end, dStart, dEnd);
+      console.log('DEBUG: Candidate shift hours', { candidateHours });
+      totalDayH += candidateHours;
+
+      console.log('DEBUG: Total day hours check', {
+        totalDayH,
+        maxDay,
+        exceeds: totalDayH > maxDay
+      });
+
+      if (totalDayH > maxDay + 1e-6) {
+        return `Daily hours exceed ${maxDay}h for ${emp.Name} on ${dStart.toLocaleDateString()}`;
+      }
+    }
   }
-}
 
   
   const ws = startOfWeek(start);
@@ -812,7 +867,20 @@ if (maxDay > 0) {
 
 
   function exportExcel() {
-    scheduleRef.current?.exportToExcel?.();
+
+       const exportFields: ExportFieldInfo[] = [
+            { name: 'EmployeeId', text: 'Employee Id' },
+           // { name: 'Name', text: 'Name' },
+            { name: 'StartTime', text: 'Start Date' },
+            { name: 'EndTime', text: 'End Date' },
+            { name: 'BreakDuration', text: 'Break Duration' },
+            { name: 'Location', text: 'Location' },
+            { name: 'Role', text: 'Role' }
+
+        ];
+        const exportValues: ExportOptions = { fieldsInfo: exportFields };
+        
+    scheduleRef.current?.exportToExcel?.(exportValues);
   }
 
   function printSchedule() {
@@ -965,7 +1033,7 @@ if (maxDay > 0) {
   }
 
   function deleteShift(id: number) {
-    if (!window.confirm("Delete this shift?")) return;
+   // if (!window.confirm("Delete this shift?")) return;
     setAppointments((prev) => prev.filter((a) => a.Id !== id));
     setShowShiftDialog(false);
   }
@@ -1191,6 +1259,7 @@ const isLockedLocation = (name: unknown) =>
 
  
   const roleItemTemplate = (data: any) => {
+    
   const roleName = data?.text ?? "";
   const meta = roleMeta?.[roleName] ?? { rate: 15, color: "#10b981" };
   const dotColor = meta.color ?? "#10b981";
@@ -1198,36 +1267,37 @@ const isLockedLocation = (name: unknown) =>
 
   // Format like screenshot: $28.00/hr
   const rateText = `$${Number(meta.rate ?? 0).toFixed(2)}/hr`;
+  const initialsText = initials(roleName);
+
+
 
   return (
-    <div className={`mrRoleRow ${isNew ? "mrRoleRowNew" : ""}`}>
-      <div className="mrRoleLeft">
-        <span className="mrRoleDot" style={{ backgroundColor: dotColor }} />
-
-        <div className="mrRoleText">
-          <div className="mrRoleName" title={roleName}>
-            {roleName}
-          </div>
-          <div className="mrRoleRate" title={rateText}>
-            {rateText}
-          </div>
+    <div className={`empRow ${isNew ? "mrRoleRowNew" : ""}`}>
+      <div className="empLeft">
+        <div className="empAvatar" style={{ background: dotColor }} title={roleName}>
+          {initialsText}
+        </div>
+        <div>
+          <div className="empName" title={roleName}>{roleName}</div>
+          <div className="empMeta">{rateText}</div>
         </div>
       </div>
 
       {/* Stop select when clicking icons */}
-      <div className="mrRoleActions" onClick={(e) => e.stopPropagation()}>
+      <div className="empActions" onClick={(e) => e.stopPropagation()}>
         <ButtonComponent
-          cssClass="e-flat e-icon-btn mrIconBtn"
-          iconCss="e-icons e-edit"
+          cssClass="e-flat empIconBtn"
           title="Edit"
           type="button"
           onClick={(ev: any) => {
             ev?.stopPropagation?.();
             startEditRole(roleName);
           }}
-        />
+        >
+          <span className="e-icons e-edit" />
+        </ButtonComponent>
         <ButtonComponent
-          cssClass="e-flat e-icon-btn mrIconBtn mrIconDanger"
+          cssClass="e-flat empIconBtn empSfDanger"
           iconCss="e-icons e-trash"
           title="Delete"
           type="button"
@@ -1360,15 +1430,18 @@ const isLockedLocation = (name: unknown) =>
   const meta = locationMeta?.[name] ?? { address: "", color: "#10b981" };
   const dotColor = meta.color ?? "#10b981";
   const isNew = lastAddedLocation && name === lastAddedLocation;
+  const location_name =initials(name);
 
   return (
-    <div className={`locRow ${isNew ? "locRowNew" : ""}`}>
-      <div className="locLeft">
-        <span className="locDot" style={{ backgroundColor: dotColor }} />
-        <div className="locText">
-          <div className="locName" title={name}>{name}</div>
+    <div className={`empRow ${isNew ? "locRowNew" : ""}`}>
+      <div className="empLeft">
+        <div className="empAvatar" style={{ backgroundColor: dotColor }} title={name} >
+               {location_name}
+          </div>
+        <div >
+          <div className="empName" title={name}>{name}</div>
           {meta.address ? (
-            <div className="locAddress" title={meta.address}>
+            <div className="empMeta" title={meta.address}>
               {meta.address}
             </div>
           ) : null}
@@ -1377,10 +1450,10 @@ const isLockedLocation = (name: unknown) =>
         {locked ? <span className="locPill">Default</span> : null}
       </div>
 
-    <div className="locActions" onClick={(e) => e.stopPropagation()}>
+    <div className="empActions" onClick={(e) => e.stopPropagation()}>
   <ButtonComponent
-    //cssClass="locSfIcon e-flat e-icon-btn"
-    cssClass={`locSfIcon e-flat e-icon-btn ${locked ? "locIconLocked" : ""}`}
+    
+    cssClass={`e-flat empIconBtn ${locked ? "locIconLocked" : ""}`}
     iconCss="e-icons e-edit"
     disabled={locked}
     title={locked ? "Default location cannot be edited" : "Edit"}
@@ -1390,8 +1463,8 @@ const isLockedLocation = (name: unknown) =>
     }}
   />
   <ButtonComponent
-    cssClass={`locSfIcon locSfDanger e-flat e-icon-btn ${locked ? "locIconLocked" : ""}`}
-    //cssClass="locSfIcon locSfDanger e-flat e-icon-btn"
+    cssClass={` e-flat empSfDanger e-btn ${locked ? "locIconLocked" : ""}`}
+   
     iconCss="e-icons e-trash"
     disabled={locked}
     title={locked ? "Default location cannot be deleted" : "Delete"}
@@ -1542,7 +1615,7 @@ const isLockedLocation = (name: unknown) =>
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .stickyPromoBar{ background:rgb(238, 243, 246) ; border-bottom:1px solid #e6edf3;}
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
-        .shiftCard { padding:15px 15px; border-radius:10px; }
+        .shiftCard { padding: 3px 11px 11px 11px; border-radius:10px; }
         .shiftTime { font-weight:500; font-size:12px; color:#111827; }
         .shiftRole { font-size:12px; color:#374151; margin-top:4px; }
         .resourceHeader { padding:8px 10px; }
@@ -1631,24 +1704,22 @@ const isLockedLocation = (name: unknown) =>
           </div>
 
           <div className="rightBlock">
-           
-            
-        <a
-          className="poweredBy"
-          href="https://www.syncfusion.com/react-components/react-scheduler"
-          target="_blank"
-          rel="noreferrer"
-          title="Powered by Syncfusion Scheduler"
-        >
-          <span className="poweredBy__icon" aria-hidden="true">
-           
-          </span>
-          <span className="poweredBy__text">
-            <span className="poweredBy__label">Powered by</span>
-            <span className="poweredBy__link"> Syncfusion Scheduler </span>
-          </span>
-       </a>
-
+           <div className="help-pane-content">
+                <img
+                    className="syncfusion-logo"
+                    src="https://static.syncfusion.com/wp-content/free-tools/document-editor-online-app/online-docx-editor/icons/Syncfusion-Logo.svg"
+                    alt="Syncfusion"
+                />
+                <span className="help-text">Powered by&nbsp;</span>
+                <a
+                    className="free-tools-sample-explore-btn"
+                    href="https://www.syncfusion.com/react-components/react-scheduler"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Syncfusion Scheduler
+                </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1778,7 +1849,7 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
-        height="min(88vh, 620px)"
+        //height="min(88vh, 620px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
@@ -1874,7 +1945,7 @@ const isLockedLocation = (name: unknown) =>
         id="employeeDialog"
         visible={showEmployeesDialog}
         width="min(92vw, 620px)"
-        height="min(88vh, 720px)"
+        height="550px"
         isModal={true}
         header="Manage Employees"
         showCloseIcon={true}
@@ -1906,7 +1977,6 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 620px)"
-        height="min(88vh, 550px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => {
@@ -1918,8 +1988,6 @@ const isLockedLocation = (name: unknown) =>
         }}
       >
         <div className="impWrap">
-          <div className="impHeader" />
-          <div className="impDivider" />
           <div className="impUploadBox">
             <div className="impDropZone">
               <div className="impCloudIcon">
@@ -1977,6 +2045,7 @@ const isLockedLocation = (name: unknown) =>
         header="Manage Roles"
         width="min(92vw, 490px)"
         height="min(88vh, 450px)"
+        // height removed per user request
         showCloseIcon={true}
         animationSettings={{effect:"None"}}
         isModal={true}
@@ -2019,8 +2088,7 @@ const isLockedLocation = (name: unknown) =>
         header={editingShift ? "Edit Shift" : "Create Shift"}
         visible={showShiftDialog}
         width="min(92vw, 920px)" 
-        height="min(88vh, 800px)"
-       // height="110vh"
+        height="min(90vh, 600px)"
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
@@ -2051,8 +2119,8 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         header={`Summary (${selectedLocation})`}
         visible={showSummaryDialog}
-        
-        height="min(88vh, 720px)"
+        className="summery-dialog"
+        // height="min(88vh, 720px)"
         animationSettings={{effect:"None"}}
         isModal={true}
         showCloseIcon={true}
@@ -2100,7 +2168,7 @@ const isLockedLocation = (name: unknown) =>
               onClick={() => setExportFormat("csv")}
             >
               <span className="e-icons e-export exportCardIcon" />
-              <div className="exportCardLabel">CSV (Excel)</div>
+              <div className="exportCardLabel">Excel</div>
             </ButtonComponent>
 
             <ButtonComponent
@@ -2130,7 +2198,7 @@ const isLockedLocation = (name: unknown) =>
             </ButtonComponent>
             <ButtonComponent cssClass="e-primary" type="button" onClick={handleExportFromDialog}>
               <span className="e-icons e-download" style={{ marginRight: 8 }} />
-              {exportFormat === "csv" ? "Export CSV" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
+              {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
             </ButtonComponent>
           </div>
         </div>
@@ -2160,13 +2228,6 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
 
   return (
     <div className="empModal">
-      {/* <div className="empModalHeader">
-        <div className="empModalTitle">Manage Employees</div>
-        <ButtonComponent className="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" iconCss="e-icons e-close" type="button" onClick={onClose} >
-          
-        </ButtonComponent>
-      </div> */}
-
       <div className="empModalDivider" />
 
       <div className="empTopRow">
@@ -2223,7 +2284,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
                   cssClass="e-flat empIconBtn empSfDanger"
                   iconCss="e-icons e-trash"
                   onClick={() => {
-                    if (window.confirm("Delete employee and all their shifts?")) onDelete(e.Id);
+                   // if (window.confirm("Delete employee and all their shifts?")) onDelete(e.Id);
                   }}
                   title="Delete"
                 >
@@ -2246,6 +2307,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
   const [name, setName] = useState<string>(initial?.Name ?? "");
   const [hourly, setHourly] = useState<number>(initial?.HourlyRate ?? 15);
   const [maxWeek, setMaxWeek] = useState<number>(initial?.MaxHoursWeek ?? 40);
+  const [maxDay, setMaxDay] = useState<number>(initial?.MaxHoursDay ?? 8);
   const [minRest, setMinRest] = useState<number>(initial?.MinHoursBetweenShifts ?? 8);
 
   const [assignedRoles, setAssignedRoles] = useState<string[]>(
@@ -2268,6 +2330,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
   setName(initial?.Name ?? "");
   setHourly(initial?.HourlyRate ?? 15);
   setMaxWeek(initial?.MaxHoursWeek ?? 40);
+  setMaxDay(initial?.MaxHoursDay ?? 8);
   setMinRest(initial?.MinHoursBetweenShifts ?? 8);
   setColor(initial?.Color ?? DEFAULT_COLOR);
 
@@ -2655,15 +2718,15 @@ function ShiftDialog({
       </div>
     ) : (
       <>
-        {/*ERROR SHOWS INSIDE DIALOG */}
-        {formError ? (
-          <div className="formError" role="alert">
-            {formError}
-          </div>
-        ) : null}
-
-        {/*FORM STILL RENDERS ALWAYS */}
         <div className="shiftFormWrap">
+          {/*ERROR SHOWS AT TOP OF SCROLLABLE AREA */}
+          {formError ? (
+            <div className="formError" role="alert">
+              {formError}
+            </div>
+          ) : null}
+
+          {/*FORM CONTENT */}
           <div className="shiftGrid3">
             <div className="sfField">
               <label>Employee *</label>
@@ -2847,25 +2910,26 @@ function ShiftDialog({
               <div>Min hours between shifts: {minRest}h</div>
             </div>
           </div>
+        </div>
 
-          <div className="shiftFooter">
-            {initialEvent?.Id ? (
-              <ButtonComponent cssClass="e-danger" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
-                <span className="e-icons e-trash" style={{ marginRight: 6 }} />
-                Delete
-              </ButtonComponent>
-            ) : (
-              <div />
-            )}
-
-            <ButtonComponent cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
-              {initialEvent ? "Update Shift" : "Create Shift"}
+        {/* Footer is outside scrollable area */}
+        <div className="shiftFooter">
+          {initialEvent?.Id ? (
+            <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
+              <span className="e-icons e-trash" style={{ marginRight: 6 }} />
+              Delete
             </ButtonComponent>
+          ) : (
+            <div />
+          )}
 
-            <ButtonComponent cssClass="e-cancel" type="button" onClick={onCancel}>
-              Cancel
-            </ButtonComponent>
-          </div>
+          <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
+            {initialEvent ? "Update Shift" : "Create Shift"}
+          </ButtonComponent>
+
+          <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
+            Cancel
+          </ButtonComponent>
         </div>
       </>
     )}
@@ -2888,12 +2952,16 @@ function StickySchedulerFooterPromo(): JSX.Element {
         <div className="promoActions">
   <ButtonComponent
     cssClass="e-primary"
+    className="trail-button"
+    iconPosition="right"
+    iconCss="e-icons e-arrow-right"
     onClick={() => window.open("https://www.syncfusion.com/react-components/react-scheduler", "_blank", "noopener")}
   >
     Start Free Trial
   </ButtonComponent>
 
   <ButtonComponent
+  className="trail-button"
     cssClass="e-flat"
     onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
   >
