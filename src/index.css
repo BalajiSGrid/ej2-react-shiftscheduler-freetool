@@ -1,9 +1,41 @@
 .e-schedule .e-appointment, .e-appointment-details {
   display: flex;
-  align-items: center;
+  align-items: center !important;
   height:65px !important;
   margin-top: 7px;
+  text-overflow: ellipsis;
+ 
  }
+
+/* Timeline Day/Week: comfortable height */
+/* .e-schedule .e-timeline-view .e-appointment,
+.e-schedule .e-timeline-view .e-appointment .e-appointment-details {
+  min-height: 48px;
+  height: auto !important;
+  margin-top: 6px;
+} */
+
+/* Timeline Month: compact height so cards fit properly */
+/* .e-schedule .e-timeline-month-view .e-appointment,
+.e-schedule .e-timeline-month-view .e-appointment .e-appointment-details {
+  min-height: 26px;
+  height: auto !important;
+ 
+  margin-top: 4px;
+} */
+
+/* Make month view card content more compact */
+/* .e-schedule .e-timeline-month-view .shiftCard { padding: 2px 2px; }
+.e-schedule .e-timeline-month-view .shiftTime,
+.e-schedule .e-timeline-month-view .shiftRole { font-size: 10px; } */
+ /* .e-schedule .e-timeline-view .e-appointment .e-appointment-details, 
+ .e-schedule .e-timeline-month-view .e-appointment .e-appointment-details {
+   display: flex;
+  align-items: center;
+  height:65px !important;
+  width:200px !important;
+  margin-top: 7px;
+ } */
 
 .formError{
   padding: 12px 14px;
@@ -55,16 +87,20 @@
   align-items: center;
   }
 
-.shiftFormWrap{
+.shiftFormWrap {
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  flex: 1 1 auto;
+  flex: 0 1 auto; /* Allow content to determine height */
   overflow-y: auto;
   overflow-x: hidden;
   min-height: 0;
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
 }
+
+/* Hide scrollbar in Chrome/Edge/Safari */
+.shiftFormWrap::-webkit-scrollbar { display: none; }
 
 /* make Syncfusion controls take full width */
 .sfField .e-control-wrapper,
@@ -343,10 +379,28 @@ div.summaryCost{
 .manage-locations-btn :focus, .manage-locations-btn.e-btn:focus, 
 .options-btn.e-btn .e-active, .options-btn.e-btn:hover, 
 .custom-locations-dropdown:hover, .custom-locations-dropdown {
+  box-shadow: none;
+  border-color: none !important;
+  background: white !important;
+  color: rgb(79, 70, 229) !important;
+}
+
+/* Space between Options button and its dropdown popup */
+.e-dropdown-popup.options-btn {
+  margin-top: 10px !important; /* vertical gap */
+}
+
+/* Caret icon styling for dropdown */
+.e-ddl.e-input-group .e-input-group-icon {
     box-shadow: none;
-    background:white !important;
-    border-color: none !important;
-    color:rgb(79, 70, 229) !important;
+    color: #fff !important;
+    background: transparent !important;
+}
+
+.e-ddl.e-input-group:hover .e-input-group-icon,
+.e-ddl.e-input-group.e-control-wrapper:hover .e-input-group-icon {
+    color: rgb(79, 70, 229) !important;
+    background: white !important;
 }
 
 /* Manage locations button  */
@@ -607,32 +661,27 @@ div.summaryCost{
   max-height: calc(100vh - 120px);
   overflow: hidden;
 }
-.empAddForm{
-  
-display: flex;
+.empAddForm {
+  display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
-
   background: #fff;
-  height:455px;
-  overflow: hidden;
+  height: 455px;
+  overflow: hidden; /* prevent outer scroll */
 }
 
 /* header */
 .empAddHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* padding: 10px;
-    margin-top: 20px; */
-    top: 0 !important;
-    position: sticky !important;
-    z-index: 2;
-    background: #fff;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 0 !important;
+  position: sticky !important;
+  z-index: 2;
+  background: #fff;
+  flex-shrink: 0; /* prevent header from shrinking */
 }
-
 
 .empAddDivider {
   height: 1px;
@@ -649,14 +698,13 @@ display: flex;
   font-size: 13px;
 }
 
-/* body */
+/* body - only this section scrolls */
 .empAddBody {
   padding: 14px 16px 10px;
- overflow-y: auto;  
-  
-flex: 1 1 auto;
-  min-height: 0; 
-
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .empFieldBlock {
@@ -680,7 +728,7 @@ flex: 1 1 auto;
 }
 
 .empHint {
-  margin-top: 6px;
+  margin-top: 5px;
   font-size: 12px;
   color: #6b7280;
 }
@@ -728,9 +776,12 @@ flex: 1 1 auto;
   background: #10b981;
   margin-left: 10px;
 }
-#empform_dialog-content{
-  padding:0px !important;
-
+#empform_dialog-content {
+  padding: 0px !important;
+  overflow: hidden !important; /* Prevent dialog content from scrolling */
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
 }
 /* footer */
 .empAddFooter {
@@ -1037,7 +1088,8 @@ position: static !important;
 /* header */
 #locationdialog_dialog-header, #roledialog_dialog-header, 
 #employeeDialog_dialog-header, #empform_dialog-header, 
-#shiftdialog_dialog-header {
+#shiftdialog_dialog-header ,#Exportdialog_dialog-header,
+#summarydialog_dialog-header{
   padding:16px;
 }
 
@@ -1598,16 +1650,35 @@ position: static !important;
 /* Make top bar controls wrap nicely */
 .topInner{ flex-wrap: wrap; }
 .rightBlock{ flex: 1 1 auto; display:flex; justify-content:flex-end; }
-.custom-locations-dropdown.e-input-group-icon,#location.e-input[readonly]~span.e-input-group-icon.e-ddl-icon{
-  background:none !important;
-color:#fff !important;
+
+/* Location dropdown */
+.custom-locations-dropdown { 
+  width: clamp(160px, 22vw, 260px);
+  border: none !important;
+  background: transparent !important;
+  color: #fff !important;
 }
 
-/* Location dropdown responsive sizing */
-.custom-locations-dropdown{ width: clamp(160px, 22vw, 260px);
-border:none !important ;
-background:none !important;
-color:#fff !important;
+/* Dropdown input text color */
+.custom-locations-dropdown.e-input-group input {
+  color: #fff !important;
+  background: transparent !important;
+}
+
+/* Dropdown wrapper hover state - background white */
+.custom-locations-dropdown.e-input-group:hover {
+  background: white !important;
+}
+
+/* Dropdown text on hover */
+.custom-locations-dropdown.e-input-group:hover input {
+  color: rgb(79, 70, 229) !important;
+  background: white !important;
+}
+
+/* Dropdown caret icon on hover */
+.custom-locations-dropdown.e-input-group:hover .e-input-group-icon {
+  color: rgb(79, 70, 229) !important;
 }
 @media (max-width: 600px){
   .custom-locations-dropdown{ width: 100%; min-width: 0; }
@@ -1661,16 +1732,17 @@ color:#fff !important;
   z-index: 10;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 10px;
   border-top: 1px solid #e5e7eb;
   flex-shrink: 0;
+
 }
 #roledialog .e-list-item, #locationdialog .e-list-item {
   margin-bottom: 20px;
 }
 .crt-btn{
-  width: 450px;
+  width: 150px;
 }
 .can-btn{
   width: 120px;
