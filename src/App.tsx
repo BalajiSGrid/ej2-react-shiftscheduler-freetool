@@ -2468,7 +2468,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
           <div className="empRoleBox">
             {roleOptions.length === 0 ? (
-              <div className="empHint">No roles available</div>
+              <div className="">No roles available</div>
             ) : (
               roleOptions.map((r) => (
                 <div key={r} className="empRoleItem">
