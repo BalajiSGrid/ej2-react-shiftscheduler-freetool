@@ -1915,10 +1915,6 @@ const isLockedLocation = (name: unknown) =>
           </div>
 
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, }}>
-            <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
-              Cancel
-            </ButtonComponent>
-
             <ButtonComponent
               cssClass={clearChoice === "everything" ? "cdBtnDanger" : "cdBtnWarn"}
               onClick={() => {
@@ -1935,6 +1931,9 @@ const isLockedLocation = (name: unknown) =>
                 style={{ marginRight: 8 }}
               />
               {clearChoice === "everything" ? "Clear Everything" : "Clear Shifts"}
+            </ButtonComponent>
+            <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
+              Cancel
             </ButtonComponent>
           </div>
         </div>
