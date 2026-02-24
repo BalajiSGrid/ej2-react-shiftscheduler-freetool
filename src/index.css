@@ -1639,7 +1639,6 @@ position: static !important;
   background: #ef4444 !important;
   border-color: #ef4444 !important;
   color: #fff !important;
-  border-radius: 10px !important;
   font-weight: 400 !important;
 }
 
@@ -1649,6 +1648,11 @@ position: static !important;
   color: #fff !important;
   border-radius: 10px !important;
   font-weight: 400 !important;
+}
+
+.cdBtnDanger:hover,
+.cdBtnWarn:hover {
+  background: #e70505 !important;
 }
 
 /* Make top bar controls wrap nicely */
