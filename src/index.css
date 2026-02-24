@@ -1,3 +1,7 @@
+:root {
+  --color-sf-primary: #046ae5;
+}
+
 .e-schedule .e-appointment, .e-appointment-details {
   display: flex;
   align-items: center !important;
@@ -128,7 +132,7 @@
 }
 .summaryIcon{
   font-size: 18px;
-  color:#2563eb;
+  color: var(--color-sf-primary);
 }
 div.summaryHours{
   font-weight: 500;
@@ -137,30 +141,29 @@ div.summaryHours{
 div.summaryCost{
   margin-top: 4px;
   font-weight: 500;
-  color:#2563eb;
+  color: var(--color-sf-primary);
 }
 .e-today {
   display:none !important;
 }
 
-.stickyPromoBar{
-    position: fixed;
-    left: 10px;
-    right: 10px;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    background:rgb(197, 203, 237);
-    align-items: center;
-    border: 1px solid #D8DEE9;
-    z-index: 100;
-    padding: 12px;
-    height: 40px;
+.stickyPromoBar {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  height: 64px;
+  background: var(--color-sf-primary);
+  color: #fff;
+  font-family: Open Sans;
 }
 
 /* keep it aligned with your app content width */
 .stickyPromoInner{
-  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -188,22 +191,23 @@ div.summaryCost{
 .promoText{
   flex: 1 1 420px;
   min-width: 260px;
+  font-family: Open Sans;
 }
 .promoLine1{
   /* font-weight: 500; */
-  color: #111827;
+  color: #fff;
   font-size: 16px;
 }
 .promoLine2{
   font-weight: 400;
-  color: #374151;
+  color: #fff;
   font-size: 14px;
   margin-top: 2px;
 }
 .promoStrong{
  
-  font-weight: 600;
-  font-size:15px;
+  font-weight: 400;
+  font-size: 16px;
 }
 
 /* buttons */
@@ -382,7 +386,7 @@ div.summaryCost{
   box-shadow: none;
   border-color: none !important;
   background: white !important;
-  color: rgb(79, 70, 229) !important;
+  color: var(--color-sf-primary) !important;
 }
 
 /* Space between Options button and its dropdown popup */
@@ -565,7 +569,7 @@ div.summaryCost{
   font-weight: 500;
 }
 .empCountIcon {
-  color: #0f03ea; /* green icon  */
+  color: var(--color-sf-primary);
   font-size: 18px;
 }
 
@@ -1635,7 +1639,6 @@ position: static !important;
   background: #ef4444 !important;
   border-color: #ef4444 !important;
   color: #fff !important;
-  border-radius: 10px !important;
   font-weight: 400 !important;
 }
 
@@ -1645,6 +1648,11 @@ position: static !important;
   color: #fff !important;
   border-radius: 10px !important;
   font-weight: 400 !important;
+}
+
+.cdBtnDanger:hover,
+.cdBtnWarn:hover {
+  background: #e70505 !important;
 }
 
 /* Make top bar controls wrap nicely */
@@ -1672,13 +1680,13 @@ position: static !important;
 
 /* Dropdown text on hover */
 .custom-locations-dropdown.e-input-group:hover input {
-  color: rgb(79, 70, 229) !important;
+  color: var(--color-sf-primary) !important;
   background: white !important;
 }
 
 /* Dropdown caret icon on hover */
 .custom-locations-dropdown.e-input-group:hover .e-input-group-icon {
-  color: rgb(79, 70, 229) !important;
+  color: var(--color-sf-primary) !important;
 }
 @media (max-width: 600px){
   .custom-locations-dropdown{ width: 100%; min-width: 0; }
@@ -1741,11 +1749,22 @@ position: static !important;
 #roledialog .e-list-item, #locationdialog .e-list-item {
   margin-bottom: 20px;
 }
-.crt-btn{
+.crt-btn.e-btn {
   width: 150px;
+  background: #0d6efd;
+  border-color: #0d6efd;
+  font-size: 15px;
+  font-weight: 400;
 }
-.can-btn{
+
+.crt-btn.e-btn:hover {
+  background: #0b5ed7;
+}
+
+.can-btn.e-btn {
   width: 120px;
+  font-size: 15px;
+  font-weight: 400;
 }
 .del-btn{
   width: 120px;
@@ -1888,4 +1907,66 @@ position: static !important;
 .free-tools-sample-explore-btn:hover {
     text-decoration: none; 
     color:#fff30f;
+}
+
+.e-schedule .e-timeline-view .e-date-header-wrap table td.e-current-day, 
+.e-schedule .e-timeline-month-view .e-date-header-wrap table td.e-current-day
+.e-schedule .e-schedule-toolbar .e-active-view .e-tbar-btn-text, 
+.e-schedule .e-schedule-toolbar .e-active-view .e-icons {
+  color:  var(--color-sf-primary);
+}
+
+.trail-button {
+  display: flex !important;
+  align-items: center !important;
+  background: #fff30f !important;
+  color: #0f172a !important;
+  border: transparent !important;
+  border-radius: 8px !important;
+  padding: 10px 16px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  height: 40px;
+  box-shadow: none;
+}
+
+.trail-button-demo {
+  display: flex;
+  align-items: center;
+  background-color: transparent !important;
+  border: transparent !important;
+  color: #fff !important;
+  border-radius: 6px;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .7px;
+  height: 40px;
+  box-shadow: none;
+  text-transform: none;
+  font-family: Open Sans;
+}
+
+.trail-button-demo:hover {
+  background: #ffffff21 !important;
+  border-color: #646cff !important;
+}
+
+.e-btn.add-location-btn,
+.e-btn.add-emp-btn,
+.e-btn.add-role-btn,
+.e-btn.e-export-btn {
+  background: var(--color-sf-primary) !important;
+  border-color: var(--color-sf-primary) !important;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.e-btn.add-location-btn:hover,
+.e-btn.add-emp-btn:hover,
+.e-btn.add-role-btn:hover,
+.e-btn.e-export-btn:hover {
+  background: #0b5ed7 !important;
+  border-color: #0b5ed7 !important;
 }

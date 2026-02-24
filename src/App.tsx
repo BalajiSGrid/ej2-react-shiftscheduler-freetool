@@ -1387,7 +1387,7 @@ const isLockedLocation = (name: unknown) =>
         <div className="mrDivider" />
         <div className="mrTopRow">
           <div className="mrDesc">Manage job positions and their default hourly rates.</div>
-          <ButtonComponent cssClass="e-primary" iconCss="e-icons e-plus" onClick={onAddRoleClick}>
+          <ButtonComponent cssClass="e-primary add-role-btn" iconCss="e-icons e-plus" onClick={onAddRoleClick}>
             Add Role
           </ButtonComponent>
         </div>
@@ -1564,7 +1564,7 @@ const isLockedLocation = (name: unknown) =>
 
         <div className="mlTopRow">
           <div className="mlDesc">Manage your business locations and their settings.</div>
-          <ButtonComponent cssClass="e-primary" iconCss="e-icons e-plus" type="button" onClick={onAddLocationClick}>
+          <ButtonComponent cssClass="e-primary add-location-btn" iconCss="e-icons e-plus" type="button" onClick={onAddLocationClick}>
             Add Location
           </ButtonComponent>
         </div>
@@ -1609,11 +1609,10 @@ const isLockedLocation = (name: unknown) =>
     <div className="appRoot">
       <style>{`
         .appRoot { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f7fafc; min-height:95vh; }
-        .topBar { position:relative; top:0; z-index:10; background:rgba(79, 70, 229);color:#fff; border-bottom:1px solid #e6edf3; }
+        .topBar { position:relative; top:0; z-index:10; background:#046ae5;color:#fff; border-bottom:1px solid #e6edf3; }
         .topInner { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; }
         .leftBlock { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
-        .stickyPromoBar{ background:rgb(238, 243, 246) ; border-bottom:1px solid #e6edf3;}
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
         .shiftCard { padding: 3px 11px 11px 11px; border-radius:10px;  text-overflow: ellipsis;}
         .shiftTime { font-weight:500; font-size:12px; color:#111827; text-overflow: ellipsis; }
@@ -1916,10 +1915,6 @@ const isLockedLocation = (name: unknown) =>
           </div>
 
           <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, }}>
-            <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
-              Cancel
-            </ButtonComponent>
-
             <ButtonComponent
               cssClass={clearChoice === "everything" ? "cdBtnDanger" : "cdBtnWarn"}
               onClick={() => {
@@ -1936,6 +1931,9 @@ const isLockedLocation = (name: unknown) =>
                 style={{ marginRight: 8 }}
               />
               {clearChoice === "everything" ? "Clear Everything" : "Clear Shifts"}
+            </ButtonComponent>
+            <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
+              Cancel
             </ButtonComponent>
           </div>
         </div>
@@ -2198,7 +2196,7 @@ const isLockedLocation = (name: unknown) =>
             <ButtonComponent cssClass="e-outline" type="button" onClick={() => setShowExportDialog(false)}>
               Cancel
             </ButtonComponent>
-            <ButtonComponent cssClass="e-primary" type="button" onClick={handleExportFromDialog}>
+            <ButtonComponent cssClass="e-primary e-export-btn" type="button" onClick={handleExportFromDialog}>
               <span className="e-icons e-download" style={{ marginRight: 8 }} />
               {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
             </ButtonComponent>
@@ -2237,7 +2235,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
           <span className="e-icons e-user empCountIcon" />
           <span>{total} employees</span>
         </div>
-        <ButtonComponent cssClass="e-primary" type="button" onClick={onAdd}>
+        <ButtonComponent cssClass="e-primary add-emp-btn" type="button" onClick={onAdd}>
           + Add Employee
         </ButtonComponent>
       </div>
@@ -2947,9 +2945,9 @@ function StickySchedulerFooterPromo(): JSX.Element {
       <div className="stickyPromoInner">
         <div className="promoText">
           <div className="promoLine1">Want shift scheduling in your app? <strong className="promoStrong">Try our Scheduler Component</strong> — plan shifts, manage resources, and export calendars!
-</div>
+          </div>
           <div className="promoLine2">
-                      </div>
+          </div>
         </div>
 
         <div className="promoActions">
@@ -2964,7 +2962,7 @@ function StickySchedulerFooterPromo(): JSX.Element {
   </ButtonComponent>
 
   <ButtonComponent
-  className="trail-button"
+  className="trail-button-demo"
     cssClass="e-flat"
     onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
   >

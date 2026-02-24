@@ -122,7 +122,6 @@
   background: var(--sf-danger-600) !important;
   border-color: var(--sf-danger-600) !important;
   color: #fff !important;
-  border-radius: 10px !important;
 }
 
 /* Icon-only buttons (hover chips) */
@@ -248,7 +247,6 @@
 /* =======================================================
    PROMO BAR / LINKS — blue primary
    ======================================================= */
-.stickyPromoBar { background: #eef2f6 !important; border-top: 1px solid #e6edf3 !important; }
 .promoBtnPrimary { background: var(--sf-primary-600) !important; color: #fff !important; }
 .promoBtnPrimary:hover { background: var(--sf-primary-700) !important; }
 .promoStrong { color: var(--sf-primary-700) !important; }
