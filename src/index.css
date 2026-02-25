@@ -141,7 +141,6 @@ div#e-split-btn_22_dropdownbtn-popup {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 14px;
   align-items: center;
   }
 
@@ -497,6 +496,27 @@ div.summaryCost{
 .options-btn.e-btn.e-flat:active, .options-btn.e-btn.e-flat.e-active {
   background:white !important;
   color: #046ae5 !important;
+}
+
+.custom-locations-dropdown.e-popup {
+  border: 2px solid #e5e7eb !important;
+  border-radius: 0.25rem !important;  
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),   
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),  
+    0 10px 15px -3px rgba(0, 0, 0, 0.1)
+    !important;
+    width: 130px !important;
+    height: auto !important;
+}
+.scheduledate .e-toolbar .e-toolbar-item .e-tbar-btn:focus {
+  background: #fff;
+}
+
+input.e-input::selection,
+.input-group input.e-input::selection, .e-input-group.e-control-wrapper input.e-input::selection {
+  background: rgba(0, 0, 0, 0) !important;
+  color: rgb(17, 24, 39) !important; 
 }
 
 .manage-locations-btn .e-btn-icon,
@@ -1119,6 +1139,7 @@ div.summaryCost{
   background: #e5e7eb;
   color: #374151;
   align-self: flex-start;
+  margin-top: 7px;
 }
 
 
@@ -2057,4 +2078,11 @@ div.summaryCost{
 .e-btn.add-employee:hover {
   background: #0b5ed7 !important;
   border-color: #0b5ed7 !important;
+}
+
+
+.scheduledate .e-calendar .e-content td.e-selected.e-focused-date.e-today span.e-day,
+.scheduledate .e-calendar .e-content td.e-selected span.e-day
+{
+  background:var(--color-sf-primary) !important
 }
