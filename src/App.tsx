@@ -1944,7 +1944,7 @@ const isLockedLocation = (name: unknown) =>
         id="employeeDialog"
         visible={showEmployeesDialog}
         width="400px"
-        height="400px"
+        height="542px"
         overflow-y="auto"
         isModal={true}
         header="Manage Employees"
