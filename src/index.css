@@ -2086,3 +2086,7 @@ input.e-input::selection,
 {
   background:var(--color-sf-primary) !important
 }
+
+.e-btn.empSfDanger {
+  border-radius: 10px !important;
+}
