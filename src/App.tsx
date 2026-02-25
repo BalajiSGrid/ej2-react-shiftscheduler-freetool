@@ -2525,7 +2525,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
      
     </form>
      <div className="empAddFooter">
-        <ButtonComponent cssClass="e-primary" onClick={submit}>
+        <ButtonComponent cssClass="e-primary add-employee" onClick={submit}>
           {isEdit ? "Save" : "Add Employee"}
         </ButtonComponent>
         <ButtonComponent cssClass="e-outline" type="button" onClick={onCancel}>
