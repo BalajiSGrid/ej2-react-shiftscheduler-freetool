@@ -60,8 +60,8 @@ span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-in
 
 
 .e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus {
-  box-shadow: none !important;
-  border-color: transparent !important; 
+  /* box-shadow: none !important;
+  border-color: transparent !important;  */
   background: #fff !important;
   color: rgb(79, 70, 229) !important;
 }
@@ -77,7 +77,7 @@ span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-in
 .e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus .e-input-group-icon {
   color: rgb(79, 70, 229) !important;
   background: #fff !important;
-  box-shadow: none !important;
+  /* box-shadow: none !important; */
   /* optional: if you see a vertical separator you don’t want */
   /* border-left-color: transparent !important; */
 }
@@ -433,8 +433,8 @@ div.summaryCost{
 .manage-locations-btn :focus, .manage-locations-btn.e-btn:focus, 
 .options-btn.e-btn .e-active, .options-btn.e-btn:hover, 
 .custom-locations-dropdown:hover, .custom-locations-dropdown {
-  box-shadow: none;
-  border-color: none !important;
+  /* box-shadow: none;
+  border-color: none !important; */
   background: white !important;
   color: var(--color-sf-primary) !important;
 }
@@ -499,8 +499,6 @@ div.summaryCost{
 }
 
 .custom-locations-dropdown.e-popup {
-  border: 2px solid #e5e7eb !important;
-  border-radius: 0.25rem !important;  
   box-shadow: 
     0 4px 6px -1px rgba(0, 0, 0, 0.1),   
     0 2px 4px -1px rgba(0, 0, 0, 0.06),  
@@ -886,15 +884,16 @@ input.e-input::selection,
 
 /* footer */
 .empAddFooter {
-  border-top: 1px solid #e5e7eb;
   bottom: 0;
   display: flex;
   gap: 10px;
-  padding: 5px 16px 1px;
+  padding: 9px 16px 16px 0px;
   justify-content: flex-end;
   position: static !important;
   z-index: 2;          /* sit above the scrolling content */
   background: #fff;
+  border-top :1px solid #e5e7eb;
+  margin-top:5px;
 }
 
 /* Container */
@@ -1575,13 +1574,27 @@ input.e-input::selection,
 .exportInfoSub { font-size: 12px; margin-top: 6px; color:#6b7280; font-weight: 400; }
 
 .exportDlgFooter {
-  display:flex;
+  display: flex;
   justify-content: flex-end;
   gap: 10px;
-  bottom:0;
-  margin-top: 60px;
+  bottom: 0;
+  border-top: 1px solid #e5e7eb !important;
+  padding-top: 10px;
 }
 
+#Exportdialog.e-dialog .e-dlg-content .exportDlgBody{
+    border-top: 1px solid #e5e7eb !important;
+}
+
+#Exportdialog .e-dialog .e-dlg-header-content+.e-dlg-content, #Exportdialog.e-dialog .e-dlg-content
+{
+  padding: 0px;
+}
+
+#importdialog.e-dialog .e-dlg-content .impWrap
+{
+  border-top: 1px solid #e5e7eb !important;
+}
 
 /* ---- Import Employee Data dialog UI ---- */
 .impWrap { padding: 0; font-family: inherit; }
@@ -2090,4 +2103,23 @@ input.e-input::selection,
 
 .e-btn.empSfDanger {
   border-radius: 10px !important;
+}
+
+#summaryDialog
+{
+  height: 400px !important;
+  max-height: 400px !important ;
+  width: 62% !important;
+}
+
+#summaryDialog.e-dialog .e-dlg-content{
+  overflow: hidden !important;
+}
+
+#summaryDialog.e-dialog .e-dlg-header-content {
+  padding: 8px 16px 0px 16px;
+}
+
+#employeeDialog.e-dialog .e-dlg-content {
+  border-top: 1px solid #e5e7eb !important;
 }
