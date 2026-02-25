@@ -480,8 +480,7 @@ export default function App(): JSX.Element {
     });
   }, [employees, filteredAppointments]);
 
-  
-  const resourceHeaderTemplate = (props: any) => {
+  const resourceHeaderTemplate = useCallback((props: any) => {
     const empId =
       props.Id ??
       props.id ??
@@ -489,12 +488,9 @@ export default function App(): JSX.Element {
       props.resource?.id ??
       props.resourceId;
 
-    const emp: Employee =
-      employees.find((e) => e.Id === empId) ?? {
-        Id: empId ?? 0,
-        Name: props.Text ?? "Employee",
-        Role: props.Role ?? "",
-      } as Employee;
+    const emp =
+      employees.find((e) => e.Id === empId) ??
+      ({ Id: empId ?? 0, Name: props.Text ?? "Employee", Role: props.Role ?? "" } as Employee);
 
     const totalHours = empId ? computeTotalHoursForEmployee(empId) : 0;
     const shiftCount = empId ? filteredAppointments.filter((a) => a.EmployeeId === empId).length : 0;
@@ -507,19 +503,25 @@ export default function App(): JSX.Element {
         </div>
       </div>
     );
-  };
+  }, [employees, computeTotalHoursForEmployee, filteredAppointments]);
 
-  const eventTemplate = (props: any) => {
+  const eventTemplate = useCallback((props: any) => {
     const emp = employees.find((e) => e.Id === props.EmployeeId) ?? ({} as Employee);
     return (
       <div className="shiftCard">
-        <div className="shiftTime">
-          {fmtTime(props.StartTime)} - {fmtTime(props.EndTime)}
-        </div>
+        <div className="shiftTime">{fmtTime(props.StartTime)} - {fmtTime(props.EndTime)}</div>
         <div className="shiftRole">{emp.Role ?? ""}</div>
       </div>
     );
-  };
+  }, [employees]);
+
+  const eventSettings = useMemo(() => ({
+    dataSource: scheduleData,
+    template: eventTemplate as any,
+  }), [scheduleData, eventTemplate]);
+
+  const groupOptions = useMemo(() => ({ resources: ["Employees"] }), []);
+
 function safeNum(v: any, fallback = 0): number {
   const n = typeof v === "number" ? v : Number(v);
   return Number.isFinite(n) ? n : fallback;
@@ -1294,7 +1296,7 @@ const isLockedLocation = (name: unknown) =>
             startEditRole(roleName);
           }}
         >
-          <span className="e-icons e-edit" />
+          <span className="e-btn-icon e-icons e-edit" />
         </ButtonComponent>
         <ButtonComponent
           cssClass="e-flat empIconBtn empSfDanger"
@@ -1456,7 +1458,7 @@ const isLockedLocation = (name: unknown) =>
   <ButtonComponent
     
     cssClass={`e-flat empIconBtn ${locked ? "locIconLocked" : ""}`}
-    iconCss="e-icons e-edit"
+    iconCss="e-btn-icon e-icons e-edit"
     disabled={locked}
     title={locked ? "Default location cannot be edited" : "Edit"}
     onClick={(ev: any) => {
@@ -1678,8 +1680,8 @@ const isLockedLocation = (name: unknown) =>
               </ButtonComponent>
 
               <ButtonComponent cssClass="manage-locations-btn e-flat"  onClick={loadTestData}>
-                <span className="e-icons  e-rephrase"></span>
-                 Show Test Data
+                <span className="e-icons  e-file-new"></span>
+                  Load Example Data
               </ButtonComponent>
 
               <ButtonComponent cssClass="manage-locations-btn e-flat"  onClick={() => setShowSummaryDialog(true)}>
@@ -1750,7 +1752,7 @@ const isLockedLocation = (name: unknown) =>
                     }}
                   >
                     <span className="btn-text">
-                      <span className="e-icons e-people" /> <span>+ Add</span> Employees
+                      <span className="e-icons e-people" /> <span>Add</span> Employees
                     </span>
                   </ButtonComponent>
 
@@ -1763,7 +1765,7 @@ const isLockedLocation = (name: unknown) =>
                     }}
                   >
                     <span className="e-icons e-equalto"></span>
-                    <span className="hidden sm:inline">+ Add</span> Roles
+                    <span className="hidden sm:inline">Add</span> Roles
                   </ButtonComponent>
 
                   <ButtonComponent
@@ -1774,11 +1776,11 @@ const isLockedLocation = (name: unknown) =>
                       setShowLocationsDialog(true);
                     }}
                   >
-                    <span className="e-icons e-location"></span> + Add Locations
+                    <span className="e-icons e-location"></span> Add Locations
                   </ButtonComponent>
 
                   <ButtonComponent cssClass="test-data-btn e-outline" onClick={loadTestData}>
-                    ✨ Test Data
+                    <span className="e-icons e-file-new"></span>Example Data
                   </ButtonComponent>
                 </div>
 
@@ -1809,8 +1811,8 @@ const isLockedLocation = (name: unknown) =>
             workDays={[0,1,2,3,4,5,6]}
             workHours={{start:"6:00",end:"20:00 "}}
             firstDayOfWeek={0}
-            eventSettings={{ dataSource: scheduleData, template: eventTemplate } as any}
-            group={{ resources: ["Employees"] } as any}
+            eventSettings={eventSettings as any}
+            group={groupOptions as any}
             resourceHeaderTemplate={resourceHeaderTemplate as any}
             actionBegin={onActionBegin}
             actionComplete={onActionComplete}
@@ -2277,7 +2279,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
 
               <div className="empActions">
                 <ButtonComponent cssClass="e-flat empIconBtn" onClick={() => onEdit(e)} title="Edit">
-                  <span className="e-icons e-edit" />
+                  <span className="e-btn-icon e-icons e-edit" />
                 </ButtonComponent>
                 <ButtonComponent
                   cssClass="e-flat empIconBtn empSfDanger"
