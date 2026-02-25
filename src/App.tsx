@@ -2192,12 +2192,12 @@ const isLockedLocation = (name: unknown) =>
           
 
           <div className="exportDlgFooter">
-            <ButtonComponent cssClass="e-outline" type="button" onClick={() => setShowExportDialog(false)}>
-              Cancel
-            </ButtonComponent>
             <ButtonComponent cssClass="e-primary e-export-btn" type="button" onClick={handleExportFromDialog}>
               <span className="e-icons e-download" style={{ marginRight: 8 }} />
               {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
+            </ButtonComponent>
+            <ButtonComponent cssClass="e-outline" type="button" onClick={() => setShowExportDialog(false)}>
+              Cancel
             </ButtonComponent>
           </div>
         </div>
