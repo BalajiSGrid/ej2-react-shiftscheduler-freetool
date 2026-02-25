@@ -874,7 +874,6 @@ div.summaryCost{
   position: static !important;
   z-index: 2;          /* sit above the scrolling content */
   background: #fff;
-
 }
 
 /* Container */
@@ -1720,7 +1719,6 @@ div.summaryCost{
   background: #ef4444 !important;
   border-color: #ef4444 !important;
   color: #fff !important;
-  border-radius: 10px !important;
   font-weight: 400 !important;
 }
 
@@ -2030,17 +2028,33 @@ div.summaryCost{
 .e-btn.add-location-btn,
 .e-btn.add-emp-btn,
 .e-btn.add-role-btn,
-.e-btn.e-export-btn {
+.e-btn.e-export-btn,
+.e-btn.empEmptyCta,
+.e-file-select-wrap .e-btn,
+.e-btn.add-employee {
   background: var(--color-sf-primary) !important;
   border-color: var(--color-sf-primary) !important;
   font-size: 15px;
   font-weight: 400;
 }
 
+.e-btn.e-apply {
+  color: var(--color-sf-primary) !important;
+}
+
+.e-btn.e-apply:hover {
+  color: #fff !important;
+  background: #0b5ed7 !important;
+  border-color: #0b5ed7 !important;
+}
+
 .e-btn.add-location-btn:hover,
 .e-btn.add-emp-btn:hover,
 .e-btn.add-role-btn:hover,
-.e-btn.e-export-btn:hover {
+.e-btn.e-export-btn:hover,
+.e-btn.empEmptyCta:hover,
+.e-file-select-wrap .e-btn:hover,
+.e-btn.add-employee:hover {
   background: #0b5ed7 !important;
   border-color: #0b5ed7 !important;
 }
