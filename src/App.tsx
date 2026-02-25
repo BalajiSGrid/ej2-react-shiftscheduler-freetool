@@ -1610,8 +1610,7 @@ const isLockedLocation = (name: unknown) =>
     <div className="appRoot">
       <style>{`
         .appRoot { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f7fafc; min-height:95vh; }
-        .topBar { position:relative; top:0; z-index:10; background:#046ae5;color:#fff; border-bottom:1px solid #e6edf3; }
-        .topInner { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; }
+        .topInner { display:flex; align-items:center; position:relative; top:0; z-index:10; background:#046AE5;color:#fff;justify-content:space-between; gap:12px; padding:7px 16px; }
         .leftBlock { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
@@ -1634,9 +1633,7 @@ const isLockedLocation = (name: unknown) =>
         .hintText{ margin-top:6px; font-size:12px; color:#6b7280; font-weight:600; }
         .formError{ margin-top:10px; padding:10px 12px; border-radius:12px; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; font-size:13px; font-weight:700; }
       `}</style>
-
-      <div className="topBar">
-        <div className="topInner">
+       <div className="topInner">
           <div className="leftBlock">
             <div className="chips">
               <DropDownListComponent
@@ -1644,7 +1641,7 @@ const isLockedLocation = (name: unknown) =>
                 dataSource={effectiveLocations}
                 value={selectedLocation}
                 change={(e: any) => setSelectedLocation(e.value as LocationName)}
-                width="160px"
+                width="110px"
                 
                 cssClass="custom-locations-dropdown e-flaat "
               />
@@ -1722,7 +1719,7 @@ const isLockedLocation = (name: unknown) =>
             </div>
           </div>
         </div>
-      </div>
+     
 
       {notice && (
         <div className={`noticeBar ${notice.type}`}>
@@ -2384,12 +2381,12 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
   const trimmed = String(name ?? "").trim();
 
-  // required check (extra safety)
-  if (!trimmed) {
-    setNameError("Name is required");
-    setFormError("Please fix the highlighted fields.");
-    return;
-  }
+  // // required check (extra safety)
+  // if (!trimmed) {
+  //   setNameError("Name is required");
+  //   setFormError("Please fix the highlighted fields.");
+  //   return;
+  // }
 
   // Duplicate check ONLY on submit
   const newKey = normalizeEmpName(trimmed);
