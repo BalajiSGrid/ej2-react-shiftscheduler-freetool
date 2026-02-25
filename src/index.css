@@ -671,7 +671,7 @@ input.e-input::selection,
 
 /* Empty state */
 .empEmptyWrap {
-  /* min-height: 320px; */
+  min-height: 320px;
   padding: 28px 18px 36px;
   display: flex;
   flex-direction: column;
