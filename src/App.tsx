@@ -2381,12 +2381,12 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
   const trimmed = String(name ?? "").trim();
 
-  // required check (extra safety)
-  if (!trimmed) {
-    setNameError("Name is required");
-    setFormError("Please fix the highlighted fields.");
-    return;
-  }
+  // // required check (extra safety)
+  // if (!trimmed) {
+  //   setNameError("Name is required");
+  //   setFormError("Please fix the highlighted fields.");
+  //   return;
+  // }
 
   // Duplicate check ONLY on submit
   const newKey = normalizeEmpName(trimmed);
