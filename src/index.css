@@ -197,9 +197,6 @@ div.summaryCost{
   font-weight: 500;
   color: var(--color-sf-primary);
 }
-.e-today {
-  display:none !important;
-}
 
 .stickyPromoBar {
   position: fixed;
@@ -2046,58 +2043,4 @@ div.summaryCost{
 .e-btn.e-export-btn:hover {
   background: #0b5ed7 !important;
   border-color: #0b5ed7 !important;
-}
-
-.e-btn.e-flat:active, .e-btn.e-flat.e-active {
-  background:white !important;
-}
-
-.custom-locations-dropdown.e-popup {
-  border: 2px solid #e5e7eb !important;
-  border-radius: 0.25rem !important;  
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),  
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),  
-    0 10px 15px -3px rgba(0, 0, 0, 0.1)
-    !important;
-    width: 130px !important;
-    height: auto !important;
-  }
-
-.custom-locations-dropdown.e-input-group.e-input-focus {
-  background-color: #fff !important;
-  color: rgb(55, 65, 81) !important;
-}
-
-  .cdIconNeutral .e-input-group-icon.e-date-icon
-  {
-    min-height: 0px !important;
-    min-width: 0px !important;
-  }
-
- input.e-input::selection,
-.input-group input.e-input::selection, .e-input-group.e-control-wrapper input.e-input::selection {
-  background: rgba(0, 0, 0, 0) !important;
-  color: rgb(17, 24, 39) !important;
-}
-
-/* .e-btn.e-primary {
-  background: #4f46e5 !important;
-  border-color: #4f46e5 !important;
-} */
-
-.e-btn.e-primary:hover, .e-css.e-btn.e-primary:hover
-{
-  background: #4338ca !important;
-  border-color: #4338ca !important;
-}
-
-.scheduledate .e-toolbar .e-toolbar-item .e-tbar-btn:focus
-{
-  background: #fff;
-}
-
-.scheduledate .e-calendar .e-content td.e-selected.e-focused-date span.e-day,
-.scheduledate .e-calendar .e-content td.e-selected span.e-day {
-    background: rgba(79, 70, 229) !important;
 }
