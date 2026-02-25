@@ -1342,6 +1342,8 @@ const isLockedLocation = (name: unknown) =>
               <NumericTextBoxComponent
                 value={roleDefaultRateValue}
                 min={0}
+                max={20}
+                step={0.01}
                 format="n2"
                 placeholder="15.00"
                 change={(e: any) => setRoleDefaultRateValue(e.value ?? 0)}
@@ -1793,6 +1795,7 @@ const isLockedLocation = (name: unknown) =>
           <ScheduleComponent
             key={`${hasAnyData ? "schedule-has-data" : "schedule-empty"}-${hasEmployees ? "with-emps" : "no-emps"}`}
             ref={scheduleRef}
+            className="scheduledate"
             height={"calc(100vh - 135px)"}
             selectedDate={selectedDate}
             currentView={"TimelineWeek"}
@@ -1806,10 +1809,9 @@ const isLockedLocation = (name: unknown) =>
             rowAutoHeight={true}
             startHour="00:00"
             endHour="24:00"
-            workDays={[1,2,3,4,5,6]}
-            showWeekend={false}
+            workDays={[0,1,2,3,4,5,6]}
             workHours={{start:"6:00",end:"20:00 "}}
-            firstDayOfWeek={1}
+            firstDayOfWeek={0}
             eventSettings={{ dataSource: scheduleData, template: eventTemplate } as any}
             group={{ resources: ["Employees"] } as any}
             resourceHeaderTemplate={resourceHeaderTemplate as any}
@@ -1942,8 +1944,9 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         id="employeeDialog"
         visible={showEmployeesDialog}
-        width="min(92vw, 620px)"
-        height="550px"
+        width="536px"
+        height="574px"
+        overflow-y="auto"
         isModal={true}
         header="Manage Employees"
         showCloseIcon={true}
@@ -2012,10 +2015,10 @@ const isLockedLocation = (name: unknown) =>
 
       {/* Employee form */}
       <DialogComponent
-
         visible={showEmployeeForm}
-        width="min(92vw, 620px)"
-       // height="min(88vh, 550px)"
+        width="536px"
+        height="574px"
+        overflow-y="auto"
         id="empform"
         animationSettings={{effect:"None"}}
         isModal={true}
@@ -2434,8 +2437,8 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
       <div className="empAddBody">
         <div className="empFieldBlock">
-          <label className="empLabel">Name</label>
-          <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name *" input={(e: any) => setName(e.value ?? "")} />
+          <label className="empLabel">Name <span className="mrReq">*</span></label>
+          <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name " input={(e: any) => setName(e.value ?? "")} />
              {nameError ? <div className="mrError">{nameError}</div> : null}
         </div>
 
@@ -2799,7 +2802,7 @@ function ShiftDialog({
                 <TimePickerComponent
                   cssClass="e-outline"
                   value={startTime}
-                  width={70}
+                  width={"100%"}
                   format="h:mm"
                   step={15}
                   change={(e: any) => {
