@@ -1964,6 +1964,16 @@ div.summaryCost{
   font-weight: 400;
 }
 
+.e-btn.e-apply {
+  color: var(--color-sf-primary) !important;
+}
+
+.e-btn.e-apply:hover {
+  color: #fff !important;
+  background: #0b5ed7 !important;
+  border-color: #0b5ed7 !important;
+}
+
 .e-btn.add-location-btn:hover,
 .e-btn.add-emp-btn:hover,
 .e-btn.add-role-btn:hover,
