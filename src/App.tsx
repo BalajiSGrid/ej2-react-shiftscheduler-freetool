@@ -1368,11 +1368,11 @@ const isLockedLocation = (name: unknown) =>
             </div>
           </div>
           <div className="mrFooterRight">
+              <ButtonComponent cssClass="e-primary add-role-btn" type="button" onClick={submitRole}>
+                {isEdit ? "Update Role" : "Add Role"}
+              </ButtonComponent>
               <ButtonComponent cssClass="e-outline" type="button" onClick={onCancelAddRole}>
                 Cancel
-              </ButtonComponent>
-              <ButtonComponent cssClass="e-primary" type="button" onClick={submitRole}>
-                {isEdit ? "Update Role" : "Add Role"}
               </ButtonComponent>
             </div>
         </div>
@@ -1537,6 +1537,9 @@ const isLockedLocation = (name: unknown) =>
            
              </div>
             <div className="mlFooterRight">
+              <ButtonComponent cssClass="e-primary add-location-btn" type="button" onClick={submitLocation}>
+                {isEdit ? "Update Location" : "Add Location"}
+              </ButtonComponent>
               <ButtonComponent
                 cssClass="e-outline"
                 type="button"
@@ -1548,10 +1551,6 @@ const isLockedLocation = (name: unknown) =>
               >
                 Cancel
               </ButtonComponent>
-              <ButtonComponent cssClass="e-primary" type="button" onClick={submitLocation}>
-                {isEdit ? "Update Location" : "Add Location"}
-              </ButtonComponent>
-           
           </div>
         </div>
       );
