@@ -1646,7 +1646,6 @@ position: static !important;
   background: #ef4444 !important;
   border-color: #ef4444 !important;
   color: #fff !important;
-  border-radius: 10px !important;
   font-weight: 400 !important;
 }
 
@@ -1956,7 +1955,9 @@ position: static !important;
 .e-btn.add-location-btn,
 .e-btn.add-emp-btn,
 .e-btn.add-role-btn,
-.e-btn.e-export-btn {
+.e-btn.e-export-btn,
+.e-btn.empEmptyCta,
+.e-file-select-wrap .e-btn {
   background: var(--color-sf-primary) !important;
   border-color: var(--color-sf-primary) !important;
   font-size: 15px;
@@ -1966,7 +1967,9 @@ position: static !important;
 .e-btn.add-location-btn:hover,
 .e-btn.add-emp-btn:hover,
 .e-btn.add-role-btn:hover,
-.e-btn.e-export-btn:hover {
+.e-btn.e-export-btn:hover,
+.e-btn.empEmptyCta:hover,
+.e-file-select-wrap .e-btn:hover {
   background: #0b5ed7 !important;
   border-color: #0b5ed7 !important;
 }
