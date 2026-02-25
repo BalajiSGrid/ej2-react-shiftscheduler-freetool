@@ -1943,8 +1943,8 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         id="employeeDialog"
         visible={showEmployeesDialog}
-        width="400px"
-        height="542px"
+        width="440px"
+        height="539px"
         overflow-y="auto"
         isModal={true}
         header="Manage Employees"
