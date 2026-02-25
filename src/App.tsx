@@ -1848,13 +1848,13 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
-        height="480px"
+        height="min(88vh, 480px)"
         //height="min(88vh, 620px)"
         animationSettings={{effect:"None"}}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
       >
-        <div style={{ padding:16 }}>
+        <div style={{ padding: "10px", borderTop: "1px solid #e5e7eb" }}>
           <div
             style={{
               border: "1px solid #f5d0a6",
@@ -1914,7 +1914,7 @@ const isLockedLocation = (name: unknown) =>
             </div>
           </div>
 
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, }}>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, paddingTop:"10px", borderTop:"1px solid #e5e7eb"}}>
             <ButtonComponent
               cssClass={clearChoice === "everything" ? "cdBtnDanger" : "cdBtnWarn"}
               onClick={() => {
@@ -2121,26 +2121,33 @@ const isLockedLocation = (name: unknown) =>
         header={`Summary (${selectedLocation})`}
         visible={showSummaryDialog}
         className="summery-dialog"
-        // height="min(88vh, 720px)"
+        height="min(88vh, 720px)"
         animationSettings={{effect:"None"}}
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
         beforeClose={() => setShowSummaryDialog(false)}
       >
-        <div style={{ padding: 10 }}>
-          <GridComponent dataSource={summaryRows}>
+        <div style={{ padding: "10px", borderTop: "1px solid #e5e7eb" }}>          
+          <GridComponent dataSource={summaryRows} clipMode={"EllipsisWithTooltip"} 
+          emptyRecordTemplate={() => (
+            <div className="emptyRecordTemplate">
+              <div style={{ fontSize: '14px', color: '#111827' }}>
+                No data available for the selected locations right now.
+              </div>
+            </div>
+          )}
+          height={"270px"}>
             <ColumnsDirective>
-              <ColumnDirective field="Id" headerText="ID" width="80" textAlign="Right" />
-              <ColumnDirective field="Name" headerText="Employee" width="200" />
-              <ColumnDirective field="Role" headerText="Role" width="140" />
-              <ColumnDirective field="Shifts" headerText="Shifts" width="100" textAlign="Right" />
-              <ColumnDirective field="TotalHours" headerText="Total Hours" width="130" textAlign="Right" />
-              <ColumnDirective field="HourlyRate" headerText="Hourly Rate" width="130" textAlign="Right" />
-              <ColumnDirective field="EstCost" headerText="Est. Cost" width="130" textAlign="Right" />
-              <ColumnDirective field="MaxHoursDay" headerText="Max/Day" width="120" textAlign="Right" />
-              <ColumnDirective field="MaxHoursWeek" headerText="Max/Week" width="120" textAlign="Right" />
-            </ColumnsDirective>
+              <ColumnDirective field="Name" headerText="Employee" width="130" />
+              <ColumnDirective field="Role" headerText="Role" width="130" />
+              <ColumnDirective field="Shifts" headerText="Shifts" width="60" textAlign="Right" />
+              <ColumnDirective field="TotalHours" headerText="Total Hours" width="100" textAlign="Right" />
+              <ColumnDirective field="HourlyRate" headerText="Hourly Rate" width="100" textAlign="Right" />
+              <ColumnDirective field="EstCost" headerText="Est. Cost" width="110" textAlign="Right" />
+              <ColumnDirective field="MaxHoursDay" headerText="Max/Day" width="110" textAlign="Right" />
+              <ColumnDirective field="MaxHoursWeek" headerText="Max/Week" width="110" textAlign="Right" />
+           </ColumnsDirective>
             <GridInject services={[Page]} />
           </GridComponent>
         </div>
@@ -2155,13 +2162,11 @@ const isLockedLocation = (name: unknown) =>
         animationSettings={{effect:"None"}}
         showCloseIcon={true}
         width="min(92vw, 620px)"
-        height="min(88vh, 410px)"
+        //height="min(88vh, 410px)"
         target={dialogTarget}
         beforeClose={() => setShowExportDialog(false)}
       >
         <div className="exportDlgBody">
-          <div className="exportSectionTitle">Export Format</div>
-
           <div className="exportFormatGrid">
             <ButtonComponent
               type="button"
@@ -2229,8 +2234,6 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
 
   return (
     <div className="empModal">
-      <div className="empModalDivider" />
-
       <div className="empTopRow">
         <div className="empCount">
           <span className="e-icons e-user empCountIcon" />
@@ -2523,7 +2526,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
             decimals={0}
             max={24}
             placeholder="8"
-            change={(e: any) => setMinRest(e.value)}}
+            change={(e: any) => setMinRest(e.value)}
           />
           <div className="empHint">Minimum rest time between shifts</div>
         </div>
@@ -2873,6 +2876,7 @@ function ShiftDialog({
                 cssClass="e-outline"
                 value={breakDuration}
                 min={0}
+                format="n0"
                 change={(e: any) => {
                   onClearError?.(); // 
                   setBreakDuration(e.value);
