@@ -11,35 +11,89 @@
  
  }
 
-/* Timeline Day/Week: comfortable height */
-/* .e-schedule .e-timeline-view .e-appointment,
-.e-schedule .e-timeline-view .e-appointment .e-appointment-details {
-  min-height: 48px;
-  height: auto !important;
-  margin-top: 6px;
-} */
+button.trail-button.e-control.e-btn.e-lib.e-flat{
+  color: #4f46e5;
+ }
 
-/* Timeline Month: compact height so cards fit properly */
-/* .e-schedule .e-timeline-month-view .e-appointment,
-.e-schedule .e-timeline-month-view .e-appointment .e-appointment-details {
-  min-height: 26px;
-  height: auto !important;
- 
-  margin-top: 4px;
-} */
+.e-dropdown-btn.e-active {
+  box-shadow: none;
+    border-color: none !important;
+    background: white !important;
+    color: rgb(79, 70, 229) !important;
+}
 
-/* Make month view card content more compact */
-/* .e-schedule .e-timeline-month-view .shiftCard { padding: 2px 2px; }
-.e-schedule .e-timeline-month-view .shiftTime,
-.e-schedule .e-timeline-month-view .shiftRole { font-size: 10px; } */
- /* .e-schedule .e-timeline-view .e-appointment .e-appointment-details, 
- .e-schedule .e-timeline-month-view .e-appointment .e-appointment-details {
-   display: flex;
-  align-items: center;
-  height:65px !important;
-  width:200px !important;
-  margin-top: 7px;
- } */
+.e-schedule .e-timeline-view .e-appointment,
+.e-schedule .e-timeline-month-view .e-appointment {
+  margin-left: 2px !important;
+  margin-right: 2px !important;
+  box-sizing: border-box;
+}
+
+.e-appointment.e-lib.e-draggable .e-timeline-view {
+      width: 211.925px !important;
+}
+
+div#e-split-btn_52_dropdownbtn-popup {
+  top: 20.2px;
+}
+
+.e-listview .e-list-item.e-active {
+  background-color: none !important;
+}
+
+
+.e-listview .e-list-item:hover {
+    background-color: transparent !important;
+}
+
+
+span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-input:hover,
+span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-input.e-input-focus {
+  border-color: var(--color-sf-border-hover, #bfbfbf);
+  box-shadow: none;
+}
+
+.empform .e-dropdown-popup.e-lib.e-popup.e-control.e-colorpicker-popup.e-popup-open {
+    left: 307.6px !important;
+    top: 141px !important;
+}
+
+
+.e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus {
+  box-shadow: none !important;
+  border-color: transparent !important; 
+  background: #fff !important;
+  color: rgb(79, 70, 229) !important;
+}
+
+
+.e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus .e-input {
+  background: transparent !important;   
+  color: rgb(79, 70, 229) !important;
+  box-shadow: none !important;
+}
+
+
+.e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus .e-input-group-icon {
+  color: rgb(79, 70, 229) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  /* optional: if you see a vertical separator you don’t want */
+  /* border-left-color: transparent !important; */
+}
+
+div#e-split-btn_19_dropdownbtn-popup {
+    left: 608.6px !important;
+    top: 169.9px !important;
+    z-index: 1016 !important;
+}
+
+div#e-split-btn_22_dropdownbtn-popup {
+    left: 608.6px !important;
+    top: 169.9px !important;
+    z-index: 1016 !important;
+}
+
 
 .formError{
   padding: 12px 14px;
@@ -142,9 +196,6 @@ div.summaryCost{
   margin-top: 4px;
   font-weight: 500;
   color: var(--color-sf-primary);
-}
-.e-today {
-  display:none !important;
 }
 
 .stickyPromoBar {
@@ -404,7 +455,7 @@ div.summaryCost{
 .e-ddl.e-input-group:hover .e-input-group-icon,
 .e-ddl.e-input-group.e-control-wrapper:hover .e-input-group-icon {
     color: rgb(79, 70, 229) !important;
-    background: white !important;
+    /* background: white !important; */
 }
 
 /* Manage locations button  */
@@ -412,15 +463,40 @@ div.summaryCost{
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;              
-  padding: 0.375rem 0.625rem; 
-  font-size: 0.875rem;       
-  font-weight: 400;           
-  
+  padding: 4px 8px;
+  font-size: 0.875rem;      
+  font-weight: 400;          
   border-radius: 0.375rem;    
-  color:#fff !important;
-  height:35px;
+  height:30px;
   letter-spacing: -0.01em;
   line-height: 1;
+  border: 1px solid rgba(255, 255, 255, .2) !important;
+  background: #ffffff0d !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+ 
+.custom-locations-dropdown, .options-btn.e-btn  {
+  border: 1px solid rgba(255, 255, 255, .2) !important;
+  background: #ffffff0d !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+}
+ 
+.options-btn.e-btn, .custom-locations-dropdown
+{
+  height: 30px;
+}
+.options-btn.e-btn .e-caret {
+  display: none !important;
+}
+.custom-locations-dropdown .e-search-icon {
+  display: none !important;
+}
+ 
+.options-btn.e-btn.e-flat:active, .options-btn.e-btn.e-flat.e-active {
+  background:white !important;
+  color: #046ae5 !important;
 }
 
 .manage-locations-btn .e-btn-icon,
@@ -787,21 +863,19 @@ div.summaryCost{
   flex-direction: column !important;
   height: 100% !important;
 }
+
 /* footer */
 .empAddFooter {
   bottom: 0;
   display: flex;
   gap: 10px;
   padding: 16px 16px 16px;
-  margin-right:65px !important;
   justify-content: flex-end;
- 
-position: static !important;
+  position: static !important;
   z-index: 2;          /* sit above the scrolling content */
   background: #fff;
 
 }
-
 
 /* Container */
 .mrBody {
@@ -906,7 +980,7 @@ position: static !important;
 .mrLabel {
   display: block;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: #374151;
   margin-bottom: 6px;
 }
@@ -1184,7 +1258,7 @@ position: static !important;
   flex: 1;
   max-width: 420px;
   color: #4b5563;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.35;
 }
 
@@ -1662,9 +1736,9 @@ position: static !important;
 /* Location dropdown */
 .custom-locations-dropdown { 
   width: clamp(160px, 22vw, 260px);
-  border: none !important;
+  /* border: none !important;
   background: transparent !important;
-  color: #fff !important;
+  color: #fff !important; */
 }
 
 /* Dropdown input text color */
@@ -1680,8 +1754,8 @@ position: static !important;
 
 /* Dropdown text on hover */
 .custom-locations-dropdown.e-input-group:hover input {
-  color: var(--color-sf-primary) !important;
-  background: white !important;
+  background: #fff !important;
+  color: #046ae5 !important;
 }
 
 /* Dropdown caret icon on hover */
