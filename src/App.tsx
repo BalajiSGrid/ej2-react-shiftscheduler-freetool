@@ -1810,10 +1810,9 @@ const isLockedLocation = (name: unknown) =>
             rowAutoHeight={true}
             startHour="00:00"
             endHour="24:00"
-            workDays={[1,2,3,4,5,6]}
-            showWeekend={false}
+            workDays={[0,1,2,3,4,5,6]}
             workHours={{start:"6:00",end:"20:00 "}}
-            firstDayOfWeek={1}
+            firstDayOfWeek={0}
             eventSettings={{ dataSource: scheduleData, template: eventTemplate } as any}
             group={{ resources: ["Employees"] } as any}
             resourceHeaderTemplate={resourceHeaderTemplate as any}
