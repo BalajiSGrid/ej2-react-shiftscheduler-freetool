@@ -509,8 +509,7 @@ div.summaryCost{
     width: 130px !important;
     height: auto !important;
 }
-.scheduledate .e-toolbar .e-toolbar-item .e-tbar-btn:focus
-{
+.scheduledate .e-toolbar .e-toolbar-item .e-tbar-btn:focus {
   background: #fff;
 }
 
