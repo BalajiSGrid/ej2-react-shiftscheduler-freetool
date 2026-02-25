@@ -1943,8 +1943,8 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         id="employeeDialog"
         visible={showEmployeesDialog}
-        width="536px"
-        height="574px"
+        width="440px"
+        height="539px"
         overflow-y="auto"
         isModal={true}
         header="Manage Employees"
@@ -2016,7 +2016,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showEmployeeForm}
         width="536px"
-        height="574px"
+        height="555px"
         overflow-y="auto"
         id="empform"
         animationSettings={{effect:"None"}}
@@ -2043,8 +2043,8 @@ const isLockedLocation = (name: unknown) =>
         id="roledialog"
         visible={showRolesDialog}
         header="Manage Roles"
-        width="min(92vw, 490px)"
-        height="min(88vh, 450px)"
+        width="410px"
+        height="385px"
         // height removed per user request
         showCloseIcon={true}
         animationSettings={{effect:"None"}}
@@ -2066,8 +2066,8 @@ const isLockedLocation = (name: unknown) =>
         id="locationdialog"
         visible={showLocationsDialog}
         header="Manage Locations"
-        width="min(92vw, 490px)"
-        height="min(88vh, 430px)"
+        width="434px"
+        height="399px"
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
@@ -2487,8 +2487,10 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
             id="HourlyRate"
             name="HourlyRate"
             value={hourly}
-            format="n2"
             min={0}
+            max={15}
+            step={0.01}
+            format="n2"
             placeholder="15.00"
             change={(e: any) => setHourly(e.value)}
           />
@@ -2501,6 +2503,8 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
             id="MaxHoursWeek"
             name="MaxHoursWeek"
             value={maxWeek}
+            format="n0"          // ← change from n2 to n0 = 0 decimal places
+            decimals={0}
             min={0}
             max={48}
             placeholder="40"
@@ -2515,9 +2519,11 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
             name="MinRest"
             value={minRest}
             min={0}
+            format="n0"          // ← change from n2 to n0 = 0 decimal places
+            decimals={0}
             max={24}
             placeholder="8"
-            change={(e: any) => setMinRest(e.value)}
+            change={(e: any) => setMinRest(e.value)}}
           />
           <div className="empHint">Minimum rest time between shifts</div>
         </div>
