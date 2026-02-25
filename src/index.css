@@ -83,14 +83,14 @@ span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-in
 }
 
 div#e-split-btn_19_dropdownbtn-popup {
-    left: 608.6px !important;
-    top: 169.9px !important;
+    left: 516px !important;
+    top: 105.9px !important;
     z-index: 1016 !important;
 }
 
 div#e-split-btn_22_dropdownbtn-popup {
-    left: 608.6px !important;
-    top: 169.9px !important;
+    left: 476px !important;
+    top: 105.9px !important;
     z-index: 1016 !important;
 }
 
@@ -671,7 +671,7 @@ input.e-input::selection,
 
 /* Empty state */
 .empEmptyWrap {
-  min-height: 320px;
+  /* min-height: 320px; */
   padding: 28px 18px 36px;
   display: flex;
   flex-direction: column;
@@ -800,7 +800,7 @@ input.e-input::selection,
 
 /* body - only this section scrolls */
 .empAddBody {
-  padding: 14px 16px 10px;
+  padding: 14px 16px 0px;
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
@@ -886,10 +886,11 @@ input.e-input::selection,
 
 /* footer */
 .empAddFooter {
+  border-top: 1px solid #e5e7eb;
   bottom: 0;
   display: flex;
   gap: 10px;
-  padding: 16px 16px 16px;
+  padding: 5px 16px 1px;
   justify-content: flex-end;
   position: static !important;
   z-index: 2;          /* sit above the scrolling content */
@@ -1244,7 +1245,7 @@ input.e-input::selection,
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 16px 18px;
+  padding: 5px 16px;
   border-top: 1px solid #e5e7eb;
   background: #fff;
   flex-shrink: 0;
