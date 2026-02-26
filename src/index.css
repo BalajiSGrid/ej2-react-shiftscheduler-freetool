@@ -1408,6 +1408,21 @@ input.e-input::selection,
 #employeeDialog_dialog-content {
   overflow: hidden !important;
   padding: 0 !important; 
+  border-top-left-radius: unset;
+  border-top-right-radius: unset;
+}
+
+li#importIcs {
+    margin-top: -4px !important;
+}
+
+li#exportSchedule {
+    margin-bottom: -3px !important;
+}
+
+li#clear {
+  margin-top: -4px !important;
+  margin-bottom: -4px !important;
 }
 
 /* Shift dialog needs to handle its own overflow */
