@@ -1663,7 +1663,7 @@ const isLockedLocation = (name: unknown) =>
 
               <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={openEmployees}>
                 <span className="e-icons e-people"> </span>
-                Team Members 
+                Employees
               </ButtonComponent>
 
               <ButtonComponent
