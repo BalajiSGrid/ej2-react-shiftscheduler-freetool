@@ -1050,6 +1050,12 @@ function totalHoursWithinWindow(
     setRoleColorValue("#10b981");
     setRoleFormError("");
     setRolesView("add");
+    setTimeout(() => {
+      const textbox = (document.querySelector('#roledialog') as any)
+        ?.querySelector('.e-textbox')
+        ?.ej2_instances?.[0];
+      textbox?.focusIn();
+    }, 0);
   };
 
   const onCancelAddRole = () => {
@@ -1146,6 +1152,13 @@ function totalHoursWithinWindow(
     setLocationColorValue("#10b981");
     setLocationFormError("");
     setLocationsView("add");
+    setTimeout(() => {
+      const textbox = (document.querySelector('#locationdialog') as any)
+        ?.querySelector('.e-textbox')
+        ?.ej2_instances?.[0];
+
+      textbox?.focusIn();
+    }, 0);
   };
 
   const locationsListData = (locations ?? []).filter(Boolean).map((l) => ({ text: String(l) }));
