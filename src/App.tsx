@@ -1390,7 +1390,7 @@ const isLockedLocation = (name: unknown) =>
      
         <div className="mrDivider" />
         <div className="mrTopRow">
-          <div className="mrDesc">Manage job positions and their default hourly rates.</div>
+          <div className="mrDesc">Set up and customize job roles and their base hourly rates.</div>
           <ButtonComponent cssClass="e-primary add-role-btn" iconCss="e-icons e-plus" onClick={onAddRoleClick}>
             Add Role
           </ButtonComponent>
@@ -1409,8 +1409,8 @@ const isLockedLocation = (name: unknown) =>
                   <rect x="12" y="18" width="40" height="34" rx="6" stroke="#D1D5DB" strokeWidth="3" />
                 </svg>
               </div>
-              <div className="mrEmptyTitle">No roles added yet.</div>
-              <div className="mrEmptySub">Click "Add Role" to get started.</div>
+              <div className="mrEmptyTitle">Your role list is empty.</div>
+              <div className="mrEmptySub">Use the “Add Role” button to begin.</div>
             </div>
           ) : (
             <div className="mrListWrap">
@@ -1566,7 +1566,7 @@ const isLockedLocation = (name: unknown) =>
         <div className="mlDivider" />
 
         <div className="mlTopRow">
-          <div className="mlDesc">Manage your business locations and their settings.</div>
+          <div className="mlDesc">Set up and customize all your location details.</div>
           <ButtonComponent cssClass="e-primary add-location-btn" iconCss="e-icons e-plus" type="button" onClick={onAddLocationClick}>
             Add Location
           </ButtonComponent>
@@ -1624,7 +1624,7 @@ const isLockedLocation = (name: unknown) =>
         .resourceRole { font-size:12px; color:#6b7280; margin-top:2px; }
         .resourceMeta { font-size:12px; color:#9ca3af; margin-top:4px; }
         .emptyOverlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; z-index:5; }
-        .emptyCard { width:650px; padding:18px; border-radius:16px; text-align:center; background:#fff; }
+        .emptyCard { width:700px; padding:18px; border-radius:16px; text-align:center; background:#fff; }
         .emptyBtns { display:flex; gap:10px; justify-content:center; margin-top:14px; flex-wrap:wrap; }
         .noticeBar{ position:sticky; top:56px; z-index:11; margin:8px 16px 0; padding:10px 12px; border-radius:12px; font-size:13px; font-weight:700; display:flex; align-items:center; gap:10px; }
         .noticeBar.info{ background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; }
@@ -1658,12 +1658,12 @@ const isLockedLocation = (name: unknown) =>
                 }}
               >
                 <span className="e-icons e-location"> </span>
-                Locations
+                Work Locations
               </ButtonComponent>
 
               <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={openEmployees}>
                 <span className="e-icons e-people"> </span>
-                Employees
+                Team Members 
               </ButtonComponent>
 
               <ButtonComponent
@@ -1686,7 +1686,7 @@ const isLockedLocation = (name: unknown) =>
 
               <ButtonComponent cssClass="manage-locations-btn e-flat"  onClick={() => setShowSummaryDialog(true)}>
                 <span className="e-icons e-properties-2"></span>
-                Summary
+                Shift Summary
               </ButtonComponent>
 
               <DropDownButtonComponent
@@ -1752,7 +1752,7 @@ const isLockedLocation = (name: unknown) =>
                     }}
                   >
                     <span className="btn-text">
-                      <span className="e-icons e-people" /> <span>Add</span> Employees
+                      <span className="e-icons e-people" /> <span> Set Up Your Team</span>
                     </span>
                   </ButtonComponent>
 
@@ -1776,7 +1776,7 @@ const isLockedLocation = (name: unknown) =>
                       setShowLocationsDialog(true);
                     }}
                   >
-                    <span className="e-icons e-location"></span> Add Locations
+                    <span className="e-icons e-location"></span> Add Work Locations
                   </ButtonComponent>
 
                   <ButtonComponent cssClass="test-data-btn e-outline" onClick={loadTestData}>
@@ -1785,8 +1785,8 @@ const isLockedLocation = (name: unknown) =>
                 </div>
 
                 <br />
-                <div className="emptyTitle">No employees added yet</div>
-                <div className="emptyDesc">Add employees to start scheduling</div>
+                <div className="emptyTitle">No team members added yet</div>
+                <div className="emptyDesc">Let's get started. Add your employees so you can plan shifts easily!</div>
               </div>
             </div>
           )}
@@ -1869,9 +1869,9 @@ const isLockedLocation = (name: unknown) =>
           >
             <span className="e-icons e-warning" style={{ color: "#f97316", marginTop: 2 }} />
             <div>
-              <div style={{ fontWeight: 500, color: "#9a3412" }}>Warning: This action cannot be undone</div>
+              <div style={{ fontWeight: 500, color: "#9a3412" }}>Warning: This action is permanent</div>
               <div style={{ color: "#9a3412", fontSize: 13, marginTop: 4 }}>
-                Choose what data you want to clear. All cleared data will be permanently deleted.
+                Anything you clear will be deleted forever. Please choose what you want to remove.
               </div>
             </div>
           </div>
@@ -1889,9 +1889,9 @@ const isLockedLocation = (name: unknown) =>
               <div className="cdCardBody">
                 <div className="cdCardTitle">Clear Shifts Only</div>
                 <div className="cdCardDesc">
-                  Remove all <b>{shiftCount}</b> shifts but keep employees
+                  This will delete all <b>{shiftCount}</b> shifts from the schedule.
                 </div>
-                <div className="cdCardSub">Employees and their settings will remain intact</div>
+                <div className="cdCardSub">Your 8 employees, their names, roles, settings, and other information will stay exactly as they are.</div>
               </div>
             </div>
 
@@ -1907,9 +1907,9 @@ const isLockedLocation = (name: unknown) =>
               <div className="cdCardBody">
                 <div className="cdCardTitle">Clear Everything</div>
                 <div className="cdCardDesc">
-                  Remove all <b>{empCount}</b> employees and <b>{shiftCount}</b> shifts
+                  This will delete all <b>{empCount}</b> employees and all <b>{shiftCount}</b> shifts.
                 </div>
-                <div className="cdCardSub">Start fresh with a completely empty schedule</div>
+                <div className="cdCardSub">You’ll start with a completely fresh, empty schedule.</div>
               </div>
             </div>
           </div>
@@ -1925,7 +1925,7 @@ const isLockedLocation = (name: unknown) =>
             >
               <span
                 className={
-                  "e-icons " +
+                  "e-btn-icon e-icons " +
                   (clearChoice === "everything" ? "e-trash" : "e-input-group-icon e-date-icon e-icons")
                 }
                 style={{ marginRight: 8 }}
@@ -1947,7 +1947,7 @@ const isLockedLocation = (name: unknown) =>
         height="539px"
         overflow-y="auto"
         isModal={true}
-        header="Manage Employees"
+        header="Build Your Team"
         showCloseIcon={true}
         target={dialogTarget}
         animationSettings={{effect:"None"}}
@@ -2016,7 +2016,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showEmployeeForm}
         width="536px"
-        height="555px"
+        height="588px"
         overflow-y="auto"
         id="empform"
         animationSettings={{effect:"None"}}
@@ -2042,7 +2042,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         id="roledialog"
         visible={showRolesDialog}
-        header="Manage Roles"
+        header="Manage Job Roles"
         width="410px"
         height="385px"
         // height removed per user request
@@ -2065,7 +2065,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         id="locationdialog"
         visible={showLocationsDialog}
-        header="Manage Locations"
+        header="Locations Dashboard"
         width="434px"
         height="399px"
         isModal={true}
@@ -2200,7 +2200,7 @@ const isLockedLocation = (name: unknown) =>
 
           <div className="exportDlgFooter">
             <ButtonComponent cssClass="e-primary e-export-btn" type="button" onClick={handleExportFromDialog}>
-              <span className="e-icons e-download" style={{ marginRight: 8 }} />
+              <span className="e-btn-icon e-icons e-download" style={{ marginRight: 8 }} />
               {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
             </ButtonComponent>
             <ButtonComponent cssClass="e-outline" type="button" onClick={() => setShowExportDialog(false)}>
@@ -2237,7 +2237,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
       <div className="empTopRow">
         <div className="empCount">
           <span className="e-icons e-user empCountIcon" />
-          <span>{total} employees</span>
+          <span>{total} team members</span>
         </div>
         <ButtonComponent cssClass="e-primary add-emp-btn" type="button" onClick={onAdd}>
           + Add Employee
@@ -2258,8 +2258,8 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
               <path d="M46.2 38c4.8.9 8.6 3.6 10.8 8" stroke="#D1D5DB" strokeWidth="3" strokeLinecap="round" />
             </svg>
           </div>
-          <div className="empEmptyTitle">No employees yet</div>
-          <div className="empEmptyText">Get started by adding your first employee to begin scheduling shifts.</div>
+          <div className="empEmptyTitle">Your team is empty right now</div>
+          <div className="empEmptyText">Add your first team member and start making shift planning super easy!</div>
           <ButtonComponent cssClass="e-primary empEmptyCta" onClick={onAdd}>
             + Add Your First Employee
           </ButtonComponent>
