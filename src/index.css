@@ -1425,6 +1425,14 @@ li#clear {
   margin-bottom: -4px !important;
 }
 
+#shiftdialog .e-input-group.e-input-focus {
+  box-shadow: 0 0 0 1px rgb(4, 106, 229);
+  border-color: rgb(4, 106, 229) !important;
+  transition: none !important;           /* ← kills any animation flicker */
+  outline: none !important;
+}
+
+
 /* Shift dialog needs to handle its own overflow */
 #shiftdialog_dialog-content {
   overflow: hidden !important;
