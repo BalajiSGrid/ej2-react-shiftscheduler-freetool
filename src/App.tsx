@@ -346,7 +346,7 @@ export default function App(): JSX.Element {
 
   const [notice, setNotice] = useState<Notice | null>(null);
   const [shiftFormError, setShiftFormError] = useState<string>("");
-
+  
   const notify = useCallback((message: unknown, type: NoticeType = "error") => {
     if (!message) return;
     const id = Date.now();
@@ -1066,6 +1066,7 @@ function totalHoursWithinWindow(
     setRoleNameInputValue(roleName);
     setRoleDefaultRateValue(typeof meta.rate === "number" ? meta.rate : 15);
     setRoleColorValue((meta.color as string) ?? "#1abc9c");
+   
   };
 
   const submitRole = () => {
@@ -1146,6 +1147,7 @@ function totalHoursWithinWindow(
     setLocationColorValue("#10b981");
     setLocationFormError("");
     setLocationsView("add");
+    
   };
 
   const locationsListData = (locations ?? []).filter(Boolean).map((l) => ({ text: String(l) }));
@@ -1334,7 +1336,7 @@ const isLockedLocation = (name: unknown) =>
                   setRoleNameInputValue(e.value ?? "");
                   if (roleFormError) setRoleFormError("");
                 }}
-                cssClass="mrInput"
+                cssClass="mrInput"  
               />
               {roleFormError ? <div className="mrError">{roleFormError}</div> : null}
             </div>
@@ -1944,7 +1946,7 @@ const isLockedLocation = (name: unknown) =>
         id="employeeDialog"
         visible={showEmployeesDialog}
         width="440px"
-        height="539px"
+        height="545px"
         overflow-y="auto"
         isModal={true}
         header="Manage Employees"
@@ -2016,7 +2018,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showEmployeeForm}
         width="536px"
-        height="555px"
+        height="588px"
         overflow-y="auto"
         id="empform"
         animationSettings={{effect:"None"}}
@@ -2051,6 +2053,23 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         target={dialogTarget}
         cssClass="mrDialog"
+         open={() => {          
+            const focusEmployee = () => {
+              const input = document.querySelector<HTMLInputElement>('#roledialog input.e-input');
+              if (input) {
+                input.focus();
+                input.select?.();
+              } else {
+                document.getElementById('roledialog')?.focus?.();
+              }
+            };
+
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                setTimeout(focusEmployee, 100);
+              });
+            });
+          }}
         beforeClose={() => {
           setShowRolesDialog(false);
           setRolesView("list");
@@ -2093,7 +2112,24 @@ const isLockedLocation = (name: unknown) =>
         showCloseIcon={true}
         target={dialogTarget}
         animationSettings={{effect:"None"}}
-        id="shiftdialog"
+        id="shiftdialog" 
+        open={() => {          
+            const focusEmployee = () => {
+              const input = document.querySelector<HTMLInputElement>('#shiftdialog input.e-input');
+              if (input) {
+                input.focus();
+                input.select?.();
+              } else {
+                document.getElementById('shiftdialog')?.focus?.();
+              }
+            };
+
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                setTimeout(focusEmployee, 100);
+              });
+            });
+          }}
         beforeClose={() => {setShowShiftDialog(false); setShiftFormError("");}}
       >
         <ShiftDialog
@@ -2742,10 +2778,12 @@ function ShiftDialog({
             <div className="sfField">
               <label>Employee</label>
               <DropDownListComponent
+                
                 cssClass="e-outline"
                 dataSource={employeeData}
                 fields={{ text: "text", value: "value" }}
                 value={employeeId}
+                
                 change={(e: any) => {
                   onClearError?.(); //clear error on change
                   setEmployeeId(e.value);
@@ -2908,6 +2946,7 @@ function ShiftDialog({
                   onClearError?.(); // 
                   setNotes(e.value ?? "");
                 }}
+                
               />
             </div>
           </div>
