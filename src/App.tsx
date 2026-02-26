@@ -1944,7 +1944,7 @@ const isLockedLocation = (name: unknown) =>
         id="employeeDialog"
         visible={showEmployeesDialog}
         width="440px"
-        height="539px"
+        height="545px"
         overflow-y="auto"
         isModal={true}
         header="Manage Employees"
@@ -2016,7 +2016,7 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showEmployeeForm}
         width="536px"
-        height="555px"
+        height="588px"
         overflow-y="auto"
         id="empform"
         animationSettings={{effect:"None"}}
