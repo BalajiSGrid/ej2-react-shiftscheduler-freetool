@@ -145,15 +145,15 @@ div#e-split-btn_22_dropdownbtn-popup {
   }
 
 .shiftFormWrap {
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   flex: 0 1 auto; /* Allow content to determine height */
-  overflow-y: auto;
+}
+
+.shift-dialog-scrollable {
   overflow-x: hidden;
-  min-height: 0;
-  scrollbar-width: none; /* Hide scrollbar in Firefox */
+  padding: 30px;
 }
 
 /* Hide scrollbar in Chrome/Edge/Safari */
@@ -499,13 +499,16 @@ div.summaryCost{
 }
 
 .custom-locations-dropdown.e-popup {
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),   
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),  
-    0 10px 15px -3px rgba(0, 0, 0, 0.1)
-    !important;
-    width: 130px !important;
-    height: auto !important;
+  box-shadow: 0 0 4px 0 rgba(var(--color-sf-black), 0.1), 0 4px 6px -4px rgba(var(--color-sf-black), 0.1), 0 10px 15px -3px rgba(var(--color-sf-black), 0.1);
+  width: 123px !important;
+  height: auto !important;
+}
+.custom-locations-dropdown{
+   width: 123px !important;
+}
+.custom-locations-dropdown .e-dropdownlist {
+  text-align: center !important;
+  padding-left: 0px !important;
 }
 .scheduledate .e-toolbar .e-toolbar-item .e-tbar-btn:focus {
   background: #fff;
@@ -758,6 +761,7 @@ input.e-input::selection,
   height: 100%;
   max-height: calc(100vh - 120px);
   overflow: hidden;
+  border-top: 1px solid #e5e7eb !important;
 }
 .empAddForm {
   display: flex;
@@ -811,8 +815,8 @@ input.e-input::selection,
 
 .empLabel {
   display: block;
-  font-weight: 500;
-  font-size: 12.5px;
+  font-weight: 600;
+  font-size: 13px;
   color: #374151;
   margin-bottom: 6px;
 }
@@ -1204,7 +1208,7 @@ input.e-input::selection,
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px 18px;
+  padding: 15px 18px;
 }
 .locRow {
   display: flex;
@@ -1244,7 +1248,7 @@ input.e-input::selection,
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 5px 16px;
+  padding: 10px 16px;
   border-top: 1px solid #e5e7eb;
   background: #fff;
   flex-shrink: 0;
@@ -1431,7 +1435,6 @@ li#clear {
   transition: none !important;           /* ← kills any animation flicker */
   outline: none !important;
 }
-
 
 /* Shift dialog needs to handle its own overflow */
 #shiftdialog_dialog-content {
@@ -1714,7 +1717,7 @@ li#clear {
   background: #fff1f2;
 }
 
-.cdIconWrap {
+.cdIconWrap, .cdIconWarning {
   width: 42px;
   height: 42px;
   border-radius: 12px;
@@ -1789,23 +1792,10 @@ li#clear {
 .topInner{ flex-wrap: wrap; }
 .rightBlock{ flex: 1 1 auto; display:flex; justify-content:flex-end; }
 
-/* Location dropdown */
-.custom-locations-dropdown { 
-  width: clamp(160px, 22vw, 260px);
-  /* border: none !important;
-  background: transparent !important;
-  color: #fff !important; */
-}
-
 /* Dropdown input text color */
 .custom-locations-dropdown.e-input-group input {
   color: #fff !important;
   background: transparent !important;
-}
-
-/* Dropdown wrapper hover state - background white */
-.custom-locations-dropdown.e-input-group:hover {
-  background: white !important;
 }
 
 /* Dropdown text on hover */
@@ -2151,4 +2141,118 @@ li#clear {
   margin-top: -2px;
   margin-right: 0px !important;
   min-height: 14px;
+}
+
+.scheduledate.e-schedule .e-schedule-toolbar .e-toolbar-items .e-toolbar-item.e-separator{
+  border-right: none;
+}
+
+#clearData .e-input-group-icon.e-date-icon{
+  min-height: 0px !important;
+  min-width: 0px !important;
+}
+
+.scheduledate .e-calendar .e-content td.e-focused-date span.e-day, 
+.e-calendar .e-content td.e-focused-date span.e-day {
+  box-shadow: inset 1px 0 var(--color-sf-primary), inset 0 1px var(--color-sf-primary), inset -1px 0 var(--color-sf-primary), inset 0 -1px var(--color-sf-primary) !important;
+}
+
+.scheduledate .e-calendar .e-btn.e-today.e-flat.e-primary, .scheduledate .e-calendar .e-css.e-btn.e-today.e-flat.e-primary,
+.e-calendar .e-btn.e-today.e-flat.e-primary, .e-calendar .e-css.e-btn.e-today.e-flat.e-primary 
+{
+  background-color: #0d6efd !important;
+}
+.scheduledate .e-calendar .e-btn.e-today.e-flat.e-primary:hover, .scheduledate .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:hover,
+.e-calendar .e-btn.e-today.e-flat.e-primary:hover, .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:hover 
+{
+ background: #0b5ed7 !important;
+}
+
+.e-calendar .e-content td.e-selected.e-focused-date span.e-day {
+  background-color: #0d6efd !important;
+}
+
+#summaryGrid.e-grid td.e-active {
+  background: #f4f5f7 !important;
+}
+
+.clear-dialog-footer{
+  padding: 16px 16px 0px 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.clear-dialog-layout {
+  display: flex;
+  flex-direction: column;
+  height: 99%;
+  min-height: 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.clear-dialog-scrollable {
+  flex: 1 1 auto;               
+  min-height: 0;             
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 24px;
+}
+
+.scheduledate.e-schedule .e-schedule-toolbar .e-toolbar-items .e-toolbar-item.e-separator{
+  border-right: none;
+}
+
+#clearData .e-input-group-icon.e-date-icon{
+  min-height: 0px !important;
+  min-width: 0px !important;
+}
+
+.scheduledate .e-calendar .e-content td.e-focused-date span.e-day, 
+.e-calendar .e-content td.e-focused-date span.e-day {
+  box-shadow: inset 1px 0 var(--color-sf-primary), inset 0 1px var(--color-sf-primary), inset -1px 0 var(--color-sf-primary), inset 0 -1px var(--color-sf-primary) !important;
+}
+
+.scheduledate .e-calendar .e-btn.e-today.e-flat.e-primary, .scheduledate .e-calendar .e-css.e-btn.e-today.e-flat.e-primary,
+.e-calendar .e-btn.e-today.e-flat.e-primary, .e-calendar .e-css.e-btn.e-today.e-flat.e-primary 
+{
+  background-color: #0d6efd !important;
+}
+.scheduledate .e-calendar .e-btn.e-today.e-flat.e-primary:hover, .scheduledate .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:hover,
+.e-calendar .e-btn.e-today.e-flat.e-primary:hover, .e-calendar .e-css.e-btn.e-today.e-flat.e-primary:hover 
+{
+ background: #0b5ed7 !important;
+}
+
+.e-calendar .e-content td.e-selected.e-focused-date span.e-day {
+  background-color: #0d6efd !important;
+}
+
+#summaryGrid.e-grid td.e-active {
+  background: #f4f5f7 !important;
+}
+
+.clear-dialog-footer{
+  padding: 16px 16px 0px 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.clear-dialog-layout {
+  display: flex;
+  flex-direction: column;
+  height: 99%;
+  min-height: 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+.clear-dialog-scrollable {
+  flex: 1 1 auto;               
+  min-height: 0;             
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 24px;
 }
