@@ -104,7 +104,7 @@ interface SummaryRow {
   MaxHoursWeek: number;
 }
 
-interface ManageEmployeesListProps { 
+interface ManageEmployeesListProps {
   employees: Employee[];
   appointments: Appointment[];
   onAdd: () => void;
@@ -117,7 +117,7 @@ interface EmployeeFormProps {
   initial: Employee | null;
   open: boolean;
   roles: RoleName[];
-  employees: Employee[]; 
+  employees: Employee[];
   onSave: (emp: Employee) => void;
   onDelete: (id: number) => void;
   onCancel: () => void;
@@ -143,7 +143,7 @@ interface ShiftDialogProps {
   selectedEmployeeId: number | null;
   cell: any; // Syncfusion cell click args
   initialEvent: Appointment | null;
-  formError?: string;            
+  formError?: string;
   onClearError?: () => void
   onCancel: () => void;
   onSubmit: (payload: ShiftDialogPayload) => void;
@@ -295,7 +295,7 @@ export default function App(): JSX.Element {
   const [showLocationsDialog, setShowLocationsDialog] = useState<boolean>(false);
   const [showRoles, setShowRoles] = useState<boolean>(false); // unused but preserved
 
- 
+
   const [roleNameInputValue, setRoleNameInputValue] = useState<string>("");
   const [roleDefaultRateValue, setRoleDefaultRateValue] = useState<number>(15);
   const [roleColorValue, setRoleColorValue] = useState<string>("#1abc9c");
@@ -311,18 +311,18 @@ export default function App(): JSX.Element {
   const [icsImported, setIcsImported] = useState<boolean>(false);
   const [showUngroupedImported, setShowUngroupedImported] = useState<boolean>(false);
   const [showClearDialog, setShowClearDialog] = useState<boolean>(false);
-  const [clearChoice, setClearChoice] = useState<"shifts" | "everything">("shifts"); 
+  const [clearChoice, setClearChoice] = useState<"shifts" | "everything">("shifts");
   const [schedulerDataSource, setSchedulerDataSource] = useState<any[]>([]);
 
-  
+
   const [rolesView, setRolesView] = useState<"list" | "add">("list");
   const [locationsView, setLocationsView] = useState<"list" | "add">("list");
 
- 
+
   const [roleFormError, setRoleFormError] = useState<string>("");
   const [locationFormError, setLocationFormError] = useState<string>("");
 
-  
+
   const [roleMeta, setRoleMeta] = useState<RoleMeta>({});
   const [editingRoleName, setEditingRoleName] = useState<string | null>(null);
   const [lastAddedRole, setLastAddedRole] = useState<string | null>(null);
@@ -334,7 +334,7 @@ export default function App(): JSX.Element {
   const [editingLocationName, setEditingLocationName] = useState<string | null>(null);
   const [lastAddedLocation, setLastAddedLocation] = useState<string | null>(null);
 
- 
+
   const [showExportDialog, setShowExportDialog] = useState<boolean>(false);
   const [exportFormat, setExportFormat] = useState<"csv" | "pdf" | "json" | "ics">("csv");
   const [exportRange, setExportRange] = useState<"thisWeek" | "nextWeek" | "thisMonth" | "custom">("thisWeek");
@@ -346,7 +346,7 @@ export default function App(): JSX.Element {
 
   const [notice, setNotice] = useState<Notice | null>(null);
   const [shiftFormError, setShiftFormError] = useState<string>("");
-  
+
   const notify = useCallback((message: unknown, type: NoticeType = "error") => {
     if (!message) return;
     const id = Date.now();
@@ -392,10 +392,10 @@ export default function App(): JSX.Element {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     try {
       // scheduleRef.current?.refresh?.();
-    } catch (_) {}
+    } catch (_) { }
   }, [employees, appointments, roles, locations, roleMeta, locationMeta]);
 
- 
+
   const hasEmployees = employees.length > 0;
 
   const hasAnyData = useMemo(() => {
@@ -522,192 +522,192 @@ export default function App(): JSX.Element {
 
   const groupOptions = useMemo(() => ({ resources: ["Employees"] }), []);
 
-function safeNum(v: any, fallback = 0): number {
-  const n = typeof v === "number" ? v : Number(v);
-  return Number.isFinite(n) ? n : fallback;
-}
+  function safeNum(v: any, fallback = 0): number {
+    const n = typeof v === "number" ? v : Number(v);
+    return Number.isFinite(n) ? n : fallback;
+  }
 
-function dayStartOf(d: Date): Date {
-  const x = new Date(d);
-  x.setHours(0, 0, 0, 0);
-  return x;
-}
+  function dayStartOf(d: Date): Date {
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  }
 
 
-function netHoursWithinWindow(
-  evStart: Date,
-  evEnd: Date,
-  breakMins: number,
-  winStart: Date,
-  winEnd: Date
-): number {
-  const s = evStart < winStart ? winStart : evStart;
-  const e = evEnd > winEnd ? winEnd : evEnd;
-  if (e <= s) return 0;
-  const msH = 1000 * 60 * 60;
-  const overlapH = (e.getTime() - s.getTime()) / msH;
-  const totalH = Math.max(0, (evEnd.getTime() - evStart.getTime()) / msH);
-  const breakH = safeNum(breakMins, 0) / 60;
-  const breakInOverlap = totalH > 0 ? breakH * (overlapH / totalH) : 0;
-  return Math.max(0, overlapH - breakInOverlap);
-}
+  function netHoursWithinWindow(
+    evStart: Date,
+    evEnd: Date,
+    breakMins: number,
+    winStart: Date,
+    winEnd: Date
+  ): number {
+    const s = evStart < winStart ? winStart : evStart;
+    const e = evEnd > winEnd ? winEnd : evEnd;
+    if (e <= s) return 0;
+    const msH = 1000 * 60 * 60;
+    const overlapH = (e.getTime() - s.getTime()) / msH;
+    const totalH = Math.max(0, (evEnd.getTime() - evStart.getTime()) / msH);
+    const breakH = safeNum(breakMins, 0) / 60;
+    const breakInOverlap = totalH > 0 ? breakH * (overlapH / totalH) : 0;
+    return Math.max(0, overlapH - breakInOverlap);
+  }
 
-// For daily validation: total hours including break time
-function totalHoursWithinWindow(
-  evStart: Date,
-  evEnd: Date,
-  winStart: Date,
-  winEnd: Date
-): number {
-  const s = evStart < winStart ? winStart : evStart;
-  const e = evEnd > winEnd ? winEnd : evEnd;
-  if (e <= s) return 0;
-  const msH = 1000 * 60 * 60;
-  return (e.getTime() - s.getTime()) / msH;
-}
+  // For daily validation: total hours including break time
+  function totalHoursWithinWindow(
+    evStart: Date,
+    evEnd: Date,
+    winStart: Date,
+    winEnd: Date
+  ): number {
+    const s = evStart < winStart ? winStart : evStart;
+    const e = evEnd > winEnd ? winEnd : evEnd;
+    if (e <= s) return 0;
+    const msH = 1000 * 60 * 60;
+    return (e.getTime() - s.getTime()) / msH;
+  }
 
- 
+
   function validateCandidate(rec: Appointment, existingAppointments: Appointment[]): string | null {
     debugger
-  const start = new Date(rec.StartTime);
-  const end = new Date(rec.EndTime);
-  const empId = rec.EmployeeId;
-  const breakMins = safeNum(rec.BreakDuration, 0);
+    const start = new Date(rec.StartTime);
+    const end = new Date(rec.EndTime);
+    const empId = rec.EmployeeId;
+    const breakMins = safeNum(rec.BreakDuration, 0);
 
-  if (end <= start) return "End time must be after start time.";
+    if (end <= start) return "End time must be after start time.";
 
-  // overlap check
-  for (const a of existingAppointments) {
-    if (a.EmployeeId !== empId) continue;
-    if (a.Id === rec.Id) continue;
-    const aStart = new Date(a.StartTime);
-    const aEnd = new Date(a.EndTime);
-    if (overlaps(start, end, aStart, aEnd)) {
-      return "Shift overlaps with another shift for the same employee.";
+    // overlap check
+    for (const a of existingAppointments) {
+      if (a.EmployeeId !== empId) continue;
+      if (a.Id === rec.Id) continue;
+      const aStart = new Date(a.StartTime);
+      const aEnd = new Date(a.EndTime);
+      if (overlaps(start, end, aStart, aEnd)) {
+        return "Shift overlaps with another shift for the same employee.";
+      }
     }
-  }
 
-  const emp = employees.find((e) => e.Id === empId);
-  if (!emp) return null;
+    const emp = employees.find((e) => e.Id === empId);
+    if (!emp) return null;
 
- 
-  const maxWeek = safeNum(emp.MaxHoursWeek, 0);
-  
-  // daily (validate each calendar day spanned by the candidate shift)
-  // Max hours per day INCLUDES break time
-  const maxDay = 8;
-  
-  console.log('DEBUG: Daily Validation Start', {
-    empName: emp.Name,
-    maxDay,
-    startTime: start.toISOString(),
-    endTime: end.toISOString()
-  });
-  
-  if (maxDay > 0) {
-    // Get the date range the shift spans
-    const startDay = dayStartOf(start);
-    const endDay = dayStartOf(end);
-    
-    // Check if shift crosses midnight
-    const sameDay = startDay.getTime() === endDay.getTime();
-    
-    console.log('DEBUG: Day comparison', {
-      startDay: startDay.toISOString(),
-      endDay: endDay.toISOString(),
-      sameDay
+
+    const maxWeek = safeNum(emp.MaxHoursWeek, 0);
+
+    // daily (validate each calendar day spanned by the candidate shift)
+    // Max hours per day INCLUDES break time
+    const maxDay = 8;
+
+    console.log('DEBUG: Daily Validation Start', {
+      empName: emp.Name,
+      maxDay,
+      startTime: start.toISOString(),
+      endTime: end.toISOString()
     });
-    
-    // If same day, check that day only
-    // If different days, check both days
-    const daysToCheck = sameDay ? [startDay] : [startDay, endDay];
-    
-    for (const dayToCheck of daysToCheck) {
-      const dStart = new Date(dayToCheck);
-      const dEnd = new Date(dStart);
-      dEnd.setDate(dStart.getDate() + 1);
 
-      // existing events that touch this day
-      const eventsThisDay = existingAppointments.filter(
-        (a) =>
-          a.EmployeeId === empId &&
-          new Date(a.StartTime) < dEnd &&
-          new Date(a.EndTime) > dStart &&
-          a.Id !== rec.Id
-      );
+    if (maxDay > 0) {
+      // Get the date range the shift spans
+      const startDay = dayStartOf(start);
+      const endDay = dayStartOf(end);
 
-      console.log('DEBUG: Events this day', {
-        dayWindow: `${dStart.toISOString()} to ${dEnd.toISOString()}`,
-        eventsCount: eventsThisDay.length,
-        events: eventsThisDay.map(a => ({
-          start: new Date(a.StartTime).toISOString(),
-          end: new Date(a.EndTime).toISOString()
-        }))
+      // Check if shift crosses midnight
+      const sameDay = startDay.getTime() === endDay.getTime();
+
+      console.log('DEBUG: Day comparison', {
+        startDay: startDay.toISOString(),
+        endDay: endDay.toISOString(),
+        sameDay
       });
 
-      let totalDayH = 0;
+      // If same day, check that day only
+      // If different days, check both days
+      const daysToCheck = sameDay ? [startDay] : [startDay, endDay];
 
-      // Calculate total hours INCLUDING breaks for existing shifts
-      for (const a of eventsThisDay) {
-        const hours = totalHoursWithinWindow(
-          new Date(a.StartTime),
-          new Date(a.EndTime),
-          dStart,
-          dEnd
+      for (const dayToCheck of daysToCheck) {
+        const dStart = new Date(dayToCheck);
+        const dEnd = new Date(dStart);
+        dEnd.setDate(dStart.getDate() + 1);
+
+        // existing events that touch this day
+        const eventsThisDay = existingAppointments.filter(
+          (a) =>
+            a.EmployeeId === empId &&
+            new Date(a.StartTime) < dEnd &&
+            new Date(a.EndTime) > dStart &&
+            a.Id !== rec.Id
         );
-        console.log('DEBUG: Existing shift hours', { hours });
-        totalDayH += hours;
-      }
 
-      // add the candidate shift portion INCLUDING break time
-      const candidateHours = totalHoursWithinWindow(start, end, dStart, dEnd);
-      console.log('DEBUG: Candidate shift hours', { candidateHours });
-      totalDayH += candidateHours;
+        console.log('DEBUG: Events this day', {
+          dayWindow: `${dStart.toISOString()} to ${dEnd.toISOString()}`,
+          eventsCount: eventsThisDay.length,
+          events: eventsThisDay.map(a => ({
+            start: new Date(a.StartTime).toISOString(),
+            end: new Date(a.EndTime).toISOString()
+          }))
+        });
 
-      console.log('DEBUG: Total day hours check', {
-        totalDayH,
-        maxDay,
-        exceeds: totalDayH > maxDay
-      });
+        let totalDayH = 0;
 
-      if (totalDayH > maxDay + 1e-6) {
-        return `Daily hours exceed ${maxDay}h for ${emp.Name} on ${dStart.toLocaleDateString()}`;
+        // Calculate total hours INCLUDING breaks for existing shifts
+        for (const a of eventsThisDay) {
+          const hours = totalHoursWithinWindow(
+            new Date(a.StartTime),
+            new Date(a.EndTime),
+            dStart,
+            dEnd
+          );
+          console.log('DEBUG: Existing shift hours', { hours });
+          totalDayH += hours;
+        }
+
+        // add the candidate shift portion INCLUDING break time
+        const candidateHours = totalHoursWithinWindow(start, end, dStart, dEnd);
+        console.log('DEBUG: Candidate shift hours', { candidateHours });
+        totalDayH += candidateHours;
+
+        console.log('DEBUG: Total day hours check', {
+          totalDayH,
+          maxDay,
+          exceeds: totalDayH > maxDay
+        });
+
+        if (totalDayH > maxDay + 1e-6) {
+          return `Daily hours exceed ${maxDay}h for ${emp.Name} on ${dStart.toLocaleDateString()}`;
+        }
       }
     }
-  }
 
-  
-  const ws = startOfWeek(start);
-  const we = endOfWeek(start);
 
-  const eventsThisWeek = existingAppointments.filter(
-    (a) =>
-      a.EmployeeId === empId &&
-      new Date(a.StartTime) < we &&
-      new Date(a.EndTime) > ws &&
-      a.Id !== rec.Id
-  );
+    const ws = startOfWeek(start);
+    const we = endOfWeek(start);
 
-  let totalWeekH = 0;
-  for (const a of eventsThisWeek) {
-    totalWeekH += netHoursWithinWindow(
-      new Date(a.StartTime),
-      new Date(a.EndTime),
-      safeNum(a.BreakDuration, 0),
-      ws,
-      we
+    const eventsThisWeek = existingAppointments.filter(
+      (a) =>
+        a.EmployeeId === empId &&
+        new Date(a.StartTime) < we &&
+        new Date(a.EndTime) > ws &&
+        a.Id !== rec.Id
     );
+
+    let totalWeekH = 0;
+    for (const a of eventsThisWeek) {
+      totalWeekH += netHoursWithinWindow(
+        new Date(a.StartTime),
+        new Date(a.EndTime),
+        safeNum(a.BreakDuration, 0),
+        ws,
+        we
+      );
+    }
+
+
+    totalWeekH += netHoursWithinWindow(start, end, breakMins, ws, we);
+
+    if (maxWeek > 0 && totalWeekH > maxWeek + 1e-6) {
+      return `Weekly hours exceed ${maxWeek} for ${emp.Name}`;
+    }
+
+    return null;
   }
-
-  
-  totalWeekH += netHoursWithinWindow(start, end, breakMins, ws, we);
-
-  if (maxWeek > 0 && totalWeekH > maxWeek + 1e-6) {
-    return `Weekly hours exceed ${maxWeek} for ${emp.Name}`;
-  }
-
-  return null;
-}
 
   function onNavigating(args: any) {
     if (args?.currentDate) setSelectedDate(new Date(args.currentDate));
@@ -719,9 +719,9 @@ function totalHoursWithinWindow(
 
   function onCellClick(args: any) {
     if (!hasEmployees) return;
-     setShiftFormError("");
+    setShiftFormError("");
     setCellSelection(args);
-    
+
     if (typeof args.groupIndex === "number" && resourceData[args.groupIndex]) {
       setSelectedEmployeeId(resourceData[args.groupIndex].Id);
     } else {
@@ -842,10 +842,10 @@ function totalHoursWithinWindow(
     localStorage.removeItem(STORAGE_KEY);
     try {
       scheduleRef.current?.refresh?.();
-    } catch {}
+    } catch { }
   }
 
- 
+
   const importTemplateFn = (data: any) => {
     const template =
       '<div class="e-template-btn"><span class="e-btn-icon e-icons e-upload-1 e-icon-left impUploader"></span>${text}</div>';
@@ -870,25 +870,25 @@ function totalHoursWithinWindow(
 
   function exportExcel() {
 
-       const exportFields: ExportFieldInfo[] = [
-            { name: 'EmployeeId', text: 'Employee Id' },
-           // { name: 'Name', text: 'Name' },
-            { name: 'StartTime', text: 'Start Date' },
-            { name: 'EndTime', text: 'End Date' },
-            { name: 'BreakDuration', text: 'Break Duration' },
-            { name: 'Location', text: 'Location' },
-            { name: 'Role', text: 'Role' }
+    const exportFields: ExportFieldInfo[] = [
+      { name: 'EmployeeId', text: 'Employee Id' },
+      // { name: 'Name', text: 'Name' },
+      { name: 'StartTime', text: 'Start Date' },
+      { name: 'EndTime', text: 'End Date' },
+      { name: 'BreakDuration', text: 'Break Duration' },
+      { name: 'Location', text: 'Location' },
+      { name: 'Role', text: 'Role' }
 
-        ];
-        const exportValues: ExportOptions = { fieldsInfo: exportFields };
-        
+    ];
+    const exportValues: ExportOptions = { fieldsInfo: exportFields };
+
     scheduleRef.current?.exportToExcel?.(exportValues);
   }
 
   function printSchedule() {
     try {
       scheduleRef.current?.print?.();
-    } catch {}
+    } catch { }
   }
 
   function exportICS() {
@@ -1015,13 +1015,13 @@ function totalHoursWithinWindow(
     // Validation currently disabled in your original file (kept as-is).
     const err = validateCandidate(rec, appointments);
     //if (err) return notify(err, "error");
-    
-    if (err) {
-        setShiftFormError(err);      // set local dialog error
-        return;                      // keep dialog open
-      }
 
-      setShiftFormError("");  
+    if (err) {
+      setShiftFormError(err);      // set local dialog error
+      return;                      // keep dialog open
+    }
+
+    setShiftFormError("");
 
 
     if (payload.Id) {
@@ -1035,7 +1035,7 @@ function totalHoursWithinWindow(
   }
 
   function deleteShift(id: number) {
-   // if (!window.confirm("Delete this shift?")) return;
+    // if (!window.confirm("Delete this shift?")) return;
     setAppointments((prev) => prev.filter((a) => a.Id !== id));
     setShowShiftDialog(false);
   }
@@ -1072,7 +1072,6 @@ function totalHoursWithinWindow(
     setRoleNameInputValue(roleName);
     setRoleDefaultRateValue(typeof meta.rate === "number" ? meta.rate : 15);
     setRoleColorValue((meta.color as string) ?? "#1abc9c");
-   
   };
 
   const submitRole = () => {
@@ -1085,22 +1084,22 @@ function totalHoursWithinWindow(
     const rate = Number(roleDefaultRateValue ?? 0);
     const color = String(roleColorValue ?? "#1abc9c");
     const newKey = roleKey(name);
-    
-    //  Duplicate validation (ADD + EDIT)
-      const exists = (roles ?? []).some((r) => {
-        const rKey = roleKey(r);
-        if (editingRoleName) {
-          // EDIT: allow same role if it's the same record (case-insensitive safe)
-          return rKey === newKey && rKey !== roleKey(editingRoleName);
-        }
-        // ADD: any match is duplicate
-        return rKey === newKey;
-      });
 
-      if (exists) {
-        setRoleFormError("A role with this name already exists.");
-        return;
+    //  Duplicate validation (ADD + EDIT)
+    const exists = (roles ?? []).some((r) => {
+      const rKey = roleKey(r);
+      if (editingRoleName) {
+        // EDIT: allow same role if it's the same record (case-insensitive safe)
+        return rKey === newKey && rKey !== roleKey(editingRoleName);
       }
+      // ADD: any match is duplicate
+      return rKey === newKey;
+    });
+
+    if (exists) {
+      setRoleFormError("A role with this name already exists.");
+      return;
+    }
 
     // EDIT
     if (editingRoleName) {
@@ -1165,7 +1164,7 @@ function totalHoursWithinWindow(
   const locationsListData = (locations ?? []).filter(Boolean).map((l) => ({ text: String(l) }));
 
   const startEditLocation = (name: string) => {
-   if (isLockedLocation(name)) return;
+    if (isLockedLocation(name)) return;
     const meta = locationMeta?.[name] ?? ({} as Partial<LocationMetaEntry>);
     setEditingLocationName(name);
     setLocationsView("add");
@@ -1178,14 +1177,14 @@ function totalHoursWithinWindow(
   const normalizeName = (s: unknown) => String(s ?? "").trim();
   const keyName = (s: unknown) => normalizeName(s).toLowerCase();
 
-  
-const normalizeRoleName = (s: unknown) => String(s ?? "").trim();
-const roleKey = (s: unknown) => normalizeRoleName(s).toLowerCase();
 
-  
-const DEFAULT_LOCATION_NAME = "All Locations";
-const isLockedLocation = (name: unknown) =>
-  String(name ?? "").trim().toLowerCase() === DEFAULT_LOCATION_NAME.toLowerCase();
+  const normalizeRoleName = (s: unknown) => String(s ?? "").trim();
+  const roleKey = (s: unknown) => normalizeRoleName(s).toLowerCase();
+
+
+  const DEFAULT_LOCATION_NAME = "All Locations";
+  const isLockedLocation = (name: unknown) =>
+    String(name ?? "").trim().toLowerCase() === DEFAULT_LOCATION_NAME.toLowerCase();
 
 
   const submitLocation = () => {
@@ -1260,7 +1259,7 @@ const isLockedLocation = (name: unknown) =>
   };
 
   const deleteLocationRow = (name: string) => {
-     if (isLockedLocation(name)) return;
+    if (isLockedLocation(name)) return;
 
     setLocations((prev) => (prev ?? []).filter((l) => l !== name));
     setLocationMeta((prev) => {
@@ -1273,69 +1272,67 @@ const isLockedLocation = (name: unknown) =>
     setAppointments((prev) => (prev ?? []).map((a) => (a.Location === name ? { ...a, Location: "All Locations" } : a)));
   };
 
- 
+
   const roleItemTemplate = (data: any) => {
-    
-  const roleName = data?.text ?? "";
-  const meta = roleMeta?.[roleName] ?? { rate: 15, color: "#10b981" };
-  const dotColor = meta.color ?? "#10b981";
-  const isNew = lastAddedRole && roleName === lastAddedRole;
 
-  // Format like screenshot: $28.00/hr
-  const rateText = `$${Number(meta.rate ?? 0).toFixed(2)}/hr`;
-  const initialsText = initials(roleName);
+    const roleName = data?.text ?? "";
+    const meta = roleMeta?.[roleName] ?? { rate: 15, color: "#10b981" };
+    const dotColor = meta.color ?? "#10b981";
+    const isNew = lastAddedRole && roleName === lastAddedRole;
+
+    // Format like screenshot: $28.00/hr
+    const rateText = `$${Number(meta.rate ?? 0).toFixed(2)}/hr`;
+    const initialsText = initials(roleName);
 
 
 
-  return (
-    <div className={`empRow ${isNew ? "mrRoleRowNew" : ""}`}>
-      <div className="empLeft">
-        <div className="empAvatar" style={{ background: dotColor }} title={roleName}>
-          {initialsText}
+    return (
+      <div className={`empRow ${isNew ? "mrRoleRowNew" : ""}`}>
+        <div className="empLeft">
+          <div className="empAvatar" style={{ background: dotColor }} title={roleName}>
+            {initialsText}
+          </div>
+          <div>
+            <div className="empName" title={roleName}>{roleName}</div>
+            <div className="empMeta">{rateText}</div>
+          </div>
         </div>
-        <div>
-          <div className="empName" title={roleName}>{roleName}</div>
-          <div className="empMeta">{rateText}</div>
+
+        {/* Stop select when clicking icons */}
+        <div className="empActions" onClick={(e) => e.stopPropagation()}>
+          <ButtonComponent
+            cssClass="e-flat empIconBtn"
+            title="Edit"
+            type="button"
+            onClick={(ev: any) => {
+              ev?.stopPropagation?.();
+              startEditRole(roleName);
+            }}
+          >
+            <span className="e-btn-icon e-icons e-edit" />
+          </ButtonComponent>
+          <ButtonComponent
+            cssClass="e-flat empIconBtn empSfDanger"
+            iconCss="e-icons e-trash"
+            title="Delete"
+            type="button"
+            onClick={(ev: any) => {
+              ev?.stopPropagation?.();
+              deleteRoleRow(roleName);
+            }}
+          />
         </div>
       </div>
-
-      {/* Stop select when clicking icons */}
-      <div className="empActions" onClick={(e) => e.stopPropagation()}>
-        <ButtonComponent
-          cssClass="e-flat empIconBtn"
-          title="Edit"
-          type="button"
-          onClick={(ev: any) => {
-            ev?.stopPropagation?.();
-            startEditRole(roleName);
-          }}
-        >
-          <span className="e-btn-icon e-icons e-edit" />
-        </ButtonComponent>
-        <ButtonComponent
-          cssClass="e-flat empIconBtn empSfDanger"
-          iconCss="e-icons e-trash"
-          title="Delete"
-          type="button"
-          onClick={(ev: any) => {
-            ev?.stopPropagation?.();
-            deleteRoleRow(roleName);
-          }}
-        />
-      </div>
-    </div>
-  );
-};
+    );
+  };
   const renderRolesDialogBody = () => {
     if (rolesView === "add") {
       const isEdit = !!editingRoleName;
       return (
         <div className="mrBody">
-          
+
           <div className="mrDivider" />
           <div className="mrAddWrap">
-            <div className="mrSectionTitle">{isEdit ? "Edit Role" : "Add New Role"}</div>
-
             <div className="mrField">
               <label className="mrLabel">
                 Role Name <span className="mrReq">*</span>
@@ -1348,7 +1345,7 @@ const isLockedLocation = (name: unknown) =>
                   setRoleNameInputValue(e.value ?? "");
                   if (roleFormError) setRoleFormError("");
                 }}
-                cssClass="mrInput"  
+                cssClass="mrInput"
               />
               {roleFormError ? <div className="mrError">{roleFormError}</div> : null}
             </div>
@@ -1386,13 +1383,13 @@ const isLockedLocation = (name: unknown) =>
             </div>
           </div>
           <div className="mrFooterRight">
-              <ButtonComponent cssClass="e-primary add-role-btn" type="button" onClick={submitRole}>
-                {isEdit ? "Update Role" : "Add Role"}
-              </ButtonComponent>
-              <ButtonComponent cssClass="e-outline" type="button" onClick={onCancelAddRole}>
-                Cancel
-              </ButtonComponent>
-            </div>
+            <ButtonComponent cssClass="e-primary add-role-btn" type="button" onClick={submitRole}>
+              {isEdit ? "Update Role" : "Add Role"}
+            </ButtonComponent>
+            <ButtonComponent cssClass="e-outline" type="button" onClick={onCancelAddRole}>
+              Cancel
+            </ButtonComponent>
+          </div>
         </div>
       );
     }
@@ -1401,7 +1398,7 @@ const isLockedLocation = (name: unknown) =>
 
     return (
       <div className="mrBody">
-     
+
         <div className="mrDivider" />
         <div className="mrTopRow">
           <div className="mrDesc">Manage job roles and default hourly rates.</div>
@@ -1441,60 +1438,60 @@ const isLockedLocation = (name: unknown) =>
     );
   };
 
-  
-  const locationItemTemplate = (data: any) => {
-  const name: string = data?.text;
-   const locked = isLockedLocation(name);
-  const meta = locationMeta?.[name] ?? { address: "", color: "#10b981" };
-  const dotColor = meta.color ?? "#10b981";
-  const isNew = lastAddedLocation && name === lastAddedLocation;
-  const location_name =initials(name);
 
-  return (
-    <div className={`empRow ${isNew ? "locRowNew" : ""}`}>
-      <div className="empLeft">
-        <div className="empAvatar" style={{ backgroundColor: dotColor }} title={name} >
-               {location_name}
+  const locationItemTemplate = (data: any) => {
+    const name: string = data?.text;
+    const locked = isLockedLocation(name);
+    const meta = locationMeta?.[name] ?? { address: "", color: "#10b981" };
+    const dotColor = meta.color ?? "#10b981";
+    const isNew = lastAddedLocation && name === lastAddedLocation;
+    const location_name = initials(name);
+
+    return (
+      <div className={`empRow ${isNew ? "locRowNew" : ""}`}>
+        <div className="empLeft">
+          <div className="empAvatar" style={{ backgroundColor: dotColor }} title={name} >
+            {location_name}
           </div>
-        <div >
-          <div className="empName" title={name}>{name}</div>
-          {meta.address ? (
-            <div className="empMeta" title={meta.address}>
-              {meta.address}
-            </div>
-          ) : null}
+          <div >
+            <div className="empName" title={name}>{name}</div>
+            {meta.address ? (
+              <div className="empMeta" title={meta.address}>
+                {meta.address}
+              </div>
+            ) : null}
+          </div>
+
+          {locked ? <span className="locPill">Default</span> : null}
         </div>
 
-        {locked ? <span className="locPill">Default</span> : null}
-      </div>
+        <div className="empActions" onClick={(e) => e.stopPropagation()}>
+          <ButtonComponent
 
-    <div className="empActions" onClick={(e) => e.stopPropagation()}>
-  <ButtonComponent
-    
-    cssClass={`e-flat empIconBtn ${locked ? "locIconLocked" : ""}`}
-    iconCss="e-btn-icon e-icons e-edit"
-    disabled={locked}
-    title={locked ? "Default location cannot be edited" : "Edit"}
-    onClick={(ev: any) => {
-      ev.stopPropagation();
-      startEditLocation(name);
-    }}
-  />
-  <ButtonComponent
-    cssClass={` e-flat empSfDanger e-btn ${locked ? "locIconLocked" : ""}`}
-   
-    iconCss="e-icons e-trash"
-    disabled={locked}
-    title={locked ? "Default location cannot be deleted" : "Delete"}
-    onClick={(ev: any) => {
-      ev.stopPropagation();
-      deleteLocationRow(name);
-    }}
-  />
-</div>
-    </div>
-  );
-};
+            cssClass={`e-flat empIconBtn ${locked ? "locIconLocked" : ""}`}
+            iconCss="e-btn-icon e-icons e-edit"
+            disabled={locked}
+            title={locked ? "Default location cannot be edited" : "Edit"}
+            onClick={(ev: any) => {
+              ev.stopPropagation();
+              startEditLocation(name);
+            }}
+          />
+          <ButtonComponent
+            cssClass={` e-flat empSfDanger e-btn ${locked ? "locIconLocked" : ""}`}
+
+            iconCss="e-icons e-trash"
+            disabled={locked}
+            title={locked ? "Default location cannot be deleted" : "Delete"}
+            onClick={(ev: any) => {
+              ev.stopPropagation();
+              deleteLocationRow(name);
+            }}
+          />
+        </div>
+      </div>
+    );
+  };
   const renderLocationsDialogBody = () => {
     const isEmpty = !locationsListData?.length;
 
@@ -1503,12 +1500,10 @@ const isLockedLocation = (name: unknown) =>
 
       return (
         <div className="mlBody">
-        
+
           <div className="mlDivider" />
 
           <div className="mlAddWrap">
-            <div className="mlSectionTitle">{isEdit ? "Edit Location" : "Add New Location"}</div>
-
             <div className="mlField">
               <label className="mlLabel">
                 Location Name <span className="mlReq">*</span>
@@ -1543,32 +1538,32 @@ const isLockedLocation = (name: unknown) =>
                   mode="Palette"
                   inline={false}
                   showButtons={true}
-                 
+
                   change={(args: any) => {
-                    const next= args?.currentValue?.hex ?? args?.value ?? "#10b981";
+                    const next = args?.currentValue?.hex ?? args?.value ?? "#10b981";
                     setLocationColorValue(next);
                   }}
                 />
               </div>
             </div>
 
-           
-             </div>
-            <div className="mlFooterRight">
-              <ButtonComponent cssClass="e-primary add-location-btn" type="button" onClick={submitLocation}>
-                {isEdit ? "Update Location" : "Add Location"}
-              </ButtonComponent>
-              <ButtonComponent
-                cssClass="e-outline"
-                type="button"
-                onClick={() => {
-                  setLocationsView("list");
-                  setLocationFormError("");
-                  setEditingLocationName(null);
-                }}
-              >
-                Cancel
-              </ButtonComponent>
+
+          </div>
+          <div className="mlFooterRight">
+            <ButtonComponent cssClass="e-primary add-location-btn" type="button" onClick={submitLocation}>
+              {isEdit ? "Update Location" : "Add Location"}
+            </ButtonComponent>
+            <ButtonComponent
+              cssClass="e-outline"
+              type="button"
+              onClick={() => {
+                setLocationsView("list");
+                setLocationFormError("");
+                setEditingLocationName(null);
+              }}
+            >
+              Cancel
+            </ButtonComponent>
           </div>
         </div>
       );
@@ -1576,7 +1571,7 @@ const isLockedLocation = (name: unknown) =>
 
     return (
       <div className="mlBody">
-       
+
         <div className="mlDivider" />
 
         <div className="mlTopRow">
@@ -1626,7 +1621,7 @@ const isLockedLocation = (name: unknown) =>
     <div className="appRoot">
       <style>{`
         .appRoot { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:#f7fafc; min-height:95vh; }
-        .topInner { display:flex; align-items:center; position:relative; top:0; z-index:10; background:#046AE5;color:#fff;justify-content:space-between; gap:12px; padding:7px 16px; }
+        .topInner { display:flex; align-items:center; position:relative; top:0; z-index:10; background:#046AE5;color:#fff;justify-content:space-between; gap:12px; padding:15px 16px; }
         .leftBlock { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
         .chips { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
         .board { background:#fff; border:1px solid #e6edf3; border-radius:14px; overflow:hidden; position:relative; }
@@ -1649,93 +1644,92 @@ const isLockedLocation = (name: unknown) =>
         .hintText{ margin-top:6px; font-size:12px; color:#6b7280; font-weight:600; }
         .formError{ margin-top:10px; padding:10px 12px; border-radius:12px; background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; font-size:13px; font-weight:700; }
       `}</style>
-       <div className="topInner">
-          <div className="leftBlock">
-            <div className="chips">
-              <DropDownListComponent
-                id="location"
-                dataSource={effectiveLocations}
-                value={selectedLocation}
-                change={(e: any) => setSelectedLocation(e.value as LocationName)}
-                width="110px"
-                
-                cssClass="custom-locations-dropdown e-flaat "
-              />
+      <div className="topInner">
+        <div className="leftBlock">
+          <div className="chips">
+            <DropDownListComponent
+              id="location"
+              dataSource={effectiveLocations}
+              value={selectedLocation}
+              change={(e: any) => setSelectedLocation(e.value as LocationName)}
+              width="130px"
+              cssClass="custom-locations-dropdown e-flaat "
+            />
 
-              <ButtonComponent
-                cssClass="manage-locations-btn e-flat"
-                onClick={() => {
-                  setLocationsView("list");
-                  setLocationFormError("");
-                  setEditingLocationName(null);
-                  setShowLocationsDialog(true);
-                }}
-              >
-                <span className="e-icons e-location"> </span>
-                Work Locations
-              </ButtonComponent>
+            <ButtonComponent
+              cssClass="manage-locations-btn e-flat"
+              onClick={() => {
+                setLocationsView("list");
+                setLocationFormError("");
+                setEditingLocationName(null);
+                setShowLocationsDialog(true);
+              }}
+            >
+              <span className="e-icons e-location"> </span>
+               Work Locations
+            </ButtonComponent>
 
-              <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={openEmployees}>
-                <span className="e-icons e-people"> </span>
-                Employees
-              </ButtonComponent>
+            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={openEmployees}>
+              <span className="e-icons e-people"> </span>
+              Employees
+            </ButtonComponent>
 
-              <ButtonComponent
-                cssClass="manage-locations-btn e-flat"
-                onClick={() => {
-                  setRolesView("list");
-                  setRoleFormError("");
-                  setEditingRoleName(null);
-                  setShowRolesDialog(true);
-                }}
-              >
-                <span className="e-icons e-equalto"></span>
-                Roles
-              </ButtonComponent>
+            <ButtonComponent
+              cssClass="manage-locations-btn e-flat"
+              onClick={() => {
+                setRolesView("list");
+                setRoleFormError("");
+                setEditingRoleName(null);
+                setShowRolesDialog(true);
+              }}
+            >
+              <span className="e-icons e-equalto"></span>
+              Roles
+            </ButtonComponent>
 
-              <ButtonComponent cssClass="manage-locations-btn e-flat"  onClick={loadTestData}>
-                <span className="e-icons  e-file-new"></span>
-                  Load Example Data
-              </ButtonComponent>
+            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={loadTestData}>
+              <span className="e-icons  e-file-new"></span>
+              Load Example Data
+            </ButtonComponent>
 
-              <ButtonComponent cssClass="manage-locations-btn e-flat"  onClick={() => setShowSummaryDialog(true)}>
-                <span className="e-icons e-properties-2"></span>
-                Shift Summary
-              </ButtonComponent>
+            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={() => setShowSummaryDialog(true)}>
+              <span className="e-icons e-properties-2"></span>
+               Shift Summary
+            </ButtonComponent>
 
-              <DropDownButtonComponent
-                cssClass="options-btn e-flat"
-                iconCss="e-icons e-more-vertical-2"
-                items={optionItems}
-                content="Options"
-                select={onOptionsSelect}
-              >
-               
-              </DropDownButtonComponent>
+            <DropDownButtonComponent
+              cssClass="options-btn e-flat"
+              iconCss="e-icons e-more-vertical-2"
+              items={optionItems}
+              content="Options"
+              select={onOptionsSelect}
+            >
 
-            </div>
-          </div>
+            </DropDownButtonComponent>
 
-          <div className="rightBlock">
-           <div className="help-pane-content">
-                <img
-                    className="syncfusion-logo"
-                    src="https://static.syncfusion.com/wp-content/free-tools/document-editor-online-app/online-docx-editor/icons/Syncfusion-Logo.svg"
-                    alt="Syncfusion"
-                />
-                <span className="help-text">Powered by&nbsp;</span>
-                <a
-                    className="free-tools-sample-explore-btn"
-                    href="https://www.syncfusion.com/react-components/react-scheduler"
-                    target="_blank"
-                    rel="noreferrer"
-                >
-                    Syncfusion Scheduler
-                </a>
-            </div>
           </div>
         </div>
-     
+
+        <div className="rightBlock">
+          <div className="help-pane-content">
+            <img
+              className="syncfusion-logo"
+              src="https://static.syncfusion.com/wp-content/free-tools/document-editor-online-app/online-docx-editor/icons/Syncfusion-Logo.svg"
+              alt="Syncfusion"
+            />
+            <span className="help-text">Powered by&nbsp;</span>
+            <a
+              className="free-tools-sample-explore-btn"
+              href="https://www.syncfusion.com/react-components/react-scheduler"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Syncfusion Scheduler
+            </a>
+          </div>
+        </div>
+      </div>
+
 
       {notice && (
         <div className={`noticeBar ${notice.type}`}>
@@ -1822,8 +1816,8 @@ const isLockedLocation = (name: unknown) =>
             rowAutoHeight={true}
             startHour="00:00"
             endHour="24:00"
-            workDays={[0,1,2,3,4,5,6]}
-            workHours={{start:"6:00",end:"20:00 "}}
+            workDays={[0, 1, 2, 3, 4, 5, 6]}
+            workHours={{ start: "6:00", end: "20:00 " }}
             firstDayOfWeek={0}
             eventSettings={eventSettings as any}
             group={groupOptions as any}
@@ -1864,71 +1858,79 @@ const isLockedLocation = (name: unknown) =>
         width="min(92vw, 550px)"
         height="min(88vh, 480px)"
         //height="min(88vh, 620px)"
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         target={dialogTarget}
         beforeClose={() => setShowClearDialog(false)}
       >
-        <div style={{ padding: "10px", borderTop: "1px solid #e5e7eb" }}>
-          <div
-            style={{
-              border: "1px solid #f5d0a6",
-              background: "#fff7ed",
-              borderRadius: 12,
-              padding: 14,
-              display: "flex",
-              gap: 12,
-              alignItems: "flex-start",
-              marginBottom: 14,
-            }}
-          >
-            <span className="e-icons e-warning" style={{ color: "#f97316", marginTop: 2 }} />
-            <div>
-              <div style={{ fontWeight: 500, color: "#9a3412" }}>Warning: This action cannot be undone.</div>
-              <div style={{ color: "#9a3412", fontSize: 13, marginTop: 4 }}>
-                Select the data you want to delete.
+        <div className="clear-dialog-layout">
+
+          {/* Scrollable content area */}
+          <div className="clear-dialog-scrollable">
+            {/* Warning banner */}
+            <div
+              style={{
+                border: "1px solid #f5d0a6",
+                background: "#fff7ed",
+                borderRadius: 12,
+                padding: 14,
+                display: "flex",
+                gap: 12,
+                alignItems: "flex-start",
+                marginBottom: 20,
+              }}
+            >
+              <div className="cdIconWarning">
+                <span className="e-icons e-warning" style={{ color: "#f97316", marginTop: 2 }} />
+              </div>
+              <div>
+                <div style={{ fontWeight: 500, color: "#9a3412" }}>
+                  Warning: This action cannot be undone
+                </div>
+                <div style={{ color: "#9a3412", fontSize: 13, marginTop: 4 }}>
+                  Select the data you want to delete.
+                </div>
+              </div>
+            </div>
+
+            {/* Choice cards */}
+            <div className="cdChoices">
+              <div
+                className={"cdCard " + (clearChoice === "shifts" ? "cdCardActive" : "")}
+                onClick={() => setClearChoice("shifts")}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="cdIconWrap cdIconNeutral">
+                  <span className="e-input-group-icon e-date-icon e-icons" />
+                </div>
+                <div className="cdCardBody">
+                  <div className="cdCardTitle">Clear Shifts Only</div>
+                  <div className="cdCardDesc">
+                    Delete all <b>{shiftCount}</b> shifts but keep employees.
+                  </div>
+                <div className="cdCardSub">Your 8 employees, their names, roles, settings, and other information will stay exactly as they are.</div>                </div>
+              </div>
+
+              <div
+                className={"cdCard cdCardDanger " + (clearChoice === "everything" ? "cdCardDangerActive" : "")}
+                onClick={() => setClearChoice("everything")}
+                role="button"
+                tabIndex={0}
+              >
+                <div className="cdIconWrap cdIconDanger">
+                  <span className="e-icons e-trash" />
+                </div>
+                <div className="cdCardBody">
+                  <div className="cdCardTitle">Clear Everything</div>
+                  <div className="cdCardDesc">
+                  Delete all <b>{empCount}</b> employees and <b>{shiftCount}</b> shifts                  </div>
+                <div className="cdCardSub">You’ll start with a completely fresh, empty schedule.</div>                </div>
               </div>
             </div>
           </div>
 
-          <div className="cdChoices">
-            <div
-              className={"cdCard " + (clearChoice === "shifts" ? "cdCardActive" : "")}
-              onClick={() => setClearChoice("shifts")}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="cdIconWrap cdIconNeutral">
-                <span className="e-input-group-icon e-date-icon e-icons " />
-              </div>
-              <div className="cdCardBody">
-                <div className="cdCardTitle">Clear Shifts Only</div>
-                <div className="cdCardDesc">
-                  Delete all <b>{shiftCount}</b> shifts but keep employees.
-                </div>
-                <div className="cdCardSub">Your 8 employees, their names, roles, settings, and other information will stay exactly as they are.</div>
-              </div>
-            </div>
-
-            <div
-              className={"cdCard cdCardDanger " + (clearChoice === "everything" ? "cdCardDangerActive" : "")}
-              onClick={() => setClearChoice("everything")}
-              role="button"
-              tabIndex={0}
-            >
-              <div className="cdIconWrap cdIconDanger">
-                <span className="e-icons e-trash" />
-              </div>
-              <div className="cdCardBody">
-                <div className="cdCardTitle">Clear Everything</div>
-                <div className="cdCardDesc">
-                  Delete all <b>{empCount}</b> employees and <b>{shiftCount}</b> shifts
-                </div>
-                <div className="cdCardSub">You’ll start with a completely fresh, empty schedule.</div>
-              </div>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, marginTop: 25, paddingTop:"10px", borderTop:"1px solid #e5e7eb"}}>
+          {/* Sticky / Fixed Footer */}
+          <div className="clear-dialog-footer">
             <ButtonComponent
               cssClass={clearChoice === "everything" ? "cdBtnDanger" : "cdBtnWarn"}
               onClick={() => {
@@ -1939,13 +1941,14 @@ const isLockedLocation = (name: unknown) =>
             >
               <span
                 className={
-                  "e-btn-icon e-icons " +
+                "e-btn-icon e-icons " +
                   (clearChoice === "everything" ? "e-trash" : "e-input-group-icon e-date-icon e-icons")
                 }
                 style={{ marginRight: 8 }}
               />
               {clearChoice === "everything" ? "Clear Everything" : "Clear Shifts"}
             </ButtonComponent>
+
             <ButtonComponent cssClass="e-outline" onClick={() => setShowClearDialog(false)}>
               Cancel
             </ButtonComponent>
@@ -1964,7 +1967,7 @@ const isLockedLocation = (name: unknown) =>
         header="Manage Employees"
         showCloseIcon={true}
         target={dialogTarget}
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         beforeClose={() => setShowEmployeesDialog(false)}
       >
         <ManageEmployeesList
@@ -1987,18 +1990,18 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showIcsDialog}
         id="importdialog"
-        header ="Import Schedule"
+        header="Import Schedule"
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 620px)"
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         target={dialogTarget}
         beforeClose={() => {
           setShowIcsDialog(false);
           setIcsFile(null);
           try {
             icsUploaderRef.current?.clearAll?.();
-          } catch {}
+          } catch { }
         }}
       >
         <div className="impWrap">
@@ -2008,14 +2011,14 @@ const isLockedLocation = (name: unknown) =>
                 <span className="e-icons e-upload-1 impCloudIcon" />
               </div>
               <div className="impMainText">Upload your ICS file only.</div>
-              
+
 
               <UploaderComponent
                 id="fileUpload"
                 type="file"
                 allowedExtensions=".ics"
                 cssClass="calendar-import"
-                buttons={{ browse:   'Choose File' }}
+                buttons={{ browse: 'Choose File' }}
                 multiple={false}
                 showFileList={false}
                 selected={onImportClick}
@@ -2033,12 +2036,12 @@ const isLockedLocation = (name: unknown) =>
         height="588px"
         overflow-y="auto"
         id="empform"
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         isModal={true}
         showCloseIcon={true}
         header={editingEmployee?.Id ? "Edit Employee" : "Add Employee"}
         target={dialogTarget}
-        beforeClose={() => {setShowEmployeeForm(false);setEditingEmployee(null);}}
+        beforeClose={() => { setShowEmployeeForm(false); setEditingEmployee(null); }}
       >
         <EmployeeForm
           initial={editingEmployee}
@@ -2061,27 +2064,27 @@ const isLockedLocation = (name: unknown) =>
         height="385px"
         // height removed per user request
         showCloseIcon={true}
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         isModal={true}
         target={dialogTarget}
         cssClass="mrDialog"
-         open={() => {          
-            const focusEmployee = () => {
-              const input = document.querySelector<HTMLInputElement>('#roledialog input.e-input');
-              if (input) {
-                input.focus();
-                input.select?.();
-              } else {
-                document.getElementById('roledialog')?.focus?.();
-              }
-            };
+        open={() => {
+          const focusEmployee = () => {
+            const input = document.querySelector<HTMLInputElement>('#roledialog input.e-input');
+            if (input) {
+              input.focus();
+              input.select?.();
+            } else {
+              document.getElementById('roledialog')?.focus?.();
+            }
+          };
 
+          requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                setTimeout(focusEmployee, 100);
-              });
+              setTimeout(focusEmployee, 100);
             });
-          }}
+          });
+        }}
         beforeClose={() => {
           setShowRolesDialog(false);
           setRolesView("list");
@@ -2102,7 +2105,7 @@ const isLockedLocation = (name: unknown) =>
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         cssClass="mlDialog"
         beforeClose={() => {
           setShowLocationsDialog(false);
@@ -2118,31 +2121,31 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         header={editingShift ? "Edit Shift" : "Create Shift"}
         visible={showShiftDialog}
-        width="min(92vw, 920px)" 
+        width="min(92vw, 920px)"
         height="min(90vh, 600px)"
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
-        animationSettings={{effect:"None"}}
-        id="shiftdialog" 
-        open={() => {          
-            const focusEmployee = () => {
-              const input = document.querySelector<HTMLInputElement>('#shiftdialog input.e-input');
-              if (input) {
-                input.focus();
-                input.select?.();
-              } else {
-                document.getElementById('shiftdialog')?.focus?.();
-              }
-            };
+        animationSettings={{ effect: "None" }}
+        id="shiftdialog"
+        open={() => {
+          const focusEmployee = () => {
+            const input = document.querySelector<HTMLInputElement>('#shiftdialog input.e-input');
+            if (input) {
+              input.focus();
+              input.select?.();
+            } else {
+              document.getElementById('shiftdialog')?.focus?.();
+            }
+          };
 
+          requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                setTimeout(focusEmployee, 100);
-              });
+              setTimeout(focusEmployee, 100);
             });
-          }}
-        beforeClose={() => {setShowShiftDialog(false); setShiftFormError("");}}
+          });
+        }}
+        beforeClose={() => { setShowShiftDialog(false); setShiftFormError(""); }}
       >
         <ShiftDialog
           employees={employees}
@@ -2152,8 +2155,8 @@ const isLockedLocation = (name: unknown) =>
           selectedEmployeeId={selectedEmployeeId}
           cell={cellSelection}
           initialEvent={editingShift}
-          formError={shiftFormError}                  
-          onClearError={() => setShiftFormError("")}  
+          formError={shiftFormError}
+          onClearError={() => setShiftFormError("")}
           onCancel={() => {
             setShowShiftDialog(false);
             setShiftFormError("");                    // clear on cancel
@@ -2170,32 +2173,32 @@ const isLockedLocation = (name: unknown) =>
         visible={showSummaryDialog}
         className="summery-dialog"
         height="min(88vh, 720px)"
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         isModal={true}
         showCloseIcon={true}
         target={dialogTarget}
         beforeClose={() => setShowSummaryDialog(false)}
       >
-        <div style={{ padding: "10px", borderTop: "1px solid #e5e7eb" }}>          
-          <GridComponent dataSource={summaryRows} clipMode={"EllipsisWithTooltip"} 
-          emptyRecordTemplate={() => (
-            <div className="emptyRecordTemplate">
-              <div style={{ fontSize: '14px', color: '#111827' }}>
-                No data available for the selected locations right now.
+        <div style={{ padding: "10px", borderTop: "1px solid #e5e7eb" }}>
+          <GridComponent id="summaryGrid" dataSource={summaryRows} clipMode={"EllipsisWithTooltip"}
+            emptyRecordTemplate={() => (
+              <div className="emptyRecordTemplate">
+                <div style={{ fontSize: '14px', color: '#111827' }}>
+                  No data available for the selected locations right now.
+                </div>
               </div>
-            </div>
-          )}
-          height={"270px"}>
+            )}
+            height={"270px"}>
             <ColumnsDirective>
-              <ColumnDirective field="Name" headerText="Employee" width="130" />
-              <ColumnDirective field="Role" headerText="Role" width="130" />
+              <ColumnDirective field="Name" headerText="Employee" width="150" />
+              <ColumnDirective field="Role" headerText="Role" width="170" />
               <ColumnDirective field="Shifts" headerText="Shifts" width="60" textAlign="Right" />
               <ColumnDirective field="TotalHours" headerText="Total Hours" width="100" textAlign="Right" />
               <ColumnDirective field="HourlyRate" headerText="Hourly Rate" width="100" textAlign="Right" />
               <ColumnDirective field="EstCost" headerText="Est. Cost" width="110" textAlign="Right" />
               <ColumnDirective field="MaxHoursDay" headerText="Max/Day" width="110" textAlign="Right" />
               <ColumnDirective field="MaxHoursWeek" headerText="Max/Week" width="110" textAlign="Right" />
-           </ColumnsDirective>
+            </ColumnsDirective>
             <GridInject services={[Page]} />
           </GridComponent>
         </div>
@@ -2205,9 +2208,9 @@ const isLockedLocation = (name: unknown) =>
       <DialogComponent
         visible={showExportDialog}
         id="Exportdialog"
-        header= "Export Schedule"
+        header="Export Schedule"
         isModal={true}
-        animationSettings={{effect:"None"}}
+        animationSettings={{ effect: "None" }}
         showCloseIcon={true}
         width="min(92vw, 620px)"
         //height="min(88vh, 410px)"
@@ -2244,11 +2247,11 @@ const isLockedLocation = (name: unknown) =>
             </ButtonComponent>
           </div>
 
-          
+
 
           <div className="exportDlgFooter">
             <ButtonComponent cssClass="e-primary e-export-btn" type="button" onClick={handleExportFromDialog}>
-              <span className="e-btn-icon e-icons e-download" style={{ marginRight: 8 }} />
+              <span className="e-btn-icon e-icons  e-download" style={{ marginRight: 8 }} />
               {exportFormat === "csv" ? "Export Excel" : exportFormat === "ics" ? "Export ICS" : "Export PDF"}
             </ButtonComponent>
             <ButtonComponent cssClass="e-outline" type="button" onClick={() => setShowExportDialog(false)}>
@@ -2307,8 +2310,7 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
             </svg>
           </div>
           <div className="empEmptyTitle">No employees yet</div>
-          <div className="empEmptyText">Add your first team member and start making shift planning super easy!</div>
-          <ButtonComponent cssClass="e-primary empEmptyCta" onClick={onAdd}>
+          <div className="empEmptyText">Add your first team member and start making shift planning super easy!</div>          <ButtonComponent cssClass="e-primary empEmptyCta" onClick={onAdd}>
             + Add Your First Employee
           </ButtonComponent>
         </div>
@@ -2336,12 +2338,12 @@ function ManageEmployeesList({ employees, appointments, onAdd, onEdit, onDelete,
                   cssClass="e-flat empIconBtn empSfDanger"
                   iconCss="e-icons e-trash"
                   onClick={() => {
-                   // if (window.confirm("Delete employee and all their shifts?")) 
-                   onDelete(e.Id);
+                    // if (window.confirm("Delete employee and all their shifts?")) 
+                    onDelete(e.Id);
                   }}
                   title="Delete"
                 >
-                  
+
                 </ButtonComponent>
               </div>
             </div>
@@ -2369,7 +2371,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
   const [color, setColor] = useState<string>(initial?.Color ?? DEFAULT_COLOR);
   const [formError, setFormError] = useState<string>("");
-  const [nameError, setNameError] = useState<string>(""); 
+  const [nameError, setNameError] = useState<string>("");
 
   const formRef = useRef<HTMLFormElement | null>(null);
   const fvRef = useRef<FormValidator | null>(null);
@@ -2378,21 +2380,21 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
 
 
   useEffect(() => {
-  if (!open) return;
+    if (!open) return;
 
-  setName(initial?.Name ?? "");
-  setHourly(initial?.HourlyRate ?? 15);
-  setMaxWeek(initial?.MaxHoursWeek ?? 40);
-  setMaxDay(initial?.MaxHoursDay ?? 8);
-  setMinRest(initial?.MinHoursBetweenShifts ?? 8);
-  setColor(initial?.Color ?? DEFAULT_COLOR);
+    setName(initial?.Name ?? "");
+    setHourly(initial?.HourlyRate ?? 15);
+    setMaxWeek(initial?.MaxHoursWeek ?? 40);
+    setMaxDay(initial?.MaxHoursDay ?? 8);
+    setMinRest(initial?.MinHoursBetweenShifts ?? 8);
+    setColor(initial?.Color ?? DEFAULT_COLOR);
 
-  const initRoles = initial?.AssignedRoles ?? (initial?.Role ? [initial.Role] : []);
-  setAssignedRoles(initRoles);
+    const initRoles = initial?.AssignedRoles ?? (initial?.Role ? [initial.Role] : []);
+    setAssignedRoles(initRoles);
 
-  setFormError("");
-  setNameError(""); // clear name exists error each time dialog opens
-}, [open, initial]);
+    setFormError("");
+    setNameError(""); // clear name exists error each time dialog opens
+  }, [open, initial]);
 
 
 
@@ -2402,7 +2404,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
     const t = window.setTimeout(() => {
       try {
         fvRef.current?.destroy?.();
-      } catch {}
+      } catch { }
       fvRef.current = new FormValidator(formRef.current as any, {
         rules: {
           Name: { required: [true, "Name is required"] },
@@ -2417,7 +2419,7 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
       window.clearTimeout(t);
       try {
         fvRef.current?.destroy?.();
-      } catch {}
+      } catch { }
     };
   }, []);
 
@@ -2429,160 +2431,160 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
   };
 
   const submit = () => {
-  setFormError("");
-  setNameError(""); // clear old error
+    setFormError("");
+    setNameError(""); // clear old error
 
-  const trimmed = String(name ?? "").trim();
+    const trimmed = String(name ?? "").trim();
 
-  // // required check (extra safety)
-  // if (!trimmed) {
-  //   setNameError("Name is required");
-  //   setFormError("Please fix the highlighted fields.");
-  //   return;
-  // }
+    // // required check (extra safety)
+    // if (!trimmed) {
+    //   setNameError("Name is required");
+    //   setFormError("Please fix the highlighted fields.");
+    //   return;
+    // }
 
-  // Duplicate check ONLY on submit
-  const newKey = normalizeEmpName(trimmed);
-  const currentId = initial?.Id ?? 0;
+    // Duplicate check ONLY on submit
+    const newKey = normalizeEmpName(trimmed);
+    const currentId = initial?.Id ?? 0;
 
-  const duplicate = (employees ?? []).some(
-    (e) => normalizeEmpName(e.Name) === newKey && e.Id !== currentId
-  );
+    const duplicate = (employees ?? []).some(
+      (e) => normalizeEmpName(e.Name) === newKey && e.Id !== currentId
+    );
 
-  if (duplicate) {
-    setNameError("Employee name already exists.");
-    setFormError("Please fix the highlighted fields.");
-    return;
-  }
+    if (duplicate) {
+      setNameError("Employee name already exists.");
+      setFormError("Please fix the highlighted fields.");
+      return;
+    }
 
-  // existing validator rules
-  const ok = fvRef.current ? fvRef.current.validate() : true;
-  if (!ok) {
-    setFormError("Please fix the highlighted fields.");
-    return;
-  }
+    // existing validator rules
+    const ok = fvRef.current ? fvRef.current.validate() : true;
+    if (!ok) {
+      setFormError("Please fix the highlighted fields.");
+      return;
+    }
 
-  const roleSingle = assignedRoles[0] ?? "";
-  onSave({
-    Id: initial?.Id ?? 0,
-    Name: trimmed,
-    Role: roleSingle,
-    AssignedRoles: assignedRoles,
-    HourlyRate: Number(hourly ?? 0),
-    MaxHoursWeek: Number(maxWeek ?? 0),
-    MinHoursBetweenShifts: Number(minRest ?? 0),
-    Color: String(color ?? DEFAULT_COLOR).trim(),
-  });
-};
+    const roleSingle = assignedRoles[0] ?? "";
+    onSave({
+      Id: initial?.Id ?? 0,
+      Name: trimmed,
+      Role: roleSingle,
+      AssignedRoles: assignedRoles,
+      HourlyRate: Number(hourly ?? 0),
+      MaxHoursWeek: Number(maxWeek ?? 0),
+      MinHoursBetweenShifts: Number(minRest ?? 0),
+      Color: String(color ?? DEFAULT_COLOR).trim(),
+    });
+  };
 
   return (
     <div>
-  
-    <form ref={formRef} className="empAddForm" onSubmit={(e) => e.preventDefault()} noValidate>
-      
 
-      <div className="empAddDivider" />
+      <form ref={formRef} className="empAddForm" onSubmit={(e) => e.preventDefault()} noValidate>
 
-      {formError ? <div className="empFormError">{formError}</div> : null}
 
-      <div className="empAddBody">
-        <div className="empFieldBlock">
-          <label className="empLabel">Name <span className="mrReq">*</span></label>
-          <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name " input={(e: any) => setName(e.value ?? "")} />
-             {nameError ? <div className="mrError">{nameError}</div> : null}
-        </div>
+        <div className="empAddDivider" />
 
-        <div className="empFieldBlock">
-          <label className="empLabel">Color</label>
-          <div className="empColorRow">
-            <ColorPickerComponent
-              id="EmpColor"
-              value={color ?? DEFAULT_COLOR}
-              mode="Palette"
-              inline={false}
-              showButtons={true}
-              columns={12}
-              change={(args: any) => {
-                const next = args?.currentValue?.hex ?? args?.value ?? DEFAULT_COLOR;
-                setColor(next);
-              }}
+        {formError ? <div className="empFormError">{formError}</div> : null}
+
+        <div className="empAddBody">
+          <div className="empFieldBlock">
+            <label className="empLabel">Name <span className="mrReq">*</span></label>
+            <TextBoxComponent id="Name" name="Name" value={name} placeholder="Enter employee name " input={(e: any) => setName(e.value ?? "")} />
+            {nameError ? <div className="mrError">{nameError}</div> : null}
+          </div>
+
+          <div className="empFieldBlock">
+            <label className="empLabel">Color</label>
+            <div className="empColorRow">
+              <ColorPickerComponent
+                id="EmpColor"
+                value={color ?? DEFAULT_COLOR}
+                mode="Palette"
+                inline={false}
+                showButtons={true}
+                columns={12}
+                change={(args: any) => {
+                  const next = args?.currentValue?.hex ?? args?.value ?? DEFAULT_COLOR;
+                  setColor(next);
+                }}
+              />
+            </div>
+            <div className="empHint">Color will be auto-generated if not selected</div>
+          </div>
+
+          <div className="empFieldBlock">
+            <div className="empLabelRow">
+              <label className="empLabel">Assigned Roles</label>
+            </div>
+
+            <div className="empRoleBox">
+              {roleOptions.length === 0 ? (
+                <div className="">No roles available</div>
+              ) : (
+                roleOptions.map((r) => (
+                  <div key={r} className="empRoleItem">
+                    <CheckBoxComponent checked={assignedRoles.includes(r)} change={() => toggleRole(r)} label={r} />
+                    <span className="empRoleDot" />
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="empHint">Select the roles this employee can work</div>
+          </div>
+
+          <div className="empFieldBlock">
+            <label className="empLabel">Hourly Wage</label>
+            <NumericTextBoxComponent
+              id="HourlyRate"
+              name="HourlyRate"
+              value={hourly}
+              min={0}
+              max={15}
+              step={0.01}
+              format="n2"
+              placeholder="15.00"
+              change={(e: any) => setHourly(e.value)}
+            />
+            <div className="empHint">Used for labor cost calculations</div>
+          </div>
+
+          <div className="empFieldBlock">
+            <label className="empLabel">Max Hours/Week</label>
+            <NumericTextBoxComponent
+              id="MaxHoursWeek"
+              name="MaxHoursWeek"
+              value={maxWeek}
+              format="n0"          // ← change from n2 to n0 = 0 decimal places
+              decimals={0}
+              min={0}
+              max={48}
+              placeholder="40"
+              change={(e: any) => setMaxWeek(e.value)}
             />
           </div>
-          <div className="empHint">Color will be auto-generated if not selected</div>
-        </div>
 
-        <div className="empFieldBlock">
-          <div className="empLabelRow">
-            <label className="empLabel">Assigned Roles</label>
+          <div className="empFieldBlock">
+            <label className="empLabel">Min Hours Between Shifts</label>
+            <NumericTextBoxComponent
+              id="MinRest"
+              name="MinRest"
+              value={minRest}
+              min={0}
+              format="n0"          // ← change from n2 to n0 = 0 decimal places
+              decimals={0}
+              max={24}
+              placeholder="8"
+              change={(e: any) => setMinRest(e.value)}
+            />
+            <div className="empHint">Minimum rest time between shifts</div>
           </div>
-
-          <div className="empRoleBox">
-            {roleOptions.length === 0 ? (
-              <div className="">No roles available</div>
-            ) : (
-              roleOptions.map((r) => (
-                <div key={r} className="empRoleItem">
-                  <CheckBoxComponent checked={assignedRoles.includes(r)} change={() => toggleRole(r)} label={r} />
-                  <span className="empRoleDot" />
-                </div>
-              ))
-            )}
-          </div>
-
-          <div className="empHint">Select the roles this employee can work</div>
         </div>
 
-        <div className="empFieldBlock">
-          <label className="empLabel">Hourly Wage</label>
-          <NumericTextBoxComponent
-            id="HourlyRate"
-            name="HourlyRate"
-            value={hourly}
-            min={0}
-            max={15}
-            step={0.01}
-            format="n2"
-            placeholder="15.00"
-            change={(e: any) => setHourly(e.value)}
-          />
-          <div className="empHint">Used for labor cost calculations</div>
-        </div>
 
-        <div className="empFieldBlock">
-          <label className="empLabel">Max Hours/Week</label>
-          <NumericTextBoxComponent
-            id="MaxHoursWeek"
-            name="MaxHoursWeek"
-            value={maxWeek}
-            format="n0"          // ← change from n2 to n0 = 0 decimal places
-            decimals={0}
-            min={0}
-            max={48}
-            placeholder="40"
-            change={(e: any) => setMaxWeek(e.value)}
-          />
-        </div>
-
-        <div className="empFieldBlock">
-          <label className="empLabel">Min Hours Between Shifts</label>
-          <NumericTextBoxComponent
-            id="MinRest"
-            name="MinRest"
-            value={minRest}
-            min={0}
-            format="n0"          // ← change from n2 to n0 = 0 decimal places
-            decimals={0}
-            max={24}
-            placeholder="8"
-            change={(e: any) => setMinRest(e.value)}
-          />
-          <div className="empHint">Minimum rest time between shifts</div>
-        </div>
-      </div>
-
-     
-    </form>
-     <div className="empAddFooter">
+      </form>
+      <div className="empAddFooter">
         <ButtonComponent cssClass="e-primary add-employee" onClick={submit}>
           {isEdit ? "Save" : "Add Employee"}
         </ButtonComponent>
@@ -2602,7 +2604,7 @@ function ShiftDialog({
   selectedEmployeeId,
   cell,
   initialEvent,
-  formError,        
+  formError,
   onClearError,
   onCancel,
   onSubmit,
@@ -2639,21 +2641,21 @@ function ShiftDialog({
     }
   }, [hasEmployees, employees, selectedEmployeeId, roles]);
 
-  
-    useEffect(() => {
-      // Only apply in "Create Shift" mode
-      if (initialEvent) return;
 
-      // If user filtered to a specific location, default to it
-      if (selectedLocation && selectedLocation !== "All Locations") {
-        setLocation(selectedLocation);
-        return;
-      }
+  useEffect(() => {
+    // Only apply in "Create Shift" mode
+    if (initialEvent) return;
 
-      // If "All Locations" selected, default to first real location (non-All)
-      const first = (locations ?? []).find((l) => l && l !== "All Locations");
-      setLocation(first ?? "");
-    }, [selectedLocation, initialEvent, locations]);
+    // If user filtered to a specific location, default to it
+    if (selectedLocation && selectedLocation !== "All Locations") {
+      setLocation(selectedLocation);
+      return;
+    }
+
+    // If "All Locations" selected, default to first real location (non-All)
+    const first = (locations ?? []).find((l) => l && l !== "All Locations");
+    setLocation(first ?? "");
+  }, [selectedLocation, initialEvent, locations]);
 
   useEffect(() => {
     if (initialEvent) {
@@ -2764,112 +2766,112 @@ function ShiftDialog({
     });
   };
   return (
-  <div className="sfShiftForm">
-    {!hasEmployees ? (
-      <div className="shiftNoEmp">
-        <div className="shiftNoEmpTitle">No employees available</div>
-        <div className="shiftNoEmpSub">Please add an employee first to create shifts.</div>
-        <div style={{ marginTop: 12 }}>
-          <ButtonComponent cssClass="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" type="button" onClick={onCancel}>
-            Close
-          </ButtonComponent>
-        </div>
-      </div>
-    ) : (
-      <>
-        <div className="shiftFormWrap">
-          {/*ERROR SHOWS AT TOP OF SCROLLABLE AREA */}
-          {formError ? (
-            <div className="formError" role="alert">
-              {formError}
-            </div>
-          ) : null}
-
-          {/*FORM CONTENT */}
-          <div className="shiftGrid3">
-            <div className="sfField">
-              <label>Employee</label>
-              <DropDownListComponent
-                
-                cssClass="e-outline"
-                dataSource={employeeData}
-                fields={{ text: "text", value: "value" }}
-                value={employeeId}
-                
-                change={(e: any) => {
-                  onClearError?.(); //clear error on change
-                  setEmployeeId(e.value);
-                  const chosen = employees.find((x) => x.Id === e.value);
-                  if (chosen && chosen.Role) setRole(chosen.Role);
-                }}
-              />
-            </div>
-
-            <div className="sfField">
-              <label>Location</label>
-              <DropDownListComponent
-                cssClass="e-outline"
-                dataSource={locationData}
-                fields={{ text: "text", value: "value" }}
-                value={locationEnabled ? location : null}
-                enabled={locationEnabled}
-                placeholder={locationEnabled ? "Select location" : "No locations available"}
-                change={(e: any) => {
-                  onClearError?.(); // 
-                  setLocation(e.value);
-                }}
-              />
-              {!locationEnabled ? (
-                <div className="hintText">Add locations from the Locations dialog to enable this field.</div>
-              ) : null}
-            </div>
-
-            <div className="sfField">
-              <label>Role</label>
-              <DropDownListComponent
-                cssClass="e-outline"
-                dataSource={roleData}
-                fields={{ text: "text", value: "value" }}
-                value={roleEnabled ? role : null}
-                enabled={roleEnabled}
-                placeholder={roleEnabled ? "Select role" : "No roles available"}
-                change={(e: any) => {
-                  onClearError?.(); // 
-                  setRole(e.value);
-                }}
-              />
-              {!roleEnabled ? <div className="hintText">Add roles from the Roles dialog to enable this field.</div> : null}
-            </div>
+    <div className="sfShiftForm">
+      {!hasEmployees ? (
+        <div className="shiftNoEmp">
+          <div className="shiftNoEmpTitle">No employees available</div>
+          <div className="shiftNoEmpSub">Please add an employee first to create shifts.</div>
+          <div style={{ marginTop: 12 }}>
+            <ButtonComponent cssClass="e-dlg-closeicon-btn e-control e-btn e-lib e-flat e-icon-btn" type="button" onClick={onCancel}>
+              Close
+            </ButtonComponent>
           </div>
+        </div>
+      ) : (
+        <>
 
-          <div className="shiftGrid3">
-            <div className="sfField">
-              <label>Date</label>
-              <DatePickerComponent
-                cssClass="e-outline"
-                value={date}
-                change={(e: any) => {
-                  onClearError?.(); 
-                  setDate(e.value);
-                }}
-              />
-            </div>
-             <div className="sfField">
-              <label>Start Time</label>
-              <div className="timeRow">
-                <TimePickerComponent
-                  cssClass="e-outline"
-                  value={startTime}
-                  width={"100%"}
-                  format="h:mm"
-                  step={15}
-                  change={(e: any) => {
-                    onClearError?.(); // 
-                    setStartTime(e.value);
-                  }}
-                />
+          <div className="shift-dialog-scrollable">
+            {/*ERROR SHOWS AT TOP OF SCROLLABLE AREA */}
+            {formError ? (
+              <div className="formError" role="alert">
+                {formError}
               </div>
-              {/* <div className="timeChips">
+            ) : null}
+            <div className="shiftFormWrap">
+              {/*FORM CONTENT */}
+              <div className="shiftGrid3">
+                <div className="sfField">
+                  <label>Employee</label>
+                  <DropDownListComponent
+                    cssClass="e-outline"
+                    dataSource={employeeData}
+                    fields={{ text: "text", value: "value" }}
+                    value={employeeId}
+                    change={(e: any) => {
+                      onClearError?.(); //clear error on change
+                      setEmployeeId(e.value);
+                      const chosen = employees.find((x) => x.Id === e.value);
+                      if (chosen && chosen.Role) setRole(chosen.Role);
+                    }}
+                  />
+                </div>
+
+                <div className="sfField">
+                  <label>Location</label>
+                  <DropDownListComponent
+                    cssClass="e-outline"
+                    dataSource={locationData}
+                    fields={{ text: "text", value: "value" }}
+                    value={locationEnabled ? location : null}
+                    enabled={locationEnabled}
+                    placeholder={locationEnabled ? "Select location" : "No locations available"}
+                    change={(e: any) => {
+                      onClearError?.(); // 
+                      setLocation(e.value);
+                    }}
+                  />
+                  {!locationEnabled ? (
+                    <div className="hintText">Add locations from the Locations dialog to enable this field.</div>
+                  ) : null}
+                </div>
+
+                <div className="sfField">
+                  <label>Role</label>
+                  <DropDownListComponent
+                    cssClass="e-outline"
+                    dataSource={roleData}
+                    fields={{ text: "text", value: "value" }}
+                    value={roleEnabled ? role : null}
+                    enabled={roleEnabled}
+                    placeholder={roleEnabled ? "Select role" : "No roles available"}
+                    change={(e: any) => {
+                      onClearError?.(); // 
+                      setRole(e.value);
+                    }}
+                  />
+                  {!roleEnabled ? <div className="hintText">Add roles from the Roles dialog to enable this field.</div> : null}
+                </div>
+              </div>
+
+              <div className="shiftGrid3">
+                <div className="sfField">
+                  <label>Date</label>
+                  <DatePickerComponent
+                    cssClass="e-outline"
+                    id="editDate"
+                    value={date}
+                    change={(e: any) => {
+                      onClearError?.();
+                      setDate(e.value);
+                    }}
+                  />
+                </div>
+                <div className="sfField">
+                  <label>Start Time</label>
+                  <div className="timeRow">
+                    <TimePickerComponent
+                      cssClass="e-outline"
+                      value={startTime}
+                      width={"100%"}
+                      format="h:mm"
+                      step={15}
+                      change={(e: any) => {
+                        onClearError?.(); // 
+                        setStartTime(e.value);
+                      }}
+                    />
+                  </div>
+                  {/* <div className="timeChips">
                 {timeChips.map((t) => (
                   <ButtonComponent
                     key={t.label}
@@ -2884,23 +2886,23 @@ function ShiftDialog({
                   </ButtonComponent>
                 ))}
               </div> */}
-            </div>
+                </div>
 
-            <div className="sfField">
-              <label>End Time </label>
-              <div className="timeRow">
-                <TimePickerComponent
-                  cssClass="e-outline"
-                  value={endTime}
-                  format="h:mm"
-                  step={15}
-                  change={(e: any) => {
-                    onClearError?.(); // 
-                    setEndTime(e.value);
-                  }}
-                />
-              </div>
-              {/* <div className="timeChips">
+                <div className="sfField">
+                  <label>End Time </label>
+                  <div className="timeRow">
+                    <TimePickerComponent
+                      cssClass="e-outline"
+                      value={endTime}
+                      format="h:mm"
+                      step={15}
+                      change={(e: any) => {
+                        onClearError?.(); // 
+                        setEndTime(e.value);
+                      }}
+                    />
+                  </div>
+                  {/* <div className="timeChips">
                 {timeChips.map((t) => (
                   <ButtonComponent
                     key={t.label}
@@ -2915,69 +2917,69 @@ function ShiftDialog({
                   </ButtonComponent>
                 ))}
               </div> */}
-            </div>
-          </div>
+                </div>
+              </div>
 
 
-          <div className="shiftGrid2">
-            <div className="sfField">
-              <label>Break Duration (minutes)</label>
-              <NumericTextBoxComponent
-                cssClass="e-outline"
-                value={breakDuration}
-                min={0}
-                format="n0"
-                change={(e: any) => {
-                  onClearError?.(); // 
-                  setBreakDuration(e.value);
-                }}
-              />
-            </div>
+              <div className="shiftGrid2">
+                <div className="sfField">
+                  <label>Break Duration (minutes)</label>
+                  <NumericTextBoxComponent
+                    cssClass="e-outline"
+                    value={breakDuration}
+                    min={0}
+                    format="n0"
+                    change={(e: any) => {
+                      onClearError?.(); // 
+                      setBreakDuration(e.value);
+                    }}
+                  />
+                </div>
 
-            <div className="summaryCard">
-              <div className="summaryTop">
-                <span className="e-icons e-clock summaryIcon" />
-                <div className="summaryText">
-                  <div className="summaryHours">{calcHours().toFixed(1)} hours</div>
-                  <div className="summaryCost">${calcCost().toFixed(2)} estimated cost</div>
+                <div className="summaryCard">
+                  <div className="summaryTop">
+                    <span className="e-icons e-clock summaryIcon" />
+                    <div className="summaryText">
+                      <div className="summaryHours">{calcHours().toFixed(1)} hours</div>
+                      <div className="summaryCost">${calcCost().toFixed(2)} estimated cost</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="shiftGrid1">
+                <div className="sfField">
+                  <label>Notes</label>
+                  <TextBoxComponent
+                    cssClass="e-outline"
+                    value={notes}
+                    placeholder="e.g., Opening manager"
+                    multiline={true}
+                    htmlAttributes={{ rows: "2" }}
+                    input={(e: any) => {
+                      onClearError?.(); // 
+                      setNotes(e.value ?? "");
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="constraintsBox">
+                <div className="constraintsTitle">
+                  <span className="e-icons e-circle-info" />
+                  <span>Employee Constraints:</span>
+                </div>
+                <div className="constraintsBody">
+                  <div>Max hours per week: {maxWeek}h</div>
+                  <div>Min hours between shifts: {minRest}h</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="shiftGrid1">
-            <div className="sfField">
-              <label>Notes</label>
-              <TextBoxComponent
-                cssClass="e-outline"
-                value={notes}
-                placeholder="e.g., Opening manager"
-                multiline={true}
-                htmlAttributes={{ rows: "2" }}
-                input={(e: any) => {
-                  onClearError?.(); // 
-                  setNotes(e.value ?? "");
-                }}
-                
-              />
-            </div>
-          </div>
-
-          <div className="constraintsBox">
-            <div className="constraintsTitle">
-              <span className="e-icons e-circle-info" />
-              <span>Employee Constraints:</span>
-            </div>
-            <div className="constraintsBody">
-              <div>Max hours per week: {maxWeek}h</div>
-              <div>Min hours between shifts: {minRest}h</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Footer is outside scrollable area */}
-        <div className="shiftFooter">
-          {/* {initialEvent?.Id ? (
+          {/* Footer is outside scrollable area */}
+          <div className="shiftFooter">
+            {/* {initialEvent?.Id ? (
             <ButtonComponent cssClass="e-danger" className="del-btn" type="button" onClick={() => onDelete?.(initialEvent.Id)}>
               <span className="e-icons e-trash" style={{ marginRight: 6 }} />
               Delete
@@ -2986,18 +2988,18 @@ function ShiftDialog({
             <div />
           )} */}
 
-          <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
-            {initialEvent ? "Update Shift" : "Create Shift"}
-          </ButtonComponent>
+            <ButtonComponent className="crt-btn" cssClass="e-primary" type="button" disabled={!canSubmit} onClick={handleSubmit}>
+              {initialEvent ? "Update Shift" : "Create Shift"}
+            </ButtonComponent>
 
-          <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
-            Cancel
-          </ButtonComponent>
-        </div>
-      </>
-    )}
-  </div>
-);
+            <ButtonComponent className="can-btn" cssClass="e-cancel" type="button" onClick={onCancel}>
+              Cancel
+            </ButtonComponent>
+          </div>
+        </>
+      )}
+    </div>
+  );
 
 }
 
@@ -3013,24 +3015,24 @@ function StickySchedulerFooterPromo(): JSX.Element {
         </div>
 
         <div className="promoActions">
-  <ButtonComponent
-    cssClass="e-primary"
-    className="trail-button"
-    iconPosition="right"
-    iconCss="e-icons e-arrow-right"
-    onClick={() => window.open("https://www.syncfusion.com/react-components/react-scheduler", "_blank", "noopener")}
-  >
-    Start Free Trial
-  </ButtonComponent>
+          <ButtonComponent
+            cssClass="e-primary"
+            className="trail-button"
+            iconPosition="right"
+            iconCss="e-icons e-arrow-right"
+            onClick={() => window.open("https://www.syncfusion.com/react-components/react-scheduler", "_blank", "noopener")}
+          >
+            Start Free Trial
+          </ButtonComponent>
 
-  <ButtonComponent
-  className="trail-button-demo"
-    cssClass="e-flat"
-    onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
-  >
-    Request Demo
-  </ButtonComponent>
-</div>
+          <ButtonComponent
+            className="trail-button-demo"
+            cssClass="e-flat"
+            onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
+          >
+            Request Demo
+          </ButtonComponent>
+        </div>
       </div>
     </div>
   );
