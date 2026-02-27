@@ -46,7 +46,6 @@ div#e-split-btn_52_dropdownbtn-popup {
     background-color: transparent !important;
 }
 
-
 span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-input:hover,
 span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-input.e-input-focus {
   border-color: var(--color-sf-border-hover, #bfbfbf);
@@ -66,6 +65,54 @@ span.e-input-group.e-control-wrapper.e-outline.e-ddl.e-lib.e-keyboard.e-valid-in
   color: rgb(79, 70, 229) !important;
 }
 
+/* Make sure empty cells can receive hover */
+.e-schedule .e-timeline-view .e-work-cells.e-work-cell,
+.e-schedule .e-month-view .e-work-cells,
+.e-schedule .e-day-view .e-work-cells,
+.e-schedule .e-week-view .e-work-cells {
+  position: relative;          /* Important: allows absolute positioning of + icon */
+  cursor: pointer;             /* Hand cursor on hover */
+  transition: background-color 0.2s ease;
+}
+
+/* Hover background (like your second image – subtle highlight) */
+.e-schedule .e-timeline-view .e-work-cells.e-work-cell:hover,
+.e-schedule .e-month-view .e-work-cells:hover {
+  background-color: rgba(59, 130, 246, 0.08); /* Light blue tint – adjust to your theme */
+}
+
+/* The + overlay – centered, hidden until hover */
+.custom-cell-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-icon-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;                    
+  transition: opacity 0.2s ease;
+  pointer-events: none;      
+  z-index: 10;
+}
+
+
+.e-work-cells:hover .add-icon-overlay,
+.e-work-cells.e-focused .add-icon-overlay {   
+  opacity: 1;
+}
+
+
+.e-work-cells:hover .add-icon-overlay .e-plus {
+  font-size: 32px;
+  color: #046AE5;                
+} 
 
 .e-input-group.e-control-wrapper.custom-locations-dropdown.e-ddl.e-input-focus .e-input {
   background: transparent !important;   
@@ -442,7 +489,8 @@ div.summaryCost{
 
 /* Space between Options button and its dropdown popup */
 .e-dropdown-popup.options-btn {
-  margin-top: 10px !important; /* vertical gap */
+  margin-top: 5px !important; 
+  width: 144px !important;
 }
 
 /* Caret icon styling for dropdown */
@@ -892,7 +940,7 @@ input.e-input::selection,
   bottom: 0;
   display: flex;
   gap: 10px;
-  padding: 9px 16px 16px 0px;
+  padding: 10px 10px;
   justify-content: flex-end;
   position: static !important;
   z-index: 2;          /* sit above the scrolling content */
@@ -1249,7 +1297,7 @@ input.e-input::selection,
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 10px 16px;
+  padding: 10px 10px;
   border-top: 1px solid #e5e7eb;
   background: #fff;
   flex-shrink: 0;
@@ -1419,15 +1467,30 @@ input.e-input::selection,
 
 li#importIcs {
     margin-top: -4px !important;
+    margin-left: -8px;
 }
 
 li#exportSchedule {
     margin-bottom: -3px !important;
+    margin-left: -8px;
 }
 
 li#clear {
   margin-top: -4px !important;
   margin-bottom: -4px !important;
+  margin-left: -8px;
+}
+
+.mlRequiredNote {
+  margin: 16px 0 12px 18px;          
+  font-size: 12px;            
+  color: #666;                    
+  text-align: left;               
+}
+
+.mlRequiredNote .mlReq {
+  color: red;                     /* make sure * is red if not already */
+  font-weight: bold;
 }
 
 #shiftdialog .e-input-group.e-input-focus {
@@ -1864,7 +1927,7 @@ li#clear {
   position: sticky;
   bottom: 0;
   background: #ffffff;
-  padding: 16px;
+  padding: 10px 10px;
   z-index: 10;
   display: flex;
   align-items: center;

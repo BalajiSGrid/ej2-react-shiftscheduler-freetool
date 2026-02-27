@@ -184,6 +184,21 @@ function startOfWeek(date: Date): Date {
   return d;
 }
 
+function cellTemplate(props: any) {
+  if (props.type === "workCells" || props.type === "monthCells") {
+    // Return a wrapper that can hold our dynamic + icon
+    return (
+      <div className="custom-cell-wrapper">
+        {/* The + icon – hidden by default, shown on hover via CSS */}
+        <div className="add-icon-overlay">
+          <span className="e-icons e-plus" style={{ fontSize: '24px', color: '#3b82f6' }}></span>
+        </div>
+      </div>
+    );
+  }
+  return null; // Let default render for other cell types
+}
+
 function endOfWeek(date: Date): Date {
   const s = startOfWeek(date);
   const e = new Date(s);
@@ -568,7 +583,6 @@ export default function App(): JSX.Element {
 
 
   function validateCandidate(rec: Appointment, existingAppointments: Appointment[]): string | null {
-    debugger
     const start = new Date(rec.StartTime);
     const end = new Date(rec.EndTime);
     const empId = rec.EmployeeId;
@@ -1382,6 +1396,9 @@ export default function App(): JSX.Element {
               </div>
             </div>
           </div>
+          <div className="mlRequiredNote">
+            Fields marked with <span className="mlReq">*</span> are required
+          </div>
           <div className="mrFooterRight">
             <ButtonComponent cssClass="e-primary add-role-btn" type="button" onClick={submitRole}>
               {isEdit ? "Update Role" : "Add Role"}
@@ -1546,8 +1563,9 @@ export default function App(): JSX.Element {
                 />
               </div>
             </div>
-
-
+          </div>
+          <div className="mlRequiredNote">
+            Fields marked with <span className="mlReq">*</span> are required
           </div>
           <div className="mlFooterRight">
             <ButtonComponent cssClass="e-primary add-location-btn" type="button" onClick={submitLocation}>
@@ -1833,6 +1851,7 @@ export default function App(): JSX.Element {
             resourceHeaderTemplate={resourceHeaderTemplate as any}
             actionBegin={onActionBegin}
             actionComplete={onActionComplete}
+            cellTemplate={cellTemplate}
           >
             <ResourcesDirective>
               <ResourceDirective
@@ -2591,8 +2610,11 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
           </div>
         </div>
 
-
+      <div className="mlRequiredNote">
+      Fields marked with <span className="mlReq">*</span> are required
+    </div>
       </form>
+      
       <div className="empAddFooter">
         <ButtonComponent cssClass="e-primary add-employee" onClick={submit}>
           {isEdit ? "Save" : "Add Employee"}
@@ -2678,6 +2700,13 @@ function ShiftDialog({
       setBreakDuration(initialEvent.BreakDuration ?? 0);
       setLocation(initialEvent.Location ?? "Main Location");
       setNotes(initialEvent.Notes ?? "");
+      setTimeout(() => {
+      const textbox = (document.querySelector('#shiftdialog') as any)
+        ?.querySelector('.e-textbox')
+        ?.ej2_instances?.[0];
+
+      textbox?.focusIn();
+    }, 0);
       return;
     }
 
