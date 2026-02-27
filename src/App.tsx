@@ -1404,7 +1404,7 @@ const isLockedLocation = (name: unknown) =>
      
         <div className="mrDivider" />
         <div className="mrTopRow">
-          <div className="mrDesc">Manage job roles and default hourly rates..</div>
+          <div className="mrDesc">Manage job roles and default hourly rates.</div>
           <ButtonComponent cssClass="e-primary add-role-btn" iconCss="e-icons e-plus" onClick={onAddRoleClick}>
             Add Role
           </ButtonComponent>
@@ -1580,7 +1580,7 @@ const isLockedLocation = (name: unknown) =>
         <div className="mlDivider" />
 
         <div className="mlTopRow">
-          <div className="mlDesc">Manage business locations and settings..</div>
+          <div className="mlDesc">Manage business locations and settings.</div>
           <ButtonComponent cssClass="e-primary add-location-btn" iconCss="e-icons e-plus" type="button" onClick={onAddLocationClick}>
             Add Location
           </ButtonComponent>
