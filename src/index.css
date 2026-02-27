@@ -2146,3 +2146,9 @@ li#clear {
 #employeeDialog.e-dialog .e-dlg-content {
   border-top: 1px solid #e5e7eb !important;
 }
+
+.cdBtnWarn .e-input-group-icon.e-date-icon {
+  margin-top: -2px;
+  margin-right: 0px !important;
+  min-height: 14px;
+}
