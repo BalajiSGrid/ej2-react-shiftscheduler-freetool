@@ -583,7 +583,6 @@ export default function App(): JSX.Element {
 
 
   function validateCandidate(rec: Appointment, existingAppointments: Appointment[]): string | null {
-    debugger
     const start = new Date(rec.StartTime);
     const end = new Date(rec.EndTime);
     const empId = rec.EmployeeId;
@@ -758,12 +757,6 @@ export default function App(): JSX.Element {
       setSelectedEmployeeId(appt.EmployeeId);
       setCellSelection({ startTime: appt.StartTime, endTime: appt.EndTime });
       setShowShiftDialog(true);
-      setTimeout(() => {
-      const textbox = (document.querySelector('#shiftdialog') as any)
-        ?.querySelector('.e-dropdownlist')
-        ?.ej2_instances?.[0];
-      textbox?.focusIn();
-    }, 0);
     }
   }
 
