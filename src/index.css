@@ -33,7 +33,7 @@ button.trail-button.e-control.e-btn.e-lib.e-flat{
       width: 211.925px !important;
 }
 
-div#e-split-btn_53_dropdownbtn-popup {
+div#e-split-btn_52_dropdownbtn-popup {
   top: 20.2px;
 }
 
@@ -488,7 +488,8 @@ div.summaryCost{
 
 /* Space between Options button and its dropdown popup */
 .e-dropdown-popup.options-btn {
-  margin-top: 10px !important; /* vertical gap */
+  margin-top: 5px !important; 
+  width: 144px !important;
 }
 
 /* Caret icon styling for dropdown */
