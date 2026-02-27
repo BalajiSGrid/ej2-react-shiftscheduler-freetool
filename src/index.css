@@ -201,6 +201,7 @@ div.summaryCost{
   position: fixed;
   left: 10px;
   right: 10px;
+  gap: 20px;
   bottom: 0;
   display: flex;
   justify-content: center;
@@ -239,7 +240,6 @@ div.summaryCost{
 
 /* text */
 .promoText{
-  flex: 1 1 420px;
   min-width: 260px;
   font-family: Open Sans;
 }
@@ -267,6 +267,7 @@ div.summaryCost{
   gap: 10px;
   flex: 0 0 auto;
 }
+
 .promoBtn{
   text-decoration: none;
   border-radius: 10px;
@@ -1677,6 +1678,13 @@ li#clear {
 .impPreview .impBlockTitle { font-weight: 900; color:#111827; margin-bottom: 10px; }
 .impText { font-weight: 700; color:#374151; margin: 8px 0; }
 
+#summaryDialog
+{
+  height: 400px !important;
+  max-height: 400px !important ;
+  width: 62% !important;
+}
+
 .impPreviewCard {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -1991,6 +1999,36 @@ li#clear {
 }
 @media (max-width: 640px){
  .poweredBy__text { gap: 4px; font-size: 12.5px; }
+   .mobile-btn{
+    display: none;
+  }
+  .e-treeview .e-fullrow{
+    height: 80px !important;
+  }
+  .stickyPromoBar{
+  gap: 10px;
+  left: 0;
+  right: 0;
+  }
+  .promoText{
+  padding-left: 43px;
+  }
+  #locationdialog, #employeeDialog, #roledialog, #summaryDialog{
+    margin: 0px 10px;
+  }
+  .summery-dialog {
+  margin: 0px 0px;
+  }
+  #summaryDialog
+  {
+    width: 100% !important;
+  }
+  .promoActions{
+    margin-left: 0px;
+  }
+  .custom-locations-dropdown{
+   width: 110px !important;
+}
 }
 
 /* Help / Powered-by block */
@@ -2116,13 +2154,6 @@ li#clear {
 
 .e-btn.empSfDanger {
   border-radius: 10px !important;
-}
-
-#summaryDialog
-{
-  height: 400px !important;
-  max-height: 400px !important ;
-  width: 62% !important;
 }
 
 #summaryDialog.e-dialog .e-dlg-content{

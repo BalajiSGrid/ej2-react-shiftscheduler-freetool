@@ -22,7 +22,7 @@ import {
   Inject as GridInject,
   Page,
 } from "@syncfusion/ej2-react-grids";
-import { DialogComponent } from "@syncfusion/ej2-react-popups";
+import { DialogComponent, TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import {
   TextBoxComponent,
@@ -1647,70 +1647,79 @@ export default function App(): JSX.Element {
       <div className="topInner">
         <div className="leftBlock">
           <div className="chips">
-            <DropDownListComponent
-              id="location"
-              dataSource={effectiveLocations}
-              value={selectedLocation}
-              change={(e: any) => setSelectedLocation(e.value as LocationName)}
-              width="130px"
-              cssClass="custom-locations-dropdown e-flaat "
-            />
-
-            <ButtonComponent
-              cssClass="manage-locations-btn e-flat"
-              onClick={() => {
-                setLocationsView("list");
-                setLocationFormError("");
-                setEditingLocationName(null);
-                setShowLocationsDialog(true);
-              }}
-            >
-              <span className="e-icons e-location"> </span>
-               Work Locations
-            </ButtonComponent>
-
-            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={openEmployees}>
-              <span className="e-icons e-people"> </span>
-              Employees
-            </ButtonComponent>
-
-            <ButtonComponent
-              cssClass="manage-locations-btn e-flat"
-              onClick={() => {
-                setRolesView("list");
-                setRoleFormError("");
-                setEditingRoleName(null);
-                setShowRolesDialog(true);
-              }}
-            >
-              <span className="e-icons e-equalto"></span>
-              Roles
-            </ButtonComponent>
-
-            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={loadTestData}>
-              <span className="e-icons  e-file-new"></span>
-              Load Example Data
-            </ButtonComponent>
-
-            <ButtonComponent cssClass="manage-locations-btn e-flat" onClick={() => setShowSummaryDialog(true)}>
-              <span className="e-icons e-properties-2"></span>
-               Shift Summary
-            </ButtonComponent>
-
-            <DropDownButtonComponent
-              cssClass="options-btn e-flat"
-              iconCss="e-icons e-more-vertical-2"
-              items={optionItems}
-              content="Options"
-              select={onOptionsSelect}
-            >
-
-            </DropDownButtonComponent>
-
-          </div>
+              <DropDownListComponent
+                id="location"
+                dataSource={effectiveLocations}
+                value={selectedLocation}
+                change={(e: any) => setSelectedLocation(e.value as LocationName)}
+                width="110px"
+                
+                cssClass="custom-locations-dropdown e-flaat "
+              />
+              <TooltipComponent content={"Work Locations"} target="#manage-locations-btn">
+              <ButtonComponent
+              id="manage-locations-btn"
+                cssClass="manage-locations-btn e-flat"
+                title="Work Locations"
+                onClick={() => {
+                  setLocationsView("list");
+                  setLocationFormError("");
+                  setEditingLocationName(null);
+                  setShowLocationsDialog(true);
+                }}
+              >
+                <span className="e-icons e-location"> </span>
+                <span className="mobile-btn">Work Locations</span>
+              </ButtonComponent>
+                </TooltipComponent>
+              <TooltipComponent content={"Employees"} target="#employee-btn">
+              <ButtonComponent cssClass="manage-locations-btn e-flat" id="employee-btn" onClick={openEmployees}>
+                <span className="e-icons e-people"> </span>
+                <span className="mobile-btn">Employees</span>
+              </ButtonComponent>
+              </TooltipComponent>
+              <TooltipComponent content={"Roles"} target="#roles-btn">
+              <ButtonComponent
+                cssClass="manage-locations-btn e-flat"
+                id="roles-btn"
+                onClick={() => {
+                  setRolesView("list");
+                  setRoleFormError("");
+                  setEditingRoleName(null);
+                  setShowRolesDialog(true);
+                }}
+              >
+                <span className="e-icons e-equalto"></span>
+                <span className="mobile-btn">Roles</span>
+              </ButtonComponent>
+              </TooltipComponent>
+              <TooltipComponent content={"Load Example Data"} target="#example-btn">
+              <ButtonComponent cssClass="manage-locations-btn e-flat" id="example-btn" onClick={loadTestData}>
+                <span className="e-icons  e-file-new"></span>
+                  <span className="mobile-btn">Load Example Data</span>
+              </ButtonComponent>
+              </TooltipComponent>
+              <TooltipComponent content={"Shift Summary"} target="#shift-btn">
+              <ButtonComponent cssClass="manage-locations-btn e-flat" id="shift-btn" onClick={() => setShowSummaryDialog(true)}>
+                <span className="e-icons e-properties-2"></span>
+                <span className="mobile-btn">Shift Summary</span>
+              </ButtonComponent>
+              </TooltipComponent>
+              <TooltipComponent content={"Options"} target="#options-btn">
+              <DropDownButtonComponent
+                cssClass="options-btn e-flat"
+                items={optionItems}
+                id="options-btn"
+                select={onOptionsSelect}
+              >
+                <span className="e-icons e-more-vertical-2"></span>
+               <span className="mobile-btn">Options</span>
+              </DropDownButtonComponent>
+              </TooltipComponent>
+            </div>
         </div>
 
-        <div className="rightBlock">
+        <div className="rightBlock mobile-btn">
           <div className="help-pane-content">
             <img
               className="syncfusion-logo"
@@ -3004,36 +3013,28 @@ function ShiftDialog({
 }
 
 function StickySchedulerFooterPromo(): JSX.Element {
-  return (
-    <div className="stickyPromoBar">
-      <div className="stickyPromoInner">
-        <div className="promoText">
-          <div className="promoLine1">Want shift scheduling in your app? <strong className="promoStrong">Try our Scheduler Component</strong> — plan shifts, manage resources, and export calendars!
+    return (
+      <div className="stickyPromoBar">
+          <div className="promoText">
+          Want shift scheduling in your app? <strong className="promoStrong mobile-btn">Try our Scheduler Component</strong> <span className="mobile-btn"> — plan shifts, manage resources, and export calendars!</span>
           </div>
-          <div className="promoLine2">
-          </div>
-        </div>
-
-        <div className="promoActions">
-          <ButtonComponent
+          <div className="promoActions">
+            <ButtonComponent
             cssClass="e-primary"
             className="trail-button"
-            iconPosition="right"
-            iconCss="e-icons e-arrow-right"
             onClick={() => window.open("https://www.syncfusion.com/react-components/react-scheduler", "_blank", "noopener")}
           >
-            Start Free Trial
+            <span className="mobile-btn">Start</span> Free Trial <span className="mobile-btn e-icons e-arrow-right"></span>
           </ButtonComponent>
 
           <ButtonComponent
             className="trail-button-demo"
-            cssClass="e-flat"
+            cssClass="e-flat "
             onClick={() => window.open("https://www.syncfusion.com/request-demo", "_blank", "noopener")}
           >
-            Request Demo
+          <span className="mobile-btn"> Request Demo</span>
           </ButtonComponent>
-        </div>
-      </div>
+  </div>
     </div>
   );
 }
