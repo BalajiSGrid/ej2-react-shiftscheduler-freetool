@@ -920,13 +920,7 @@ input.e-input::selection,
   padding: 6px 4px;
 }
 
-.empRoleDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 999px;
-  background: #10b981;
-  margin-left: 10px;
-}
+
 #empform_dialog-content {
   padding: 0px !important;
   overflow: hidden !important; /* Prevent dialog content from scrolling */
@@ -1797,6 +1791,10 @@ li#clear {
   flex: 0 0 auto;
 }
 
+.cdIconWarning {
+  background: #fae6ce;
+}
+
 .cdIconNeutral {
   background: #f1f5f9;
   color: #374151;
@@ -2227,6 +2225,15 @@ li#clear {
   padding: 8px 16px 0px 16px;
 }
 
+#clearData.e-dialog .e-dlg-header-content 
+{
+  padding: 20px 20px 8px 20px !important
+}
+
+#clearData.e-dialog .e-dlg-content {
+  padding-top: 12px !important;
+}
+
 #employeeDialog.e-dialog .e-dlg-content {
   border-top: 1px solid #e5e7eb !important;
 }
@@ -2291,7 +2298,7 @@ li#clear {
   min-height: 0;             
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 14px 24px;
+  padding: 16px 24px;
 }
 
 .scheduledate.e-schedule .e-schedule-toolbar .e-toolbar-items .e-toolbar-item.e-separator{
@@ -2327,26 +2334,6 @@ li#clear {
   background: #f4f5f7 !important;
 }
 
-.clear-dialog-footer{
-  padding: 16px 16px 0px 16px;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.clear-dialog-layout {
-  display: flex;
-  flex-direction: column;
-  height: 99%;
-  min-height: 0;
-  border-top: 1px solid #e5e7eb;
-}
-
-.clear-dialog-scrollable {
-  flex: 1 1 auto;               
-  min-height: 0;             
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 14px 24px;
+#summaryGrid.e-grid .e-focused:not(.e-menu-item):not(.e-editedbatchcell) {
+  box-shadow: none !important;
 }
