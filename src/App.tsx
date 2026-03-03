@@ -1884,7 +1884,7 @@ export default function App(): JSX.Element {
         isModal={true}
         showCloseIcon={true}
         width="min(92vw, 550px)"
-        height="min(88vh, 480px)"
+        height="min(88vh, 490px)"
         //height="min(88vh, 620px)"
         animationSettings={{ effect: "None" }}
         target={dialogTarget}
@@ -1908,7 +1908,7 @@ export default function App(): JSX.Element {
               }}
             >
               <div className="cdIconWarning">
-                <span className="e-icons e-warning" style={{ color: "#f97316", marginTop: 2 }} />
+                <span className="e-icons e-warning" style={{ color: "#f97316" }} />
               </div>
               <div>
                 <div style={{ fontWeight: 500, color: "#9a3412" }}>
@@ -2553,7 +2553,6 @@ function EmployeeForm({ initial, open, roles, employees, onSave, onDelete, onCan
                 roleOptions.map((r) => (
                   <div key={r} className="empRoleItem">
                     <CheckBoxComponent checked={assignedRoles.includes(r)} change={() => toggleRole(r)} label={r} />
-                    <span className="empRoleDot" />
                   </div>
                 ))
               )}
@@ -2664,14 +2663,13 @@ function ShiftDialog({
     setEmployeeId(init);
     const emp = employees.find((e) => e.Id === init);
     const empRole = emp?.Role;
-    if ((roles ?? []).length) {
+    if ((roles ?? []).length && initialEvent) {
       const valid = !!empRole && (roles ?? []).includes(empRole);
       setRole(valid ? empRole! : (roles?.[0] ?? ""));
     } else {
       setRole(empRole ?? "");
     }
-  }, [hasEmployees, employees, selectedEmployeeId, roles]);
-
+  }, [hasEmployees, employees, selectedEmployeeId,initialEvent]);
 
   useEffect(() => {
     // Only apply in "Create Shift" mode
